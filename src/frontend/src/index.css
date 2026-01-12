@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bullish: #22c55e;
+  --bearish: #ef4444;
+  --chart-bg-light: #ffffff;
+  --chart-bg-dark: #1a1a2e;
+  --chart-grid-light: #e5e7eb;
+  --chart-grid-dark: #374151;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.dark body {
+  background-color: #1a1a2e;
+}
