@@ -262,7 +262,7 @@
 ## 6. Chart Core
 
 ### 6.1 Data Fetching
-- [ ] **TASK-033**: Create useStockData hook
+- [x] **TASK-033**: Create useStockData hook
   - File: `hooks/useStockData.ts`
   - Fetch candle data based on symbol, range, interval
   - Cache previous requests (simple in-memory cache)
@@ -270,14 +270,14 @@
   - Acceptance: Data fetches and caches correctly
 
 ### 6.2 Chart Container
-- [ ] **TASK-034**: Create Chart container component
+- [x] **TASK-034**: Create Chart container component
   - File: `components/Chart/Chart.tsx`
   - Orchestrates ChartCanvas, VolumePane, IndicatorPanes
   - Manages layout and resizing
   - Handles loading and error states
   - Acceptance: Chart container renders sub-components
 
-- [ ] **TASK-035**: Create useChartResize hook
+- [x] **TASK-035**: Create useChartResize hook
   - File: `hooks/useChartResize.ts`
   - Listen for container resize events
   - Return current width and height
@@ -285,51 +285,51 @@
   - Acceptance: Chart resizes with container
 
 ### 6.3 Main Chart Canvas
-- [ ] **TASK-036**: Create ChartCanvas component - Candlestick
+- [x] **TASK-036**: Create ChartCanvas component - Candlestick
   - File: `components/Chart/ChartCanvas.tsx`
   - Initialize Lightweight Charts instance
   - Render candlestick series from OHLCV data
   - Configure chart options (colors, grid, scale)
   - Acceptance: Candlestick chart renders
 
-- [ ] **TASK-037**: Implement Line chart type
+- [x] **TASK-037**: Implement Line chart type
   - Add line series rendering to ChartCanvas
   - Use close prices for line data
   - Acceptance: Line chart renders
 
-- [ ] **TASK-038**: Implement Bar (OHLC) chart type
+- [x] **TASK-038**: Implement Bar (OHLC) chart type
   - Add bar series rendering to ChartCanvas
   - Acceptance: Bar chart renders
 
-- [ ] **TASK-039**: Implement Area chart type
+- [x] **TASK-039**: Implement Area chart type
   - Add area series rendering to ChartCanvas
   - Configure gradient fill
   - Acceptance: Area chart renders with gradient
 
-- [ ] **TASK-040**: Implement Hollow Candlestick chart type
+- [x] **TASK-040**: Implement Hollow Candlestick chart type
   - Configure candlestick series for hollow style
   - Hollow when close > open, filled when close < open
   - Acceptance: Hollow candlesticks render correctly
 
-- [ ] **TASK-041**: Implement Heikin-Ashi chart type
+- [x] **TASK-041**: Implement Heikin-Ashi chart type
   - Create utility: `calculateHeikinAshi(ohlcv)`
   - Transform data before rendering
   - Acceptance: Heikin-Ashi candles render
 
-- [ ] **TASK-042**: Implement Baseline chart type
+- [x] **TASK-042**: Implement Baseline chart type
   - Add baseline series rendering
   - Configure baseline value (default: first close)
   - Colors above/below baseline
   - Acceptance: Baseline chart renders
 
-- [ ] **TASK-043**: Implement chart type switching
+- [x] **TASK-043**: Implement chart type switching
   - Handle chartType changes from context
   - Remove old series, add new series
   - Maintain data and scale
   - Acceptance: Chart type switches smoothly
 
 ### 6.4 Volume Pane
-- [ ] **TASK-044**: Create VolumePane component
+- [x] **TASK-044**: Create VolumePane component
   - File: `components/Chart/VolumePane.tsx`
   - Histogram series below main chart
   - Color bars based on price direction (green up, red down)
@@ -337,34 +337,34 @@
   - Acceptance: Volume bars render correctly
 
 ### 6.5 Interactive Features
-- [ ] **TASK-045**: Implement crosshair
+- [x] **TASK-045**: Implement crosshair
   - Enable crosshair in chart options
   - Vertical and horizontal lines
   - Display date/time and price labels
   - Acceptance: Crosshair follows cursor
 
-- [ ] **TASK-046**: Create Legend component
+- [x] **TASK-046**: Create Legend component
   - File: `components/Chart/Legend.tsx`
   - Display OHLCV values for hovered bar
   - Update on crosshair move event
   - Format values appropriately
   - Acceptance: Legend shows current bar data
 
-- [ ] **TASK-047**: Implement mouse wheel zoom
+- [x] **TASK-047**: Implement mouse wheel zoom
   - Configure time scale for scroll zoom
   - Zoom centered on cursor position
   - Acceptance: Scroll zooms chart in/out
 
-- [ ] **TASK-048**: Implement pan/drag navigation
+- [x] **TASK-048**: Implement pan/drag navigation
   - Enable drag-to-pan on time scale
   - Constrain to data boundaries
   - Acceptance: Chart pans left/right on drag
 
-- [ ] **TASK-049**: Implement double-click reset
+- [x] **TASK-049**: Implement double-click reset
   - Reset to fit all data on double-click
   - Acceptance: Double-click resets zoom/pan
 
-- [ ] **TASK-050**: Implement touch gestures
+- [x] **TASK-050**: Implement touch gestures
   - Pinch-to-zoom for mobile
   - Swipe-to-pan for mobile
   - Acceptance: Touch gestures work on mobile
