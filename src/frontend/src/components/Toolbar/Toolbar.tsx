@@ -1,6 +1,11 @@
 /**
  * Toolbar Component
  * Main toolbar containing all chart controls
+ * 
+ * Responsive Layouts:
+ * - Desktop (≥1024px): Full toolbar visible with all controls in a single row
+ * - Tablet (768-1023px): Two-row layout with collapsible sections
+ * - Mobile (<768px): Stacked layout with hamburger menu concept, scrollable time ranges
  */
 
 import { useState } from 'react';
@@ -10,14 +15,14 @@ import { TimeRangeButtons } from './TimeRangeButtons';
 import { IntervalSelect } from './IntervalSelect';
 import { IndicatorsButton } from './IndicatorsButton';
 import { FullscreenButton } from './FullscreenButton';
-import { Modal } from '../common';
+import { IndicatorsPanel } from '../Indicators/IndicatorsPanel';
 
 export function Toolbar() {
   const [isIndicatorsPanelOpen, setIndicatorsPanelOpen] = useState(false);
 
   return (
     <div className="px-4 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-      {/* Desktop Layout */}
+      {/* Desktop Layout (≥1024px) - TASK-084 */}
       <div className="hidden lg:flex items-center gap-4">
         {/* Symbol Search */}
         <div className="w-64">
@@ -52,7 +57,7 @@ export function Toolbar() {
         </div>
       </div>
 
-      {/* Tablet Layout */}
+      {/* Tablet Layout (768-1023px) - TASK-085 */}
       <div className="hidden md:flex lg:hidden flex-wrap items-center gap-3">
         {/* Row 1: Search and basic controls */}
         <div className="w-full flex items-center gap-3">
@@ -66,15 +71,15 @@ export function Toolbar() {
             <FullscreenButton />
           </div>
         </div>
-        {/* Row 2: Time ranges */}
-        <div className="w-full overflow-x-auto">
+        {/* Row 2: Time ranges - collapsible/scrollable */}
+        <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
           <TimeRangeButtons />
         </div>
       </div>
 
-      {/* Mobile Layout */}
+      {/* Mobile Layout (<768px) - TASK-086 */}
       <div className="flex md:hidden flex-col gap-3">
-        {/* Search */}
+        {/* Search row with action buttons */}
         <div className="flex items-center gap-2">
           <div className="flex-1">
             <SymbolSearch />
@@ -89,25 +94,17 @@ export function Toolbar() {
           <IntervalSelect />
         </div>
 
-        {/* Time Ranges - scrollable */}
-        <div className="overflow-x-auto -mx-4 px-4">
+        {/* Time Ranges - bottom sheet style, scrollable */}
+        <div className="overflow-x-auto -mx-4 px-4 pb-1 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
           <TimeRangeButtons />
         </div>
       </div>
 
-      {/* Indicators Panel Modal - Placeholder for future implementation */}
-      <Modal
+      {/* Indicators Panel Modal - Opens on all breakpoints */}
+      <IndicatorsPanel
         isOpen={isIndicatorsPanelOpen}
         onClose={() => setIndicatorsPanelOpen(false)}
-        title="Technical Indicators"
-      >
-        <div className="p-4 text-gray-600 dark:text-gray-400">
-          <p>Indicators panel will be implemented in a future task.</p>
-          <p className="mt-2 text-sm">
-            Available indicators: SMA, EMA, RSI, MACD, Bollinger Bands, and more.
-          </p>
-        </div>
-      </Modal>
+      />
     </div>
   );
 }

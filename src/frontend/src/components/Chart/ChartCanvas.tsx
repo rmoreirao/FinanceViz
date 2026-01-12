@@ -359,6 +359,57 @@ export function ChartCanvas({
     chartRef.current.resize(dimensions.width, dimensions.height);
   }, [dimensions.width, dimensions.height]);
 
+  // Listen for keyboard shortcut events (TASK-094)
+  useEffect(() => {
+    const handleZoom = (e: Event) => {
+      if (!chartRef.current) return;
+      const detail = (e as CustomEvent).detail;
+      const timeScale = chartRef.current.timeScale();
+      const currentRange = timeScale.getVisibleLogicalRange();
+      
+      if (currentRange) {
+        const rangeWidth = currentRange.to - currentRange.from;
+        const zoomFactor = detail.direction === 'in' ? 0.8 : 1.25;
+        const newWidth = rangeWidth * zoomFactor;
+        const center = (currentRange.from + currentRange.to) / 2;
+        const newFrom = center - newWidth / 2;
+        const newTo = center + newWidth / 2;
+        timeScale.setVisibleLogicalRange({ from: newFrom, to: newTo });
+      }
+    };
+
+    const handlePan = (e: Event) => {
+      if (!chartRef.current) return;
+      const detail = (e as CustomEvent).detail;
+      const timeScale = chartRef.current.timeScale();
+      const currentRange = timeScale.getVisibleLogicalRange();
+      
+      if (currentRange) {
+        const rangeWidth = currentRange.to - currentRange.from;
+        const panAmount = rangeWidth * 0.1 * (detail.direction === 'left' ? -1 : 1);
+        timeScale.setVisibleLogicalRange({
+          from: currentRange.from + panAmount,
+          to: currentRange.to + panAmount,
+        });
+      }
+    };
+
+    const handleReset = () => {
+      if (!chartRef.current) return;
+      chartRef.current.timeScale().fitContent();
+    };
+
+    window.addEventListener('chart:zoom', handleZoom);
+    window.addEventListener('chart:pan', handlePan);
+    window.addEventListener('chart:reset', handleReset);
+
+    return () => {
+      window.removeEventListener('chart:zoom', handleZoom);
+      window.removeEventListener('chart:pan', handlePan);
+      window.removeEventListener('chart:reset', handleReset);
+    };
+  }, []);
+
   return (
     <div
       ref={chartContainerRef}

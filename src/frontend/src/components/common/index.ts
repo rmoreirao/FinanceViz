@@ -12,3 +12,5 @@ export { Modal } from './Modal';
 
 export { Spinner } from './Spinner';
 export type { SpinnerSize } from './Spinner';
+
+export { ErrorBoundary } from './ErrorBoundary';

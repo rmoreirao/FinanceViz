@@ -1,10 +1,10 @@
 /**
  * useStockData Hook
- * Fetches and caches stock candle data
+ * Fetches and caches stock candle data with enhanced error handling
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { getStockCandles } from '../api/finnhub';
+import { getStockCandles, getErrorMessage } from '../api/finnhub';
 import { getTimeRangeBounds, getResolutionFromInterval } from '../utils/intervals';
 import type { OHLCV, TimeRange, Interval } from '../types';
 
@@ -69,7 +69,8 @@ export function useStockData(
       if (err instanceof Error && err.name === 'AbortError') {
         return; // Ignore aborted requests
       }
-      const message = err instanceof Error ? err.message : 'Failed to fetch stock data';
+      // Use user-friendly error message from API error handling (TASK-089)
+      const message = getErrorMessage(err);
       setError(message);
       setData([]);
     } finally {

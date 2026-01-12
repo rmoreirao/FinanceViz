@@ -584,23 +584,23 @@
 ## 8. Responsive Design
 
 ### 8.1 Layout Adaptations
-- [ ] **TASK-084**: Implement desktop layout (≥1024px)
+- [x] **TASK-084**: Implement desktop layout (≥1024px)
   - Full toolbar visible
   - Side panel for indicators (optional)
   - Acceptance: Desktop layout renders correctly
 
-- [ ] **TASK-085**: Implement tablet layout (768-1023px)
+- [x] **TASK-085**: Implement tablet layout (768-1023px)
   - Collapsible toolbar sections
   - Modal for indicator panel
   - Acceptance: Tablet layout adapts
 
-- [ ] **TASK-086**: Implement mobile layout (<768px)
+- [x] **TASK-086**: Implement mobile layout (<768px)
   - Hamburger menu for controls
   - Bottom sheet for time ranges
   - Full-width chart
   - Acceptance: Mobile layout functional
 
-- [ ] **TASK-087**: Implement responsive chart sizing
+- [x] **TASK-087**: Implement responsive chart sizing
   - Chart fills available container width
   - Proper margins on all breakpoints
   - Acceptance: Chart responsive to viewport
@@ -610,26 +610,26 @@
 ## 9. Error Handling & Loading States
 
 ### 9.1 User Feedback
-- [ ] **TASK-088**: Create error boundary component
+- [x] **TASK-088**: Create error boundary component
   - File: `components/common/ErrorBoundary.tsx`
   - Catch React errors
   - Display friendly error message
   - Retry button
   - Acceptance: Errors caught and displayed
 
-- [ ] **TASK-089**: Implement API error handling
+- [x] **TASK-089**: Implement API error handling
   - Handle network errors
   - Handle rate limit errors (429)
   - Handle invalid symbol errors
   - Display user-friendly messages
   - Acceptance: All error types handled
 
-- [ ] **TASK-090**: Create loading skeleton for chart
+- [x] **TASK-090**: Create loading skeleton for chart
   - File: `components/Chart/ChartSkeleton.tsx`
   - Animated placeholder while loading
   - Acceptance: Skeleton displays during load
 
-- [ ] **TASK-091**: Create empty state component
+- [x] **TASK-091**: Create empty state component
   - Display when no symbol selected
   - Prompt user to search for symbol
   - Acceptance: Empty state guides user
@@ -639,18 +639,18 @@
 ## 10. App Assembly
 
 ### 10.1 Main Application
-- [ ] **TASK-092**: Create App component layout
+- [x] **TASK-092**: Create App component layout
   - File: `App.tsx`
   - Layout: QuoteHeader → Toolbar → Chart
   - Wrap with all context providers
   - Acceptance: Full app renders
 
-- [ ] **TASK-093**: Set default symbol on load
+- [x] **TASK-093**: Set default symbol on load
   - Default to "AAPL" or last viewed symbol
   - Store last symbol in localStorage
   - Acceptance: App loads with default symbol
 
-- [ ] **TASK-094**: Implement keyboard shortcuts
+- [x] **TASK-094**: Implement keyboard shortcuts
   - `+/-` for zoom
   - Arrow keys for pan
   - `R` for reset

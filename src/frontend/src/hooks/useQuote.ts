@@ -1,10 +1,11 @@
 /**
  * useQuote Hook
  * Fetches and auto-refreshes quote data for a symbol
+ * Enhanced with user-friendly error messages (TASK-089)
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { getQuote } from '../api/finnhub';
+import { getQuote, getErrorMessage } from '../api/finnhub';
 import type { Quote } from '../types';
 
 interface UseQuoteResult {
@@ -32,7 +33,8 @@ export function useQuote(symbol: string, autoRefresh: boolean = true): UseQuoteR
       const data = await getQuote(symbol);
       setQuote(data);
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to fetch quote';
+      // Use user-friendly error message from API error handling
+      const message = getErrorMessage(err);
       setError(message);
     } finally {
       setIsLoading(false);

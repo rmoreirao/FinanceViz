@@ -120,6 +120,7 @@ export function SymbolSearch() {
           onFocus={() => results.length > 0 && setIsOpen(true)}
           onKeyDown={handleKeyDown}
           placeholder={`Search symbols... (${state.symbol})`}
+          data-search-input
           className="
             w-full pl-9 pr-8 py-2 text-sm
             bg-white dark:bg-gray-800
