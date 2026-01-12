@@ -178,14 +178,14 @@
 ## 4. Quote Header
 
 ### 4.1 Price Display
-- [ ] **TASK-022**: Create QuoteHeader component
+- [x] **TASK-022**: Create QuoteHeader component
   - File: `components/QuoteHeader/QuoteHeader.tsx`
   - Display: Symbol, Company Name, Current Price
   - Display: Change (absolute), Change % with color coding
   - Large, prominent price display
   - Acceptance: Quote data displays correctly
 
-- [ ] **TASK-023**: Create useQuote hook
+- [x] **TASK-023**: Create useQuote hook
   - File: `hooks/useQuote.ts`
   - Fetch quote data for current symbol
   - Auto-refresh every 15 seconds when market open
@@ -197,41 +197,41 @@
 ## 5. Toolbar
 
 ### 5.1 Symbol Search
-- [ ] **TASK-024**: Create SymbolSearch component
+- [x] **TASK-024**: Create SymbolSearch component
   - File: `components/Toolbar/SymbolSearch.tsx`
   - Autocomplete input with debounced search (300ms)
   - Display symbol + company name in dropdown
   - Select symbol updates Chart Context
   - Acceptance: Search works, selection updates chart
 
-- [ ] **TASK-025**: Create useDebounce hook
+- [x] **TASK-025**: Create useDebounce hook
   - File: `hooks/useDebounce.ts`
   - Generic debounce hook with configurable delay
   - Acceptance: Value updates after delay
 
 ### 5.2 Chart Controls
-- [ ] **TASK-026**: Create ChartTypeSelect component
+- [x] **TASK-026**: Create ChartTypeSelect component
   - File: `components/Toolbar/ChartTypeSelect.tsx`
   - Dropdown with 7 chart types
   - Icons for each chart type
   - Updates Chart Context on selection
   - Acceptance: Chart type changes on selection
 
-- [ ] **TASK-027**: Create TimeRangeButtons component
+- [x] **TASK-027**: Create TimeRangeButtons component
   - File: `components/Toolbar/TimeRangeButtons.tsx`
   - Button group: 1D, 5D, 1M, 6M, YTD, 1Y, 5Y, MAX
   - Active state styling for selected range
   - Updates Chart Context on click
   - Acceptance: Time range updates, active state visible
 
-- [ ] **TASK-028**: Create IntervalSelect component
+- [x] **TASK-028**: Create IntervalSelect component
   - File: `components/Toolbar/IntervalSelect.tsx`
   - Dropdown with intervals filtered by time range
   - Intraday intervals only for 1D-1M ranges
   - Updates Chart Context on selection
   - Acceptance: Valid intervals shown per time range
 
-- [ ] **TASK-029**: Create interval validation utility
+- [x] **TASK-029**: Create interval validation utility
   - File: `utils/intervals.ts`
   - Function: `getValidIntervals(timeRange)` - Filter intervals
   - Function: `getDefaultInterval(timeRange)` - Get default
@@ -239,19 +239,19 @@
   - Acceptance: Correct intervals returned per range
 
 ### 5.3 Toolbar Container
-- [ ] **TASK-030**: Create Toolbar component
+- [x] **TASK-030**: Create Toolbar component
   - File: `components/Toolbar/Toolbar.tsx`
   - Layout: Symbol Search | Chart Type | Time Ranges | Interval
   - Responsive: Stack on mobile
   - Acceptance: All controls visible and functional
 
-- [ ] **TASK-031**: Create IndicatorsButton component
+- [x] **TASK-031**: Create IndicatorsButton component
   - File: `components/Toolbar/IndicatorsButton.tsx`
   - Button that opens Indicators Panel
   - Badge showing count of active indicators
   - Acceptance: Opens panel, shows count
 
-- [ ] **TASK-032**: Create FullscreenButton component
+- [x] **TASK-032**: Create FullscreenButton component
   - File: `components/Toolbar/FullscreenButton.tsx`
   - Toggle fullscreen mode using Fullscreen API
   - Icon changes based on state
