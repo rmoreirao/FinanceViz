@@ -4,11 +4,12 @@
  * Manages layout, resizing, and loading/error states
  */
 
-import { useState } from 'react';
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { ChartCanvas } from './ChartCanvas';
 import { VolumePane } from './VolumePane';
 import { Legend } from './Legend';
-import { useChartContext } from '../../context';
+import { IndicatorPane, DEFAULT_INDICATOR_HEIGHT, MIN_INDICATOR_HEIGHT, MAX_INDICATOR_HEIGHT } from './IndicatorPane';
+import { useChartContext, useIndicatorContext } from '../../context';
 import { useStockData, useChartResize } from '../../hooks';
 import { Spinner } from '../common';
 import type { CrosshairData } from '../../types';
@@ -18,6 +19,7 @@ const VOLUME_PANE_HEIGHT = 100;
 
 export function Chart() {
   const { state } = useChartContext();
+  const { state: indicatorState, updateOscillatorHeight } = useIndicatorContext();
   const { data, isLoading, error } = useStockData(
     state.symbol,
     state.timeRange,
@@ -25,12 +27,64 @@ export function Chart() {
   );
   const { containerRef, dimensions } = useChartResize();
   const [crosshairData, setCrosshairData] = useState<CrosshairData | null>(null);
+  const [resizingId, setResizingId] = useState<string | null>(null);
+  const resizeStartY = useRef<number>(0);
+  const resizeStartHeight = useRef<number>(0);
+
+  // Get visible oscillators
+  const visibleOscillators = useMemo(
+    () => indicatorState.oscillators.filter((osc) => osc.visible),
+    [indicatorState.oscillators]
+  );
+
+  // Calculate total indicator panes height
+  const totalIndicatorHeight = useMemo(
+    () => visibleOscillators.reduce((sum, osc) => sum + (osc.height || DEFAULT_INDICATOR_HEIGHT), 0),
+    [visibleOscillators]
+  );
 
   // Calculate dimensions for main chart and volume pane
-  const mainChartHeight = dimensions.height > VOLUME_PANE_HEIGHT + 100 
-    ? dimensions.height - VOLUME_PANE_HEIGHT 
-    : dimensions.height * 0.75;
-  const volumePaneHeight = dimensions.height - mainChartHeight;
+  const mainChartHeight = useMemo(() => {
+    const availableHeight = dimensions.height - VOLUME_PANE_HEIGHT - totalIndicatorHeight;
+    return Math.max(availableHeight, 200); // Minimum 200px for main chart
+  }, [dimensions.height, totalIndicatorHeight]);
+
+  const volumePaneHeight = VOLUME_PANE_HEIGHT;
+
+  // Handle resize start
+  const handleResizeStart = useCallback((id: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    setResizingId(id);
+    resizeStartY.current = e.clientY;
+    const oscillator = indicatorState.oscillators.find((osc) => osc.id === id);
+    resizeStartHeight.current = oscillator?.height || DEFAULT_INDICATOR_HEIGHT;
+  }, [indicatorState.oscillators]);
+
+  // Handle resize move
+  useEffect(() => {
+    if (!resizingId) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const delta = resizeStartY.current - e.clientY;
+      const newHeight = Math.min(
+        Math.max(resizeStartHeight.current + delta, MIN_INDICATOR_HEIGHT),
+        MAX_INDICATOR_HEIGHT
+      );
+      updateOscillatorHeight(resizingId, newHeight);
+    };
+
+    const handleMouseUp = () => {
+      setResizingId(null);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [resizingId, updateOscillatorHeight]);
 
 
   // Loading state
@@ -148,11 +202,28 @@ export function Chart() {
                 dimensions={{ width: dimensions.width, height: volumePaneHeight }}
               />
             </div>
+
+            {/* Oscillator Indicator Panes */}
+            {visibleOscillators.map((oscillator) => (
+              <IndicatorPane
+                key={oscillator.id}
+                indicator={oscillator}
+                data={data}
+                dimensions={{
+                  width: dimensions.width,
+                  height: oscillator.height || DEFAULT_INDICATOR_HEIGHT,
+                }}
+                onResizeStart={(e) => handleResizeStart(oscillator.id, e)}
+              />
+            ))}
           </>
         )}
       </div>
 
-      {/* Indicator panes will be added here in future task */}
+      {/* Resize cursor overlay */}
+      {resizingId && (
+        <div className="fixed inset-0 z-50 cursor-ns-resize" />
+      )}
     </div>
   );
 }

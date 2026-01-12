@@ -374,14 +374,14 @@
 ## 7. Technical Indicators
 
 ### 7.1 Indicator Framework
-- [ ] **TASK-051**: Create indicator calculation interface
+- [x] **TASK-051**: Create indicator calculation interface
   - File: `components/Indicators/calculations/types.ts`
   - Interface: `IndicatorCalculation<Params, Output>`
   - Standard input: OHLCV array
   - Standard output: { time, value }[] or multi-series
   - Acceptance: Interface defined
 
-- [ ] **TASK-052**: Create useIndicator hook
+- [x] **TASK-052**: Create useIndicator hook
   - File: `hooks/useIndicator.ts`
   - Calculate indicator values from OHLCV data
   - Memoize calculations
@@ -389,61 +389,61 @@
   - Acceptance: Indicator values calculated
 
 ### 7.2 Overlay Indicators (on price chart)
-- [ ] **TASK-053**: Implement SMA (Simple Moving Average)
+- [x] **TASK-053**: Implement SMA (Simple Moving Average)
   - File: `components/Indicators/calculations/sma.ts`
   - Parameters: period (default: 20)
   - Formula: Sum of N closes / N
   - Acceptance: SMA line renders on chart
 
-- [ ] **TASK-054**: Implement EMA (Exponential Moving Average)
+- [x] **TASK-054**: Implement EMA (Exponential Moving Average)
   - File: `components/Indicators/calculations/ema.ts`
   - Parameters: period (default: 20)
   - Formula: EMA = Close × k + EMA(prev) × (1-k), k = 2/(N+1)
   - Acceptance: EMA line renders on chart
 
-- [ ] **TASK-055**: Implement WMA (Weighted Moving Average)
+- [x] **TASK-055**: Implement WMA (Weighted Moving Average)
   - File: `components/Indicators/calculations/wma.ts`
   - Parameters: period (default: 20)
   - Acceptance: WMA line renders on chart
 
-- [ ] **TASK-056**: Implement Bollinger Bands
+- [x] **TASK-056**: Implement Bollinger Bands
   - File: `components/Indicators/calculations/bollingerBands.ts`
   - Parameters: period (20), stdDev (2)
   - Output: upper, middle (SMA), lower bands
   - Render as 3 lines with fill between
   - Acceptance: BB renders with bands
 
-- [ ] **TASK-057**: Implement DEMA (Double EMA)
+- [x] **TASK-057**: Implement DEMA (Double EMA)
   - File: `components/Indicators/calculations/dema.ts`
   - Parameters: period (default: 20)
   - Formula: 2 × EMA - EMA(EMA)
   - Acceptance: DEMA line renders
 
-- [ ] **TASK-058**: Implement TEMA (Triple EMA)
+- [x] **TASK-058**: Implement TEMA (Triple EMA)
   - File: `components/Indicators/calculations/tema.ts`
   - Parameters: period (default: 20)
   - Formula: 3×EMA - 3×EMA(EMA) + EMA(EMA(EMA))
   - Acceptance: TEMA line renders
 
-- [ ] **TASK-059**: Implement VWAP
+- [x] **TASK-059**: Implement VWAP
   - File: `components/Indicators/calculations/vwap.ts`
   - No parameters (session-based)
   - Formula: Cumulative(TypicalPrice × Volume) / Cumulative(Volume)
   - Acceptance: VWAP line renders
 
-- [ ] **TASK-060**: Implement Envelope
+- [x] **TASK-060**: Implement Envelope
   - File: `components/Indicators/calculations/envelope.ts`
   - Parameters: period (20), percentage (2.5)
   - Upper = SMA × (1 + %) , Lower = SMA × (1 - %)
   - Acceptance: Envelope bands render
 
-- [ ] **TASK-061**: Implement Parabolic SAR
+- [x] **TASK-061**: Implement Parabolic SAR
   - File: `components/Indicators/calculations/parabolicSar.ts`
   - Parameters: step (0.02), max (0.2)
   - Render as dots above/below price
   - Acceptance: SAR dots render
 
-- [ ] **TASK-062**: Implement Ichimoku Cloud
+- [x] **TASK-062**: Implement Ichimoku Cloud
   - File: `components/Indicators/calculations/ichimoku.ts`
   - Parameters: tenkan (9), kijun (26), senkou (52)
   - Output: Tenkan-sen, Kijun-sen, Senkou Span A/B, Chikou Span
@@ -451,7 +451,7 @@
   - Acceptance: Ichimoku cloud renders
 
 ### 7.3 Oscillator Indicators (separate panels)
-- [ ] **TASK-063**: Create IndicatorPane component
+- [x] **TASK-063**: Create IndicatorPane component
   - File: `components/Chart/IndicatorPane.tsx`
   - Separate chart instance for oscillators
   - Synchronized time scale with main chart
@@ -459,105 +459,105 @@
   - Remove button (X)
   - Acceptance: Indicator pane renders below main chart
 
-- [ ] **TASK-064**: Implement RSI (Relative Strength Index)
+- [x] **TASK-064**: Implement RSI (Relative Strength Index)
   - File: `components/Indicators/calculations/rsi.ts`
   - Parameters: period (default: 14)
   - Range: 0-100, overbought (70), oversold (30) lines
   - Acceptance: RSI renders in separate pane
 
-- [ ] **TASK-065**: Implement MACD
+- [x] **TASK-065**: Implement MACD
   - File: `components/Indicators/calculations/macd.ts`
   - Parameters: fast (12), slow (26), signal (9)
   - Output: MACD line, signal line, histogram
   - Acceptance: MACD renders with histogram
 
-- [ ] **TASK-066**: Implement Stochastic Oscillator
+- [x] **TASK-066**: Implement Stochastic Oscillator
   - File: `components/Indicators/calculations/stochastic.ts`
   - Parameters: %K (14), %D (3), smooth (3)
   - Range: 0-100, overbought/oversold lines
   - Acceptance: Stochastic renders with %K, %D
 
-- [ ] **TASK-067**: Implement Stochastic RSI
+- [x] **TASK-067**: Implement Stochastic RSI
   - File: `components/Indicators/calculations/stochasticRsi.ts`
   - Parameters: rsiPeriod (14), stochPeriod (14)
   - Acceptance: StochRSI renders
 
-- [ ] **TASK-068**: Implement Williams %R
+- [x] **TASK-068**: Implement Williams %R
   - File: `components/Indicators/calculations/williamsR.ts`
   - Parameters: period (14)
   - Range: -100 to 0
   - Acceptance: Williams %R renders
 
-- [ ] **TASK-069**: Implement CCI (Commodity Channel Index)
+- [x] **TASK-069**: Implement CCI (Commodity Channel Index)
   - File: `components/Indicators/calculations/cci.ts`
   - Parameters: period (20)
   - Acceptance: CCI renders
 
-- [ ] **TASK-070**: Implement ATR (Average True Range)
+- [x] **TASK-070**: Implement ATR (Average True Range)
   - File: `components/Indicators/calculations/atr.ts`
   - Parameters: period (14)
   - Acceptance: ATR renders
 
-- [ ] **TASK-071**: Implement ADX (Average Directional Index)
+- [x] **TASK-071**: Implement ADX (Average Directional Index)
   - File: `components/Indicators/calculations/adx.ts`
   - Parameters: period (14)
   - Output: ADX, +DI, -DI lines
   - Acceptance: ADX renders with DI lines
 
-- [ ] **TASK-072**: Implement ROC (Rate of Change)
+- [x] **TASK-072**: Implement ROC (Rate of Change)
   - File: `components/Indicators/calculations/roc.ts`
   - Parameters: period (12)
   - Acceptance: ROC renders
 
-- [ ] **TASK-073**: Implement Momentum
+- [x] **TASK-073**: Implement Momentum
   - File: `components/Indicators/calculations/momentum.ts`
   - Parameters: period (10)
   - Acceptance: Momentum renders
 
-- [ ] **TASK-074**: Implement OBV (On-Balance Volume)
+- [x] **TASK-074**: Implement OBV (On-Balance Volume)
   - File: `components/Indicators/calculations/obv.ts`
   - No parameters
   - Acceptance: OBV renders
 
-- [ ] **TASK-075**: Implement CMF (Chaikin Money Flow)
+- [x] **TASK-075**: Implement CMF (Chaikin Money Flow)
   - File: `components/Indicators/calculations/cmf.ts`
   - Parameters: period (20)
   - Range: -1 to 1
   - Acceptance: CMF renders
 
-- [ ] **TASK-076**: Implement MFI (Money Flow Index)
+- [x] **TASK-076**: Implement MFI (Money Flow Index)
   - File: `components/Indicators/calculations/mfi.ts`
   - Parameters: period (14)
   - Range: 0-100
   - Acceptance: MFI renders
 
-- [ ] **TASK-077**: Implement Aroon
+- [x] **TASK-077**: Implement Aroon
   - File: `components/Indicators/calculations/aroon.ts`
   - Parameters: period (25)
   - Output: Aroon Up, Aroon Down
   - Acceptance: Aroon renders
 
-- [ ] **TASK-078**: Implement Awesome Oscillator
+- [x] **TASK-078**: Implement Awesome Oscillator
   - File: `components/Indicators/calculations/awesomeOscillator.ts`
   - Parameters: fast (5), slow (34)
   - Render as histogram
   - Acceptance: AO histogram renders
 
-- [ ] **TASK-079**: Create indicator calculations index
+- [x] **TASK-079**: Create indicator calculations index
   - File: `components/Indicators/calculations/index.ts`
   - Export all calculation functions
   - Export indicator metadata (name, type, default params)
   - Acceptance: All indicators importable from index
 
 ### 7.4 Indicator UI
-- [ ] **TASK-080**: Create IndicatorsPanel component
+- [x] **TASK-080**: Create IndicatorsPanel component
   - File: `components/Indicators/IndicatorsPanel.tsx`
   - Searchable list of all indicators
   - Grouped by category (Trend, Momentum, Volume)
   - Click to add indicator
   - Acceptance: Panel shows all indicators, search works
 
-- [ ] **TASK-081**: Create IndicatorConfig component
+- [x] **TASK-081**: Create IndicatorConfig component
   - File: `components/Indicators/IndicatorConfig.tsx`
   - Modal for editing indicator parameters
   - Input fields for each parameter
@@ -565,7 +565,7 @@
   - Save/Cancel buttons
   - Acceptance: Parameters editable and saved
 
-- [ ] **TASK-082**: Create ActiveIndicatorsList component
+- [x] **TASK-082**: Create ActiveIndicatorsList component
   - File: `components/Indicators/ActiveIndicatorsList.tsx`
   - List of currently active indicators
   - Settings icon to edit params
@@ -573,7 +573,7 @@
   - Remove button
   - Acceptance: Active indicators manageable
 
-- [ ] **TASK-083**: Implement resizable indicator panes
+- [x] **TASK-083**: Implement resizable indicator panes
   - Drag handle between panes
   - Min/max height constraints
   - Cursor changes on hover
