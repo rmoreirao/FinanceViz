@@ -676,8 +676,8 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Formula:** TEMA = 3*EMA - 3*EMA(EMA) + EMA(EMA(EMA))
 - **Parameters:** Period (default: 20)
 - **Acceptance Criteria:**
-  - [ ] Correct TEMA calculation
-- **Status:** [ ]
+  - [x] Correct TEMA calculation
+- **Status:** [x] Completed
 
 ---
 
@@ -688,9 +688,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Formula:** VWAP = sum(typical price * volume) / sum(volume)
 - **Typical Price:** (H + L + C) / 3
 - **Acceptance Criteria:**
-  - [ ] Correct VWAP calculation
-  - [ ] Resets at session start
-- **Status:** [ ]
+  - [x] Correct VWAP calculation
+  - [x] Resets at session start
+- **Status:** [x] Completed
 
 ---
 
@@ -703,9 +703,9 @@ This document contains the implementation task list for FinanceViz, organized by
   - Lower: SMA * (1 - percentage)
 - **Parameters:** Period (20), Percentage (2.5%)
 - **Acceptance Criteria:**
-  - [ ] Upper and lower bands calculated
-  - [ ] Percentage applied correctly
-- **Status:** [ ]
+  - [x] Upper and lower bands calculated
+  - [x] Percentage applied correctly
+- **Status:** [x] Completed
 
 ---
 
@@ -715,10 +715,10 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/components/Indicators/calculations/parabolicSar.ts`
 - **Parameters:** Step (0.02), Max (0.2)
 - **Acceptance Criteria:**
-  - [ ] Correct SAR calculation
-  - [ ] Acceleration factor applied
-  - [ ] Direction reversals handled
-- **Status:** [ ]
+  - [x] Correct SAR calculation
+  - [x] Acceleration factor applied
+  - [x] Direction reversals handled
+- **Status:** [x] Completed
 
 ---
 
@@ -734,10 +734,10 @@ This document contains the implementation task list for FinanceViz, organized by
   - Chikou Span: Close plotted 26 periods behind
 - **Parameters:** Tenkan (9), Kijun (26), Senkou (52)
 - **Acceptance Criteria:**
-  - [ ] All five components calculated
-  - [ ] Future projection for cloud
-  - [ ] Cloud shading between Senkou A and B
-- **Status:** [ ]
+  - [x] All five components calculated
+  - [x] Future projection for cloud
+  - [x] Cloud shading between Senkou A and B
+- **Status:** [x] Completed
 
 ---
 
@@ -751,10 +751,10 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Parameters:** Period (default: 14)
 - **Range:** 0-100
 - **Acceptance Criteria:**
-  - [ ] Correct RSI calculation
-  - [ ] Smoothed averages after initial period
-  - [ ] Overbought (70) / Oversold (30) reference lines
-- **Status:** [ ]
+  - [x] Correct RSI calculation
+  - [x] Smoothed averages after initial period
+  - [x] Overbought (70) / Oversold (30) reference lines
+- **Status:** [x] Completed
 
 ---
 
@@ -768,10 +768,10 @@ This document contains the implementation task list for FinanceViz, organized by
   - Histogram: MACD Line - Signal Line
 - **Parameters:** Fast (12), Slow (26), Signal (9)
 - **Acceptance Criteria:**
-  - [ ] MACD line calculated correctly
-  - [ ] Signal line is EMA of MACD
-  - [ ] Histogram shows difference
-- **Status:** [ ]
+  - [x] MACD line calculated correctly
+  - [x] Signal line is EMA of MACD
+  - [x] Histogram shows difference
+- **Status:** [x] Completed
 
 ---
 
@@ -785,9 +785,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Parameters:** %K Period (14), %D Period (3), Smooth (3)
 - **Range:** 0-100
 - **Acceptance Criteria:**
-  - [ ] %K and %D calculated correctly
-  - [ ] Smoothing applied
-- **Status:** [ ]
+  - [x] %K and %D calculated correctly
+  - [x] Smoothing applied
+- **Status:** [x] Completed
 
 ---
 
