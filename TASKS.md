@@ -357,16 +357,16 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Create:**
   - `src/components/Chart/ChartCanvas.tsx`
 - **Acceptance Criteria:**
-  - [ ] Candlestick series renders with mock data
-  - [ ] Green candles for bullish (close > open)
-  - [ ] Red candles for bearish (close < open)
-  - [ ] Time axis shows appropriate labels
-  - [ ] Price axis on right side
+  - [x] Candlestick series renders with mock data
+  - [x] Green candles for bullish (close > open)
+  - [x] Red candles for bearish (close < open)
+  - [x] Time axis shows appropriate labels
+  - [x] Price axis on right side
 - **Playwright Validation:**
-  - [ ] Candlesticks visible on chart
-  - [ ] Colors correct (green/red)
-  - [ ] Axes display values
-- **Status:** [ ]
+  - [x] Candlesticks visible on chart
+  - [x] Colors correct (green/red)
+  - [x] Axes display values
+- **Status:** [x] Completed
 
 ---
 
@@ -375,13 +375,13 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Modify:**
   - `src/components/Chart/ChartCanvas.tsx`
 - **Acceptance Criteria:**
-  - [ ] Line connects closing prices
-  - [ ] Smooth line rendering
-  - [ ] Switches from candlestick when selected
+  - [x] Line connects closing prices
+  - [x] Smooth line rendering
+  - [x] Switches from candlestick when selected
 - **Playwright Validation:**
-  - [ ] Line chart renders when selected
-  - [ ] Smooth transitions between types
-- **Status:** [ ]
+  - [x] Line chart renders when selected
+  - [x] Smooth transitions between types
+- **Status:** [x] Completed
 
 ---
 
@@ -390,13 +390,13 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Modify:**
   - `src/components/Chart/ChartCanvas.tsx`
 - **Acceptance Criteria:**
-  - [ ] Traditional OHLC bar representation
-  - [ ] High-low vertical line
-  - [ ] Open tick on left, close tick on right
-  - [ ] Colored by direction
+  - [x] Traditional OHLC bar representation
+  - [x] High-low vertical line
+  - [x] Open tick on left, close tick on right
+  - [x] Colored by direction
 - **Playwright Validation:**
-  - [ ] Bar chart renders when selected
-- **Status:** [ ]
+  - [x] Bar chart renders when selected
+- **Status:** [x] Completed
 
 ---
 
@@ -405,13 +405,13 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Create:**
   - `src/components/Chart/ChartCanvas.tsx` (modify)
 - **Acceptance Criteria:**
-  - [ ] Line chart with gradient fill below
-  - [ ] Gradient from line color to transparent
-  - [ ] Smooth area rendering
+  - [x] Line chart with gradient fill below
+  - [x] Gradient from line color to transparent
+  - [x] Smooth area rendering
 - **Playwright Validation:**
-  - [ ] Area chart renders when selected
-  - [ ] Gradient fill visible
-- **Status:** [ ]
+  - [x] Area chart renders when selected
+  - [x] Gradient fill visible
+- **Status:** [x] Completed
 
 ---
 

@@ -3,12 +3,14 @@
  * Main chart wrapper with loading/error states
  * 
  * TASK-016: Chart Container Component
+ * TASK-017: Candlestick Chart
  */
 
 import { useRef } from 'react';
 import { useChart } from '../../context';
 import { useStockData, useChartResize } from '../../hooks';
 import { Spinner } from '../common';
+import { ChartCanvas } from './ChartCanvas';
 
 /**
  * Error state component with retry button
@@ -139,7 +141,7 @@ export function Chart() {
       {/* Empty state */}
       {showEmpty && <EmptyState />}
       
-      {/* Chart canvas placeholder - will be implemented in TASK-017 */}
+      {/* Chart canvas with actual chart */}
       {hasData && !showLoading && (
         <div className="w-full h-full flex flex-col">
           {/* Chart info overlay */}
@@ -147,30 +149,14 @@ export function Chart() {
             {symbol} • {chartType} • {timeRange} • {interval}
           </div>
           
-          {/* Placeholder for ChartCanvas */}
-          <div className="flex-1 flex items-center justify-center text-gray-500 dark:text-gray-400">
-            <div className="text-center">
-              <svg 
-                className="w-12 h-12 mx-auto mb-3 opacity-50" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={1.5} 
-                  d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" 
-                />
-              </svg>
-              <p className="font-medium">Chart Canvas Ready</p>
-              <p className="text-sm mt-1">
-                {data.length} data points loaded
-              </p>
-              <p className="text-xs mt-1 opacity-75">
-                Dimensions: {dimensions.width}x{dimensions.height}px
-              </p>
-            </div>
+          {/* Chart Canvas */}
+          <div className="flex-1">
+            <ChartCanvas
+              data={data}
+              chartType={chartType}
+              width={dimensions.width}
+              height={dimensions.height}
+            />
           </div>
         </div>
       )}
