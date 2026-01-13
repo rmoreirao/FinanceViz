@@ -2,32 +2,7 @@
  * Data transformation utilities for API responses
  */
 
-import type { FinnhubCandleResponse, OHLCV } from '../types';
-
-/**
- * Transform Finnhub candle response to OHLCV array
- */
-export function transformCandleResponse(response: FinnhubCandleResponse): OHLCV[] {
-  if (response.s === 'no_data' || !response.t) {
-    return [];
-  }
-
-  const { c, h, l, o, t, v } = response;
-  const data: OHLCV[] = [];
-
-  for (let i = 0; i < t.length; i++) {
-    data.push({
-      time: t[i],
-      open: o[i],
-      high: h[i],
-      low: l[i],
-      close: c[i],
-      volume: v[i],
-    });
-  }
-
-  return data;
-}
+import type { OHLCV, AlphaVantageOHLCV } from '../types';
 
 /**
  * Aggregate OHLCV data to a larger interval
@@ -105,4 +80,58 @@ export function calculateHeikinAshi(data: OHLCV[]): OHLCV[] {
   }
 
   return heikinAshi;
+}
+
+/**
+ * Transform Alpha Vantage time series response to OHLCV array
+ * Handles the date-keyed object format from Alpha Vantage
+ */
+export function transformAlphaVantageTimeSeries(
+  timeSeries: Record<string, AlphaVantageOHLCV>,
+  resolution: string
+): OHLCV[] {
+  if (!timeSeries || typeof timeSeries !== 'object') {
+    return [];
+  }
+
+  const data: OHLCV[] = [];
+  const isIntraday = ['1', '5', '15', '30', '60'].includes(resolution);
+
+  for (const [dateStr, ohlcv] of Object.entries(timeSeries)) {
+    // Skip if missing required fields
+    if (!ohlcv['1. open'] || !ohlcv['4. close']) {
+      continue;
+    }
+
+    // Parse date string to UNIX timestamp
+    let timestamp: number;
+    if (isIntraday) {
+      // Intraday format: "2026-01-13 16:00:00"
+      timestamp = Math.floor(new Date(dateStr).getTime() / 1000);
+    } else {
+      // Daily/Weekly/Monthly format: "2026-01-13"
+      // Parse as local date to avoid timezone issues
+      const [year, month, day] = dateStr.split('-').map(Number);
+      timestamp = Math.floor(new Date(year, month - 1, day).getTime() / 1000);
+    }
+
+    // Skip invalid timestamps
+    if (isNaN(timestamp)) {
+      continue;
+    }
+
+    data.push({
+      time: timestamp,
+      open: parseFloat(ohlcv['1. open']) || 0,
+      high: parseFloat(ohlcv['2. high']) || 0,
+      low: parseFloat(ohlcv['3. low']) || 0,
+      close: parseFloat(ohlcv['4. close']) || 0,
+      volume: parseFloat(ohlcv['5. volume']) || 0,
+    });
+  }
+
+  // Sort by time ascending (Alpha Vantage returns newest first)
+  data.sort((a, b) => a.time - b.time);
+
+  return data;
 }

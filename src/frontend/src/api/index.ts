@@ -1,3 +1,3 @@
-// API module - Finnhub API client and utilities
-export * from './finnhub';
+// API module - Alpha Vantage API client and utilities
+export * from './alphavantage';
 export * from './transforms';

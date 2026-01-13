@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { getQuote, getErrorMessage } from '../api/finnhub';
+import { getQuote, getErrorMessage } from '../api';
 import type { Quote } from '../types';
 
 interface UseQuoteResult {

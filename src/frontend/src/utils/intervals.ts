@@ -123,3 +123,71 @@ export function getIntervalMs(interval: Interval): number {
       return 24 * 60 * 60 * 1000;
   }
 }
+
+/**
+ * Get Alpha Vantage function name for an interval
+ */
+export function getAlphaVantageFunction(interval: Interval | string): string {
+  switch (interval) {
+    case '1':
+    case '5':
+    case '15':
+    case '30':
+    case '60':
+      return 'TIME_SERIES_INTRADAY';
+    case 'D':
+      return 'TIME_SERIES_DAILY';
+    case 'W':
+      return 'TIME_SERIES_WEEKLY';
+    case 'M':
+      return 'TIME_SERIES_MONTHLY';
+    default:
+      return 'TIME_SERIES_DAILY';
+  }
+}
+
+/**
+ * Get Alpha Vantage interval parameter for intraday requests
+ */
+export function getAlphaVantageInterval(interval: Interval | string): string {
+  switch (interval) {
+    case '1':
+      return '1min';
+    case '5':
+      return '5min';
+    case '15':
+      return '15min';
+    case '30':
+      return '30min';
+    case '60':
+      return '60min';
+    default:
+      return '5min';
+  }
+}
+
+/**
+ * Get the response object key for Alpha Vantage time series data
+ */
+export function getTimeSeriesKey(interval: Interval | string): string {
+  switch (interval) {
+    case '1':
+      return 'Time Series (1min)';
+    case '5':
+      return 'Time Series (5min)';
+    case '15':
+      return 'Time Series (15min)';
+    case '30':
+      return 'Time Series (30min)';
+    case '60':
+      return 'Time Series (60min)';
+    case 'D':
+      return 'Time Series (Daily)';
+    case 'W':
+      return 'Weekly Time Series';
+    case 'M':
+      return 'Monthly Time Series';
+    default:
+      return 'Time Series (Daily)';
+  }
+}

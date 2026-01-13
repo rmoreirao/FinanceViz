@@ -80,49 +80,89 @@ export interface MarketEvent {
   };
 }
 
-// API response types
-export interface FinnhubCandleResponse {
-  c: number[]; // Close prices
-  h: number[]; // High prices
-  l: number[]; // Low prices
-  o: number[]; // Open prices
-  t: number[]; // Timestamps
-  v: number[]; // Volume
-  s: 'ok' | 'no_data';
+// Alpha Vantage API response types
+export interface AlphaVantageOHLCV {
+  '1. open': string;
+  '2. high': string;
+  '3. low': string;
+  '4. close': string;
+  '5. volume': string;
 }
 
-export interface FinnhubQuoteResponse {
-  c: number;  // Current price
-  d: number;  // Change
-  dp: number; // Percent change
-  h: number;  // High price of the day
-  l: number;  // Low price of the day
-  o: number;  // Open price of the day
-  pc: number; // Previous close price
-  t: number;  // Timestamp
+export interface AlphaVantageQuoteResponse {
+  'Global Quote': {
+    '01. symbol': string;
+    '02. open': string;
+    '03. high': string;
+    '04. low': string;
+    '05. price': string;
+    '06. volume': string;
+    '07. latest trading day': string;
+    '08. previous close': string;
+    '09. change': string;
+    '10. change percent': string;
+  };
+  'Note'?: string;
+  'Error Message'?: string;
 }
 
-export interface FinnhubSearchResponse {
-  count: number;
-  result: Array<{
-    description: string;
-    displaySymbol: string;
-    symbol: string;
-    type: string;
-  }>;
+export interface AlphaVantageTimeSeriesMetaData {
+  '1. Information': string;
+  '2. Symbol': string;
+  '3. Last Refreshed': string;
+  '4. Interval'?: string;
+  '4. Output Size'?: string;
+  '5. Time Zone': string;
 }
 
-export interface FinnhubProfileResponse {
-  country: string;
-  currency: string;
-  exchange: string;
-  ipo: string;
-  marketCapitalization: number;
-  name: string;
-  phone: string;
-  shareOutstanding: number;
-  ticker: string;
-  weburl: string;
-  logo: string;
-  finnhubIndustry: string;
+export interface AlphaVantageTimeSeriesResponse {
+  'Meta Data'?: AlphaVantageTimeSeriesMetaData;
+  'Time Series (Daily)'?: Record<string, AlphaVantageOHLCV>;
+  'Time Series (1min)'?: Record<string, AlphaVantageOHLCV>;
+  'Time Series (5min)'?: Record<string, AlphaVantageOHLCV>;
+  'Time Series (15min)'?: Record<string, AlphaVantageOHLCV>;
+  'Time Series (30min)'?: Record<string, AlphaVantageOHLCV>;
+  'Time Series (60min)'?: Record<string, AlphaVantageOHLCV>;
+  'Weekly Time Series'?: Record<string, AlphaVantageOHLCV>;
+  'Monthly Time Series'?: Record<string, AlphaVantageOHLCV>;
+  'Note'?: string;
+  'Error Message'?: string;
+}
+
+export interface AlphaVantageSearchMatch {
+  '1. symbol': string;
+  '2. name': string;
+  '3. type': string;
+  '4. region': string;
+  '5. marketOpen': string;
+  '6. marketClose': string;
+  '7. timezone': string;
+  '8. currency': string;
+  '9. matchScore': string;
+}
+
+export interface AlphaVantageSearchResponse {
+  bestMatches?: AlphaVantageSearchMatch[];
+  'Note'?: string;
+  'Error Message'?: string;
+}
+
+export interface AlphaVantageOverviewResponse {
+  Symbol?: string;
+  Name?: string;
+  Description?: string;
+  Exchange?: string;
+  Currency?: string;
+  Country?: string;
+  Sector?: string;
+  Industry?: string;
+  MarketCapitalization?: string;
+  PERatio?: string;
+  DividendYield?: string;
+  EPS?: string;
+  Beta?: string;
+  '52WeekHigh'?: string;
+  '52WeekLow'?: string;
+  'Note'?: string;
+  'Error Message'?: string;
 }

@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { getStockCandles, getErrorMessage } from '../api/finnhub';
+import { getStockCandles, getErrorMessage } from '../api';
 import { getTimeRangeBounds, getResolutionFromInterval } from '../utils/intervals';
 import type { OHLCV, TimeRange, Interval } from '../types';
 
