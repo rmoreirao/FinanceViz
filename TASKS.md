@@ -1000,16 +1000,16 @@ This document contains the implementation task list for FinanceViz, organized by
     └ ...
   ```
 - **Acceptance Criteria:**
-  - [ ] Searchable input filters indicators
-  - [ ] Collapsible categories
-  - [ ] Click adds indicator
-  - [ ] Modal/panel display
+  - [x] Searchable input filters indicators
+  - [x] Collapsible categories
+  - [x] Click adds indicator
+  - [x] Modal/panel display
 - **Playwright Validation:**
-  - [ ] Panel opens from toolbar button
-  - [ ] Search filters list
-  - [ ] Categories expand/collapse
-  - [ ] Indicator can be added
-- **Status:** [ ]
+  - [x] Panel opens from toolbar button
+  - [x] Search filters list
+  - [x] Categories expand/collapse
+  - [x] Indicator can be added
+- **Status:** [x] Completed
 
 ---
 
@@ -1018,13 +1018,13 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Create:**
   - `src/components/Toolbar/IndicatorsButton.tsx`
 - **Acceptance Criteria:**
-  - [ ] Button with chart icon
-  - [ ] Opens indicator panel modal
-  - [ ] Badge shows count of active indicators
+  - [x] Button with chart icon
+  - [x] Opens indicator panel modal
+  - [x] Badge shows count of active indicators
 - **Playwright Validation:**
-  - [ ] Button visible in toolbar
-  - [ ] Click opens indicator panel
-- **Status:** [ ]
+  - [x] Button visible in toolbar
+  - [x] Click opens indicator panel
+- **Status:** [x] Completed
 
 ---
 

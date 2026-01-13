@@ -10,7 +10,7 @@
  * TASK-016: Chart Container Component
  */
 
-import { ThemeProvider, DataSourceProvider, ChartProvider } from './context';
+import { ThemeProvider, DataSourceProvider, ChartProvider, IndicatorProvider } from './context';
 import { Toolbar } from './components/Toolbar';
 import { QuoteHeader } from './components/QuoteHeader';
 import { Chart } from './components/Chart';
@@ -39,7 +39,9 @@ function App() {
     <ThemeProvider>
       <DataSourceProvider>
         <ChartProvider>
-          <AppContent />
+          <IndicatorProvider>
+            <AppContent />
+          </IndicatorProvider>
         </ChartProvider>
       </DataSourceProvider>
     </ThemeProvider>

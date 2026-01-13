@@ -12,6 +12,7 @@ import { ChartTypeSelect } from './ChartTypeSelect';
 import { TimeRangeButtons } from './TimeRangeButtons';
 import { IntervalSelect } from './IntervalSelect';
 import { FullscreenButton } from './FullscreenButton';
+import { IndicatorsButton } from './IndicatorsButton';
 
 /**
  * Main toolbar containing all chart controls
@@ -49,6 +50,14 @@ export function Toolbar() {
         {/* Interval Selector */}
         <div className="flex-shrink-0">
           <IntervalSelect />
+        </div>
+
+        {/* Divider */}
+        <div className="h-6 w-px bg-gray-300 dark:bg-gray-600 hidden sm:block" />
+
+        {/* Indicators Button */}
+        <div className="flex-shrink-0">
+          <IndicatorsButton />
         </div>
 
         {/* Spacer */}
