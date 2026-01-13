@@ -1,877 +1,1710 @@
 # FinanceViz - Implementation Task List
 
-**Project:** Stock Chart Application  
-**Created:** January 12, 2026  
-**Status:** Not Started  
+**Version:** 1.0  
+**Created:** January 13, 2026  
+**Based on:** SPECIFICATIONS.md v1.0  
+**Status:** Active  
 
 ---
 
-## Task Tracking Legend
+## Overview
 
-| Status | Symbol | Description |
-|--------|--------|-------------|
-| Not Started | `[ ]` | Task not yet begun |
-| In Progress | `[~]` | Currently being worked on |
-| Completed | `[x]` | Task finished |
-| Blocked | `[!]` | Blocked by dependency or issue |
+This document contains the implementation task list for FinanceViz, organized by priority level. Each task includes acceptance criteria and validation requirements.
 
----
+### Implementation Guidelines
 
-## Priority Definitions
+- **UI First Approach:** Build UI components with mock data before API integration
+- **Data Source Toggle:** Implement a dropdown to switch between Mock Data and Alpha Vantage API
+- **Validation:** After each task implementation, validate UI changes using Playwright MCP server
+- **Backend API:** Alpha Vantage (replacing Finnhub from original spec)
 
-| Priority | Description | Timeline |
-|----------|-------------|----------|
-| **P0** | Must Have - Core MVP functionality | Weeks 1-6 |
-| **P1** | Should Have - Important for complete experience | Weeks 7-8 |
-| **P2** | Nice to Have - Enhanced features | Week 9-10 |
+### Task Status Legend
 
----
-
-# P0 - Must Have (Core MVP)
-
-## 1. Project Setup & Infrastructure
-
-### 1.1 Initialize Project
-- [x] **TASK-001**: Initialize Vite project with React and TypeScript template
-  - Command: `npm create vite@latest . -- --template react-ts`
-  - Acceptance: Project runs with `npm run dev`
-
-- [x] **TASK-002**: Install and configure TailwindCSS
-  - Install: `tailwindcss`, `postcss`, `autoprefixer`
-  - Create `tailwind.config.js` and `postcss.config.js`
-  - Add Tailwind directives to `index.css`
-  - Acceptance: Tailwind classes work in components
-
-- [x] **TASK-003**: Install core dependencies
-  - `lightweight-charts` - Charting library
-  - `axios` - HTTP client
-  - `date-fns` - Date utilities
-  - `lucide-react` - Icon library
-  - Acceptance: All packages in `package.json`
-
-- [x] **TASK-004**: Create project folder structure
-  - Create directories: `api/`, `components/`, `context/`, `hooks/`, `utils/`, `types/`
-  - Acceptance: Folder structure matches specification
-
-- [x] **TASK-005**: Configure environment variables
-  - Create `.env` file with `VITE_FINNHUB_API_KEY`
-  - Create `.env.example` template
-  - Add `.env` to `.gitignore`
-  - Acceptance: Environment variables accessible in app
-
-- [x] **TASK-006**: Setup base TypeScript types
-  - Create `types/chart.ts` - Chart-related types
-  - Create `types/stock.ts` - Stock data types (OHLCV, Quote)
-  - Create `types/indicators.ts` - Indicator types
-  - Acceptance: Types importable and used in components
+- [ ] Not Started
+- [x] Completed
+- 🔄 In Progress
+- ⏸️ Blocked
 
 ---
 
-### 1.2 API Layer
-- [x] **TASK-007**: Create Finnhub API client base
-  - File: `api/finnhub.ts`
-  - Configure axios instance with base URL and API key
-  - Implement request interceptor for authentication
-  - Implement error handling interceptor
-  - Acceptance: API client makes authenticated requests
+## Priority P0 - Must Have (MVP)
 
-- [x] **TASK-008**: Implement stock candle endpoint
-  - Function: `getStockCandles(symbol, resolution, from, to)`
-  - Transform response to OHLCV array
-  - Handle `no_data` response status
-  - Acceptance: Returns formatted OHLCV data
+### Phase 1: Foundation & Project Setup
 
-- [x] **TASK-009**: Implement quote endpoint
-  - Function: `getQuote(symbol)`
-  - Return current price, change, change percent
-  - Acceptance: Returns Quote object
-
-- [x] **TASK-010**: Implement symbol search endpoint
-  - Function: `searchSymbols(query)`
-  - Return array of matching symbols with company names
-  - Acceptance: Returns search results for autocomplete
-
-- [x] **TASK-011**: Implement company profile endpoint
-  - Function: `getCompanyProfile(symbol)`
-  - Return company name, logo, industry, market cap
-  - Acceptance: Returns company information
-
-- [x] **TASK-012**: Create data transformation utilities
-  - File: `api/transforms.ts`
-  - Function: `transformCandleResponse(response)` - API to OHLCV
-  - Function: `aggregateToInterval(data, interval)` - Resample data
-  - Acceptance: Data correctly transformed
+#### TASK-001: Project Initialization
+- **Description:** Set up Vite + React 18 + TypeScript project with TailwindCSS
+- **Files to Create/Modify:**
+  - `package.json`
+  - `vite.config.ts`
+  - `tsconfig.json`
+  - `tailwind.config.js`
+  - `postcss.config.js`
+  - `src/index.css`
+  - `src/main.tsx`
+  - `src/App.tsx`
+- **Acceptance Criteria:**
+  - [ ] Project builds successfully with `npm run dev`
+  - [ ] TailwindCSS classes render correctly
+  - [ ] TypeScript compilation without errors
+- **Playwright Validation:**
+  - [ ] Application loads at localhost
+  - [ ] No console errors on initial load
+- **Status:** [ ]
 
 ---
 
-## 2. State Management
-
-### 2.1 Context Setup
-- [x] **TASK-013**: Create Chart Context
-  - File: `context/ChartContext.tsx`
-  - State: symbol, timeRange, interval, chartType, isLoading, error
-  - Actions: setSymbol, setTimeRange, setInterval, setChartType
-  - Provider component wrapping app
-  - Acceptance: Context accessible in child components
-
-- [x] **TASK-014**: Create Indicator Context
-  - File: `context/IndicatorContext.tsx`
-  - State: overlays[], oscillators[]
-  - Actions: addIndicator, removeIndicator, updateIndicatorParams
-  - Acceptance: Indicators can be added/removed/updated
-
-- [x] **TASK-015**: Create Theme Context
-  - File: `context/ThemeContext.tsx`
-  - State: theme ('light' | 'dark')
-  - Actions: toggleTheme, setTheme
-  - Persist to localStorage
-  - Acceptance: Theme toggles and persists
+#### TASK-002: Mock Data Infrastructure
+- **Description:** Create mock data service with realistic OHLCV stock data
+- **Files to Create:**
+  - `src/api/mockData.ts` - Mock OHLCV generator
+  - `src/api/mockQuotes.ts` - Mock quote data
+  - `src/api/mockSymbols.ts` - Mock symbol search results
+  - `src/types/stock.ts` - Stock data types
+  - `src/types/chart.ts` - Chart-related types
+- **Acceptance Criteria:**
+  - [ ] Mock data generates realistic candlestick patterns
+  - [ ] Data supports all time ranges (1D, 5D, 1M, 6M, YTD, 1Y, 5Y, MAX)
+  - [ ] Data includes volume information
+  - [ ] Multiple symbols available (AAPL, MSFT, GOOGL, AMZN, TSLA)
+- **Status:** [ ]
 
 ---
 
-## 3. Common Components
-
-### 3.1 UI Primitives
-- [x] **TASK-016**: Create Button component
-  - File: `components/common/Button.tsx`
-  - Variants: primary, secondary, ghost
-  - Sizes: sm, md, lg
-  - States: disabled, loading
-  - Acceptance: All variants render correctly
-
-- [x] **TASK-017**: Create Dropdown component
-  - File: `components/common/Dropdown.tsx`
-  - Props: options, value, onChange, placeholder
-  - Keyboard navigation support
-  - Acceptance: Dropdown opens, selects, closes
-
-- [x] **TASK-018**: Create Modal component
-  - File: `components/common/Modal.tsx`
-  - Props: isOpen, onClose, title, children
-  - Click outside to close
-  - Escape key to close
-  - Acceptance: Modal opens/closes correctly
-
-- [x] **TASK-019**: Create Spinner component
-  - File: `components/common/Spinner.tsx`
-  - Sizes: sm, md, lg
-  - Acceptance: Animated spinner displays
-
-- [x] **TASK-020**: Create utility functions
-  - File: `utils/formatters.ts`
-  - `formatPrice(value)` - Currency formatting
-  - `formatVolume(value)` - 1.2M, 500K format
-  - `formatPercent(value)` - +2.45% format
-  - `formatDate(timestamp, format)` - Date formatting
-  - Acceptance: All formatters work correctly
-
-- [x] **TASK-021**: Create constants file
-  - File: `utils/constants.ts`
-  - TIME_RANGES array with labels and values
-  - INTERVALS array with labels and values
-  - CHART_TYPES array with labels and values
-  - COLOR_PALETTE for comparisons
-  - Acceptance: Constants importable
+#### TASK-003: Data Source Toggle Component
+- **Description:** Create UI dropdown to switch between Mock Data and Alpha Vantage API
+- **Files to Create:**
+  - `src/components/common/DataSourceToggle.tsx`
+  - `src/context/DataSourceContext.tsx`
+- **Acceptance Criteria:**
+  - [ ] Dropdown displays "Mock Data" and "Alpha Vantage API" options
+  - [ ] Selection persists across page refreshes (localStorage)
+  - [ ] Context provides data source state to all components
+- **Playwright Validation:**
+  - [ ] Dropdown renders in toolbar
+  - [ ] Selection changes are reflected in UI
+  - [ ] Default is "Mock Data"
+- **Status:** [ ]
 
 ---
 
-## 4. Quote Header
-
-### 4.1 Price Display
-- [x] **TASK-022**: Create QuoteHeader component
-  - File: `components/QuoteHeader/QuoteHeader.tsx`
-  - Display: Symbol, Company Name, Current Price
-  - Display: Change (absolute), Change % with color coding
-  - Large, prominent price display
-  - Acceptance: Quote data displays correctly
-
-- [x] **TASK-023**: Create useQuote hook
-  - File: `hooks/useQuote.ts`
-  - Fetch quote data for current symbol
-  - Auto-refresh every 15 seconds when market open
-  - Return: quote, isLoading, error
-  - Acceptance: Quote updates automatically
+#### TASK-004: Core Type Definitions
+- **Description:** Define all TypeScript interfaces and types
+- **Files to Create:**
+  - `src/types/stock.ts` - OHLCV, Quote interfaces
+  - `src/types/chart.ts` - ChartType, TimeRange, Interval types
+  - `src/types/indicators.ts` - Indicator types and configurations
+  - `src/types/index.ts` - Re-exports
+- **Acceptance Criteria:**
+  - [ ] All chart types defined: candlestick, line, bar, area, hollowCandle, heikinAshi, baseline
+  - [ ] Time ranges defined: 1D, 5D, 1M, 6M, YTD, 1Y, 5Y, MAX
+  - [ ] Intervals defined: 1min, 5min, 15min, 30min, 60min, Daily, Weekly, Monthly
+  - [ ] OHLCV interface with time, open, high, low, close, volume
+- **Status:** [ ]
 
 ---
 
-## 5. Toolbar
-
-### 5.1 Symbol Search
-- [x] **TASK-024**: Create SymbolSearch component
-  - File: `components/Toolbar/SymbolSearch.tsx`
-  - Autocomplete input with debounced search (300ms)
-  - Display symbol + company name in dropdown
-  - Select symbol updates Chart Context
-  - Acceptance: Search works, selection updates chart
-
-- [x] **TASK-025**: Create useDebounce hook
-  - File: `hooks/useDebounce.ts`
-  - Generic debounce hook with configurable delay
-  - Acceptance: Value updates after delay
-
-### 5.2 Chart Controls
-- [x] **TASK-026**: Create ChartTypeSelect component
-  - File: `components/Toolbar/ChartTypeSelect.tsx`
-  - Dropdown with 7 chart types
-  - Icons for each chart type
-  - Updates Chart Context on selection
-  - Acceptance: Chart type changes on selection
-
-- [x] **TASK-027**: Create TimeRangeButtons component
-  - File: `components/Toolbar/TimeRangeButtons.tsx`
-  - Button group: 1D, 5D, 1M, 6M, YTD, 1Y, 5Y, MAX
-  - Active state styling for selected range
-  - Updates Chart Context on click
-  - Acceptance: Time range updates, active state visible
-
-- [x] **TASK-028**: Create IntervalSelect component
-  - File: `components/Toolbar/IntervalSelect.tsx`
-  - Dropdown with intervals filtered by time range
-  - Intraday intervals only for 1D-1M ranges
-  - Updates Chart Context on selection
-  - Acceptance: Valid intervals shown per time range
-
-- [x] **TASK-029**: Create interval validation utility
-  - File: `utils/intervals.ts`
-  - Function: `getValidIntervals(timeRange)` - Filter intervals
-  - Function: `getDefaultInterval(timeRange)` - Get default
-  - Function: `getTimeRangeBounds(range)` - Get from/to timestamps
-  - Acceptance: Correct intervals returned per range
-
-### 5.3 Toolbar Container
-- [x] **TASK-030**: Create Toolbar component
-  - File: `components/Toolbar/Toolbar.tsx`
-  - Layout: Symbol Search | Chart Type | Time Ranges | Interval
-  - Responsive: Stack on mobile
-  - Acceptance: All controls visible and functional
-
-- [x] **TASK-031**: Create IndicatorsButton component
-  - File: `components/Toolbar/IndicatorsButton.tsx`
-  - Button that opens Indicators Panel
-  - Badge showing count of active indicators
-  - Acceptance: Opens panel, shows count
-
-- [x] **TASK-032**: Create FullscreenButton component
-  - File: `components/Toolbar/FullscreenButton.tsx`
-  - Toggle fullscreen mode using Fullscreen API
-  - Icon changes based on state
-  - Acceptance: Fullscreen toggles correctly
+#### TASK-005: Theme Context & Provider
+- **Description:** Implement light/dark theme context with TailwindCSS
+- **Files to Create:**
+  - `src/context/ThemeContext.tsx`
+- **Files to Modify:**
+  - `src/App.tsx` - Wrap with ThemeProvider
+  - `tailwind.config.js` - Add dark mode configuration
+- **Acceptance Criteria:**
+  - [ ] Theme toggles between light and dark mode
+  - [ ] Theme persists in localStorage
+  - [ ] CSS variables for bullish (#22c55e) and bearish (#ef4444) colors
+- **Playwright Validation:**
+  - [ ] Theme toggle button works
+  - [ ] Background colors change appropriately
+- **Status:** [ ]
 
 ---
 
-## 6. Chart Core
-
-### 6.1 Data Fetching
-- [x] **TASK-033**: Create useStockData hook
-  - File: `hooks/useStockData.ts`
-  - Fetch candle data based on symbol, range, interval
-  - Cache previous requests (simple in-memory cache)
-  - Return: data, isLoading, error, refetch
-  - Acceptance: Data fetches and caches correctly
-
-### 6.2 Chart Container
-- [x] **TASK-034**: Create Chart container component
-  - File: `components/Chart/Chart.tsx`
-  - Orchestrates ChartCanvas, VolumePane, IndicatorPanes
-  - Manages layout and resizing
-  - Handles loading and error states
-  - Acceptance: Chart container renders sub-components
-
-- [x] **TASK-035**: Create useChartResize hook
-  - File: `hooks/useChartResize.ts`
-  - Listen for container resize events
-  - Return current width and height
-  - Debounce resize events
-  - Acceptance: Chart resizes with container
-
-### 6.3 Main Chart Canvas
-- [x] **TASK-036**: Create ChartCanvas component - Candlestick
-  - File: `components/Chart/ChartCanvas.tsx`
-  - Initialize Lightweight Charts instance
-  - Render candlestick series from OHLCV data
-  - Configure chart options (colors, grid, scale)
-  - Acceptance: Candlestick chart renders
-
-- [x] **TASK-037**: Implement Line chart type
-  - Add line series rendering to ChartCanvas
-  - Use close prices for line data
-  - Acceptance: Line chart renders
-
-- [x] **TASK-038**: Implement Bar (OHLC) chart type
-  - Add bar series rendering to ChartCanvas
-  - Acceptance: Bar chart renders
-
-- [x] **TASK-039**: Implement Area chart type
-  - Add area series rendering to ChartCanvas
-  - Configure gradient fill
-  - Acceptance: Area chart renders with gradient
-
-- [x] **TASK-040**: Implement Hollow Candlestick chart type
-  - Configure candlestick series for hollow style
-  - Hollow when close > open, filled when close < open
-  - Acceptance: Hollow candlesticks render correctly
-
-- [x] **TASK-041**: Implement Heikin-Ashi chart type
-  - Create utility: `calculateHeikinAshi(ohlcv)`
-  - Transform data before rendering
-  - Acceptance: Heikin-Ashi candles render
-
-- [x] **TASK-042**: Implement Baseline chart type
-  - Add baseline series rendering
-  - Configure baseline value (default: first close)
-  - Colors above/below baseline
-  - Acceptance: Baseline chart renders
-
-- [x] **TASK-043**: Implement chart type switching
-  - Handle chartType changes from context
-  - Remove old series, add new series
-  - Maintain data and scale
-  - Acceptance: Chart type switches smoothly
-
-### 6.4 Volume Pane
-- [x] **TASK-044**: Create VolumePane component
-  - File: `components/Chart/VolumePane.tsx`
-  - Histogram series below main chart
-  - Color bars based on price direction (green up, red down)
-  - Synchronized time scale with main chart
-  - Acceptance: Volume bars render correctly
-
-### 6.5 Interactive Features
-- [x] **TASK-045**: Implement crosshair
-  - Enable crosshair in chart options
-  - Vertical and horizontal lines
-  - Display date/time and price labels
-  - Acceptance: Crosshair follows cursor
-
-- [x] **TASK-046**: Create Legend component
-  - File: `components/Chart/Legend.tsx`
-  - Display OHLCV values for hovered bar
-  - Update on crosshair move event
-  - Format values appropriately
-  - Acceptance: Legend shows current bar data
-
-- [x] **TASK-047**: Implement mouse wheel zoom
-  - Configure time scale for scroll zoom
-  - Zoom centered on cursor position
-  - Acceptance: Scroll zooms chart in/out
-
-- [x] **TASK-048**: Implement pan/drag navigation
-  - Enable drag-to-pan on time scale
-  - Constrain to data boundaries
-  - Acceptance: Chart pans left/right on drag
-
-- [x] **TASK-049**: Implement double-click reset
-  - Reset to fit all data on double-click
-  - Acceptance: Double-click resets zoom/pan
-
-- [x] **TASK-050**: Implement touch gestures
-  - Pinch-to-zoom for mobile
-  - Swipe-to-pan for mobile
-  - Acceptance: Touch gestures work on mobile
+#### TASK-006: Chart Context & State Management
+- **Description:** Implement chart state context with useReducer
+- **Files to Create:**
+  - `src/context/ChartContext.tsx`
+  - `src/context/index.ts`
+- **State Shape:**
+  ```typescript
+  {
+    symbol: string;
+    companyName: string;
+    timeRange: TimeRange;
+    interval: Interval;
+    chartType: ChartType;
+    isLoading: boolean;
+    error: string | null;
+  }
+  ```
+- **Acceptance Criteria:**
+  - [ ] Context provides symbol, timeRange, interval, chartType state
+  - [ ] Actions: SET_SYMBOL, SET_TIME_RANGE, SET_INTERVAL, SET_CHART_TYPE
+  - [ ] Default symbol: 'AAPL'
+  - [ ] Default chart type: 'candlestick'
+- **Status:** [ ]
 
 ---
 
-## 7. Technical Indicators
+### Phase 2: Core UI Components
 
-### 7.1 Indicator Framework
-- [x] **TASK-051**: Create indicator calculation interface
-  - File: `components/Indicators/calculations/types.ts`
-  - Interface: `IndicatorCalculation<Params, Output>`
-  - Standard input: OHLCV array
-  - Standard output: { time, value }[] or multi-series
-  - Acceptance: Interface defined
+#### TASK-007: Common UI Components
+- **Description:** Create reusable UI components
+- **Files to Create:**
+  - `src/components/common/Button.tsx`
+  - `src/components/common/Dropdown.tsx`
+  - `src/components/common/Modal.tsx`
+  - `src/components/common/Spinner.tsx`
+  - `src/components/common/ErrorBoundary.tsx`
+  - `src/components/common/index.ts`
+- **Acceptance Criteria:**
+  - [ ] Button supports variants: primary, secondary, ghost
+  - [ ] Dropdown supports searchable option
+  - [ ] Modal has overlay and close button
+  - [ ] Spinner has configurable size
+  - [ ] ErrorBoundary catches and displays errors gracefully
+- **Playwright Validation:**
+  - [ ] All components render correctly
+  - [ ] Interactive states (hover, focus, active) work
+- **Status:** [ ]
 
-- [x] **TASK-052**: Create useIndicator hook
-  - File: `hooks/useIndicator.ts`
-  - Calculate indicator values from OHLCV data
-  - Memoize calculations
-  - Recalculate on data or params change
-  - Acceptance: Indicator values calculated
+---
 
-### 7.2 Overlay Indicators (on price chart)
-- [x] **TASK-053**: Implement SMA (Simple Moving Average)
-  - File: `components/Indicators/calculations/sma.ts`
-  - Parameters: period (default: 20)
-  - Formula: Sum of N closes / N
-  - Acceptance: SMA line renders on chart
+#### TASK-008: Main Toolbar Container
+- **Description:** Create the main toolbar layout
+- **Files to Create:**
+  - `src/components/Toolbar/Toolbar.tsx`
+  - `src/components/Toolbar/index.ts`
+- **Layout:**
+  ```
+  [Symbol Search] | [Chart Type ▼] | [1D 5D 1M 6M YTD 1Y 5Y MAX] | [Interval ▼] | [Data Source ▼]
+  [Indicators] [Fullscreen]
+  ```
+- **Acceptance Criteria:**
+  - [ ] Responsive layout with flex/grid
+  - [ ] Placeholder slots for all toolbar items
+  - [ ] Proper spacing and alignment
+- **Playwright Validation:**
+  - [ ] Toolbar renders at top of page
+  - [ ] All placeholder elements visible
+- **Status:** [ ]
 
-- [x] **TASK-054**: Implement EMA (Exponential Moving Average)
-  - File: `components/Indicators/calculations/ema.ts`
-  - Parameters: period (default: 20)
-  - Formula: EMA = Close × k + EMA(prev) × (1-k), k = 2/(N+1)
-  - Acceptance: EMA line renders on chart
+---
 
-- [x] **TASK-055**: Implement WMA (Weighted Moving Average)
-  - File: `components/Indicators/calculations/wma.ts`
-  - Parameters: period (default: 20)
-  - Acceptance: WMA line renders on chart
+#### TASK-009: Symbol Search Component
+- **Description:** Autocomplete search for stock symbols
+- **Files to Create:**
+  - `src/components/Toolbar/SymbolSearch.tsx`
+  - `src/hooks/useDebounce.ts`
+- **Acceptance Criteria:**
+  - [ ] Search input with magnifying glass icon
+  - [ ] Debounced search (300ms)
+  - [ ] Dropdown shows matching symbols from mock data
+  - [ ] Displays symbol and company name
+  - [ ] Selection updates ChartContext
+  - [ ] Keyboard navigation (arrow keys, enter)
+- **Playwright Validation:**
+  - [ ] Search input accepts text
+  - [ ] Dropdown appears with results
+  - [ ] Selection updates displayed symbol
+- **Status:** [ ]
 
-- [x] **TASK-056**: Implement Bollinger Bands
-  - File: `components/Indicators/calculations/bollingerBands.ts`
-  - Parameters: period (20), stdDev (2)
-  - Output: upper, middle (SMA), lower bands
-  - Render as 3 lines with fill between
-  - Acceptance: BB renders with bands
+---
 
-- [x] **TASK-057**: Implement DEMA (Double EMA)
-  - File: `components/Indicators/calculations/dema.ts`
-  - Parameters: period (default: 20)
-  - Formula: 2 × EMA - EMA(EMA)
-  - Acceptance: DEMA line renders
+#### TASK-010: Chart Type Selector
+- **Description:** Dropdown to select chart type
+- **Files to Create:**
+  - `src/components/Toolbar/ChartTypeSelect.tsx`
+- **Options:**
+  - Candlestick (default)
+  - Line
+  - Bar (OHLC)
+  - Area
+  - Hollow Candlestick
+  - Heikin-Ashi
+  - Baseline
+- **Acceptance Criteria:**
+  - [ ] Dropdown with all 7 chart types
+  - [ ] Icons for each chart type
+  - [ ] Selection updates ChartContext
+  - [ ] Current selection highlighted
+- **Playwright Validation:**
+  - [ ] Dropdown opens on click
+  - [ ] All options visible
+  - [ ] Selection changes chart type state
+- **Status:** [ ]
 
-- [x] **TASK-058**: Implement TEMA (Triple EMA)
-  - File: `components/Indicators/calculations/tema.ts`
-  - Parameters: period (default: 20)
-  - Formula: 3×EMA - 3×EMA(EMA) + EMA(EMA(EMA))
-  - Acceptance: TEMA line renders
+---
 
-- [x] **TASK-059**: Implement VWAP
-  - File: `components/Indicators/calculations/vwap.ts`
-  - No parameters (session-based)
-  - Formula: Cumulative(TypicalPrice × Volume) / Cumulative(Volume)
-  - Acceptance: VWAP line renders
+#### TASK-011: Time Range Buttons
+- **Description:** Button group for time range selection
+- **Files to Create:**
+  - `src/components/Toolbar/TimeRangeButtons.tsx`
+- **Buttons:** 1D | 5D | 1M | 6M | YTD | 1Y | 5Y | MAX
+- **Acceptance Criteria:**
+  - [ ] All 8 time range buttons displayed
+  - [ ] Active button visually highlighted
+  - [ ] Selection updates ChartContext
+  - [ ] Updates interval to default for selected range
+- **Playwright Validation:**
+  - [ ] All buttons visible
+  - [ ] Click changes active state
+  - [ ] Active button has distinct styling
+- **Status:** [ ]
 
-- [x] **TASK-060**: Implement Envelope
-  - File: `components/Indicators/calculations/envelope.ts`
-  - Parameters: period (20), percentage (2.5)
-  - Upper = SMA × (1 + %) , Lower = SMA × (1 - %)
-  - Acceptance: Envelope bands render
+---
 
-- [x] **TASK-061**: Implement Parabolic SAR
-  - File: `components/Indicators/calculations/parabolicSar.ts`
-  - Parameters: step (0.02), max (0.2)
-  - Render as dots above/below price
-  - Acceptance: SAR dots render
+#### TASK-012: Interval Selector
+- **Description:** Dropdown for time interval selection
+- **Files to Create:**
+  - `src/components/Toolbar/IntervalSelect.tsx`
+  - `src/utils/intervals.ts` - Interval/range mappings
+- **Intervals:**
+  - Intraday: 1min, 5min, 15min, 30min, 60min
+  - Daily+: Daily, Weekly, Monthly
+- **Acceptance Criteria:**
+  - [ ] Dropdown shows valid intervals based on time range
+  - [ ] Intraday intervals only for 1D-1M ranges
+  - [ ] Selection updates ChartContext
+  - [ ] Disabled intervals grayed out
+- **Playwright Validation:**
+  - [ ] Dropdown shows appropriate options
+  - [ ] Invalid options not selectable
+- **Status:** [ ]
 
-- [x] **TASK-062**: Implement Ichimoku Cloud
-  - File: `components/Indicators/calculations/ichimoku.ts`
-  - Parameters: tenkan (9), kijun (26), senkou (52)
-  - Output: Tenkan-sen, Kijun-sen, Senkou Span A/B, Chikou Span
-  - Render cloud with fill
-  - Acceptance: Ichimoku cloud renders
+---
 
-### 7.3 Oscillator Indicators (separate panels)
-- [x] **TASK-063**: Create IndicatorPane component
-  - File: `components/Chart/IndicatorPane.tsx`
-  - Separate chart instance for oscillators
-  - Synchronized time scale with main chart
-  - Configurable height with resize handle
-  - Remove button (X)
-  - Acceptance: Indicator pane renders below main chart
+#### TASK-013: Fullscreen Button
+- **Description:** Toggle fullscreen mode
+- **Files to Create:**
+  - `src/components/Toolbar/FullscreenButton.tsx`
+- **Acceptance Criteria:**
+  - [ ] Button with fullscreen icon
+  - [ ] Toggles browser fullscreen API
+  - [ ] Icon changes based on fullscreen state
+  - [ ] Keyboard shortcut: F
+- **Playwright Validation:**
+  - [ ] Button renders
+  - [ ] Fullscreen toggles on click
+- **Status:** [ ]
 
-- [x] **TASK-064**: Implement RSI (Relative Strength Index)
-  - File: `components/Indicators/calculations/rsi.ts`
-  - Parameters: period (default: 14)
-  - Range: 0-100, overbought (70), oversold (30) lines
-  - Acceptance: RSI renders in separate pane
+---
 
-- [x] **TASK-065**: Implement MACD
-  - File: `components/Indicators/calculations/macd.ts`
-  - Parameters: fast (12), slow (26), signal (9)
-  - Output: MACD line, signal line, histogram
-  - Acceptance: MACD renders with histogram
+#### TASK-014: Quote Header Component
+- **Description:** Display current stock quote information
+- **Files to Create:**
+  - `src/components/QuoteHeader/QuoteHeader.tsx`
+  - `src/components/QuoteHeader/index.ts`
+  - `src/hooks/useQuote.ts`
+- **Display Elements:**
+  - Symbol (large)
+  - Company Name
+  - Current Price (prominent)
+  - Change (absolute)
+  - Change % (percentage)
+  - Color coding (green/red)
+- **Acceptance Criteria:**
+  - [ ] Displays symbol and company name
+  - [ ] Price formatted with 2 decimals
+  - [ ] Change shows + or - prefix
+  - [ ] Green for positive, red for negative
+  - [ ] Updates when symbol changes
+- **Playwright Validation:**
+  - [ ] Header displays at top
+  - [ ] Price and change visible
+  - [ ] Colors reflect positive/negative
+- **Status:** [ ]
 
-- [x] **TASK-066**: Implement Stochastic Oscillator
-  - File: `components/Indicators/calculations/stochastic.ts`
-  - Parameters: %K (14), %D (3), smooth (3)
-  - Range: 0-100, overbought/oversold lines
-  - Acceptance: Stochastic renders with %K, %D
+---
 
-- [x] **TASK-067**: Implement Stochastic RSI
-  - File: `components/Indicators/calculations/stochasticRsi.ts`
-  - Parameters: rsiPeriod (14), stochPeriod (14)
-  - Acceptance: StochRSI renders
+### Phase 3: Chart Implementation
 
-- [x] **TASK-068**: Implement Williams %R
-  - File: `components/Indicators/calculations/williamsR.ts`
-  - Parameters: period (14)
-  - Range: -100 to 0
-  - Acceptance: Williams %R renders
+#### TASK-015: Install Lightweight Charts Library
+- **Description:** Add TradingView Lightweight Charts dependency
+- **Commands:**
+  ```bash
+  npm install lightweight-charts
+  ```
+- **Acceptance Criteria:**
+  - [ ] Package installed and in package.json
+  - [ ] No version conflicts
+- **Status:** [ ]
 
-- [x] **TASK-069**: Implement CCI (Commodity Channel Index)
-  - File: `components/Indicators/calculations/cci.ts`
-  - Parameters: period (20)
-  - Acceptance: CCI renders
+---
 
-- [x] **TASK-070**: Implement ATR (Average True Range)
-  - File: `components/Indicators/calculations/atr.ts`
-  - Parameters: period (14)
-  - Acceptance: ATR renders
+#### TASK-016: Chart Container Component
+- **Description:** Main chart wrapper component
+- **Files to Create:**
+  - `src/components/Chart/Chart.tsx`
+  - `src/components/Chart/index.ts`
+  - `src/hooks/useStockData.ts`
+  - `src/hooks/useChartResize.ts`
+- **Acceptance Criteria:**
+  - [ ] Container fills available space
+  - [ ] Responsive to window resize
+  - [ ] Shows loading spinner while data loads
+  - [ ] Shows error state on failure
+- **Playwright Validation:**
+  - [ ] Chart container visible
+  - [ ] Resizes with window
+- **Status:** [ ]
 
-- [x] **TASK-071**: Implement ADX (Average Directional Index)
-  - File: `components/Indicators/calculations/adx.ts`
-  - Parameters: period (14)
-  - Output: ADX, +DI, -DI lines
-  - Acceptance: ADX renders with DI lines
+---
 
-- [x] **TASK-072**: Implement ROC (Rate of Change)
-  - File: `components/Indicators/calculations/roc.ts`
-  - Parameters: period (12)
-  - Acceptance: ROC renders
+#### TASK-017: Chart Canvas - Candlestick
+- **Description:** Implement candlestick chart with Lightweight Charts
+- **Files to Create:**
+  - `src/components/Chart/ChartCanvas.tsx`
+- **Acceptance Criteria:**
+  - [ ] Candlestick series renders with mock data
+  - [ ] Green candles for bullish (close > open)
+  - [ ] Red candles for bearish (close < open)
+  - [ ] Time axis shows appropriate labels
+  - [ ] Price axis on right side
+- **Playwright Validation:**
+  - [ ] Candlesticks visible on chart
+  - [ ] Colors correct (green/red)
+  - [ ] Axes display values
+- **Status:** [ ]
 
-- [x] **TASK-073**: Implement Momentum
-  - File: `components/Indicators/calculations/momentum.ts`
-  - Parameters: period (10)
-  - Acceptance: Momentum renders
+---
 
-- [x] **TASK-074**: Implement OBV (On-Balance Volume)
-  - File: `components/Indicators/calculations/obv.ts`
-  - No parameters
-  - Acceptance: OBV renders
+#### TASK-018: Chart Canvas - Line Type
+- **Description:** Implement line chart type
+- **Files to Modify:**
+  - `src/components/Chart/ChartCanvas.tsx`
+- **Acceptance Criteria:**
+  - [ ] Line connects closing prices
+  - [ ] Smooth line rendering
+  - [ ] Switches from candlestick when selected
+- **Playwright Validation:**
+  - [ ] Line chart renders when selected
+  - [ ] Smooth transitions between types
+- **Status:** [ ]
 
-- [x] **TASK-075**: Implement CMF (Chaikin Money Flow)
-  - File: `components/Indicators/calculations/cmf.ts`
-  - Parameters: period (20)
-  - Range: -1 to 1
-  - Acceptance: CMF renders
+---
 
-- [x] **TASK-076**: Implement MFI (Money Flow Index)
-  - File: `components/Indicators/calculations/mfi.ts`
-  - Parameters: period (14)
-  - Range: 0-100
-  - Acceptance: MFI renders
+#### TASK-019: Chart Canvas - Bar (OHLC) Type
+- **Description:** Implement OHLC bar chart type
+- **Files to Modify:**
+  - `src/components/Chart/ChartCanvas.tsx`
+- **Acceptance Criteria:**
+  - [ ] Traditional OHLC bar representation
+  - [ ] High-low vertical line
+  - [ ] Open tick on left, close tick on right
+  - [ ] Colored by direction
+- **Playwright Validation:**
+  - [ ] Bar chart renders when selected
+- **Status:** [ ]
 
-- [x] **TASK-077**: Implement Aroon
-  - File: `components/Indicators/calculations/aroon.ts`
-  - Parameters: period (25)
-  - Output: Aroon Up, Aroon Down
-  - Acceptance: Aroon renders
+---
 
-- [x] **TASK-078**: Implement Awesome Oscillator
-  - File: `components/Indicators/calculations/awesomeOscillator.ts`
-  - Parameters: fast (5), slow (34)
-  - Render as histogram
-  - Acceptance: AO histogram renders
+#### TASK-020: Chart Canvas - Area Type
+- **Description:** Implement area chart type
+- **Files to Create:**
+  - `src/components/Chart/ChartCanvas.tsx` (modify)
+- **Acceptance Criteria:**
+  - [ ] Line chart with gradient fill below
+  - [ ] Gradient from line color to transparent
+  - [ ] Smooth area rendering
+- **Playwright Validation:**
+  - [ ] Area chart renders when selected
+  - [ ] Gradient fill visible
+- **Status:** [ ]
 
-- [x] **TASK-079**: Create indicator calculations index
-  - File: `components/Indicators/calculations/index.ts`
-  - Export all calculation functions
-  - Export indicator metadata (name, type, default params)
-  - Acceptance: All indicators importable from index
+---
 
-### 7.4 Indicator UI
-- [x] **TASK-080**: Create IndicatorsPanel component
-  - File: `components/Indicators/IndicatorsPanel.tsx`
-  - Searchable list of all indicators
-  - Grouped by category (Trend, Momentum, Volume)
-  - Click to add indicator
-  - Acceptance: Panel shows all indicators, search works
+#### TASK-021: Chart Canvas - Hollow Candlestick Type
+- **Description:** Implement hollow candlestick chart type
+- **Files to Modify:**
+  - `src/components/Chart/ChartCanvas.tsx`
+- **Acceptance Criteria:**
+  - [ ] Hollow body when close > open
+  - [ ] Filled body when close < open
+  - [ ] Border color indicates direction
+- **Playwright Validation:**
+  - [ ] Hollow candlesticks render when selected
+- **Status:** [ ]
 
-- [x] **TASK-081**: Create IndicatorConfig component
-  - File: `components/Indicators/IndicatorConfig.tsx`
-  - Modal for editing indicator parameters
+---
+
+#### TASK-022: Chart Canvas - Heikin-Ashi Type
+- **Description:** Implement Heikin-Ashi chart type
+- **Files to Create:**
+  - `src/utils/heikinAshi.ts` - Calculation function
+- **Files to Modify:**
+  - `src/components/Chart/ChartCanvas.tsx`
+- **Calculation:**
+  ```
+  HA Close = (O + H + L + C) / 4
+  HA Open = (prev HA Open + prev HA Close) / 2
+  HA High = max(H, HA Open, HA Close)
+  HA Low = min(L, HA Open, HA Close)
+  ```
+- **Acceptance Criteria:**
+  - [ ] Heikin-Ashi values calculated correctly
+  - [ ] Smoother appearance than regular candlesticks
+  - [ ] Trend more visible
+- **Playwright Validation:**
+  - [ ] Heikin-Ashi chart renders when selected
+- **Status:** [ ]
+
+---
+
+#### TASK-023: Chart Canvas - Baseline Type
+- **Description:** Implement baseline chart type
+- **Files to Modify:**
+  - `src/components/Chart/ChartCanvas.tsx`
+- **Acceptance Criteria:**
+  - [ ] Price relative to configurable baseline
+  - [ ] Area above baseline in green
+  - [ ] Area below baseline in red
+  - [ ] Baseline defaults to first visible price
+- **Playwright Validation:**
+  - [ ] Baseline chart renders when selected
+  - [ ] Two-tone coloring visible
+- **Status:** [ ]
+
+---
+
+#### TASK-024: Volume Pane
+- **Description:** Create synchronized volume bar chart
+- **Files to Create:**
+  - `src/components/Chart/VolumePane.tsx`
+- **Acceptance Criteria:**
+  - [ ] Volume bars below main chart
+  - [ ] Synchronized with price chart time axis
+  - [ ] Color matches price direction (green/red)
+  - [ ] Proper height ratio (20% of chart area)
+- **Playwright Validation:**
+  - [ ] Volume bars visible below chart
+  - [ ] Colors sync with price direction
+  - [ ] Scrolling syncs with main chart
+- **Status:** [ ]
+
+---
+
+#### TASK-025: Chart Legend
+- **Description:** Dynamic OHLCV legend on hover
+- **Files to Create:**
+  - `src/components/Chart/Legend.tsx`
+- **Display:**
+  - O: [open] H: [high] L: [low] C: [close]
+  - Volume: [formatted volume]
+- **Acceptance Criteria:**
+  - [ ] Legend updates on crosshair move
+  - [ ] Values formatted appropriately (2 decimals for price)
+  - [ ] Volume formatted with K/M/B suffixes
+  - [ ] Positioned at top-left of chart
+- **Playwright Validation:**
+  - [ ] Legend visible on chart
+  - [ ] Values update on hover
+- **Status:** [ ]
+
+---
+
+#### TASK-026: Crosshair Implementation
+- **Description:** Interactive crosshair with price/time display
+- **Files to Modify:**
+  - `src/components/Chart/ChartCanvas.tsx`
+- **Acceptance Criteria:**
+  - [ ] Vertical line follows cursor
+  - [ ] Horizontal line follows cursor
+  - [ ] Time label on bottom axis
+  - [ ] Price label on right axis
+  - [ ] Crosshair visible on hover
+- **Playwright Validation:**
+  - [ ] Crosshair appears on chart hover
+  - [ ] Labels show correct values
+- **Status:** [ ]
+
+---
+
+#### TASK-027: Chart Zoom & Pan
+- **Description:** Implement mouse/touch navigation
+- **Files to Modify:**
+  - `src/components/Chart/ChartCanvas.tsx`
+- **Features:**
+  - Mouse wheel zoom (time axis)
+  - Click and drag to pan
+  - Double-click to reset
+  - Touch: pinch-to-zoom, swipe-to-pan
+- **Acceptance Criteria:**
+  - [ ] Mouse wheel zooms in/out
+  - [ ] Drag pans chart horizontally
+  - [ ] Double-click resets view
+  - [ ] Pan respects data boundaries
+  - [ ] Touch gestures work on mobile
+- **Playwright Validation:**
+  - [ ] Zoom changes visible data range
+  - [ ] Pan moves visible window
+  - [ ] Reset restores default view
+- **Status:** [ ]
+
+---
+
+#### TASK-028: Loading & Error States
+- **Description:** Implement chart loading and error UI
+- **Files to Create:**
+  - `src/components/Chart/ChartSkeleton.tsx`
+  - `src/components/Chart/EmptyState.tsx`
+- **Acceptance Criteria:**
+  - [ ] Skeleton loader while data loading
+  - [ ] Error message with retry button
+  - [ ] "No data available" empty state
+- **Playwright Validation:**
+  - [ ] Loading state shows spinner/skeleton
+  - [ ] Error state shows message
+- **Status:** [ ]
+
+---
+
+### Phase 4: Technical Indicators
+
+#### TASK-029: Indicator Context & State
+- **Description:** Create indicator state management
+- **Files to Create:**
+  - `src/context/IndicatorContext.tsx`
+- **State Shape:**
+  ```typescript
+  {
+    overlays: OverlayIndicator[];
+    oscillators: OscillatorIndicator[];
+  }
+  ```
+- **Acceptance Criteria:**
+  - [ ] Add/remove overlay indicators
+  - [ ] Add/remove oscillator indicators
+  - [ ] Update indicator parameters
+  - [ ] Toggle indicator visibility
+- **Status:** [ ]
+
+---
+
+#### TASK-030: Indicator Calculation Types
+- **Description:** Define indicator calculation types
+- **Files to Create:**
+  - `src/components/Indicators/calculations/types.ts`
+- **Types:**
+  - IndicatorInput (OHLCV[])
+  - IndicatorOutput (time, value pairs)
+  - IndicatorParams (period, etc.)
+- **Acceptance Criteria:**
+  - [ ] All indicator types defined
+  - [ ] Parameter interfaces for each indicator
+- **Status:** [ ]
+
+---
+
+#### TASK-031: SMA Indicator Calculation
+- **Description:** Simple Moving Average calculation
+- **Files to Create:**
+  - `src/components/Indicators/calculations/sma.ts`
+- **Formula:** SMA = sum(close, period) / period
+- **Parameters:** Period (default: 20)
+- **Acceptance Criteria:**
+  - [ ] Correct SMA calculation
+  - [ ] Returns array of {time, value}
+  - [ ] Handles edge cases (insufficient data)
+- **Status:** [ ]
+
+---
+
+#### TASK-032: EMA Indicator Calculation
+- **Description:** Exponential Moving Average calculation
+- **Files to Create:**
+  - `src/components/Indicators/calculations/ema.ts`
+- **Formula:** EMA = (close * multiplier) + (prevEMA * (1 - multiplier))
+- **Multiplier:** 2 / (period + 1)
+- **Parameters:** Period (default: 20)
+- **Acceptance Criteria:**
+  - [ ] Correct EMA calculation
+  - [ ] Initial EMA uses SMA
+  - [ ] Handles edge cases
+- **Status:** [ ]
+
+---
+
+#### TASK-033: WMA Indicator Calculation
+- **Description:** Weighted Moving Average calculation
+- **Files to Create:**
+  - `src/components/Indicators/calculations/wma.ts`
+- **Formula:** WMA = sum(close * weight) / sum(weights)
+- **Parameters:** Period (default: 20)
+- **Acceptance Criteria:**
+  - [ ] Correct WMA calculation
+  - [ ] Weights increase linearly
+- **Status:** [ ]
+
+---
+
+#### TASK-034: Bollinger Bands Calculation
+- **Description:** Bollinger Bands indicator
+- **Files to Create:**
+  - `src/components/Indicators/calculations/bollingerBands.ts`
+- **Components:**
+  - Middle Band: SMA(period)
+  - Upper Band: SMA + (stdDev * multiplier)
+  - Lower Band: SMA - (stdDev * multiplier)
+- **Parameters:** Period (20), StdDev Multiplier (2)
+- **Acceptance Criteria:**
+  - [ ] Three lines calculated correctly
+  - [ ] Standard deviation calculated properly
+  - [ ] Returns upper, middle, lower arrays
+- **Status:** [ ]
+
+---
+
+#### TASK-035: DEMA Indicator Calculation
+- **Description:** Double Exponential Moving Average
+- **Files to Create:**
+  - `src/components/Indicators/calculations/dema.ts`
+- **Formula:** DEMA = 2 * EMA - EMA(EMA)
+- **Parameters:** Period (default: 20)
+- **Acceptance Criteria:**
+  - [ ] Correct DEMA calculation
+  - [ ] Uses EMA calculation internally
+- **Status:** [ ]
+
+---
+
+#### TASK-036: TEMA Indicator Calculation
+- **Description:** Triple Exponential Moving Average
+- **Files to Create:**
+  - `src/components/Indicators/calculations/tema.ts`
+- **Formula:** TEMA = 3*EMA - 3*EMA(EMA) + EMA(EMA(EMA))
+- **Parameters:** Period (default: 20)
+- **Acceptance Criteria:**
+  - [ ] Correct TEMA calculation
+- **Status:** [ ]
+
+---
+
+#### TASK-037: VWAP Indicator Calculation
+- **Description:** Volume Weighted Average Price
+- **Files to Create:**
+  - `src/components/Indicators/calculations/vwap.ts`
+- **Formula:** VWAP = sum(typical price * volume) / sum(volume)
+- **Typical Price:** (H + L + C) / 3
+- **Acceptance Criteria:**
+  - [ ] Correct VWAP calculation
+  - [ ] Resets at session start
+- **Status:** [ ]
+
+---
+
+#### TASK-038: Envelope Indicator Calculation
+- **Description:** Moving Average Envelope
+- **Files to Create:**
+  - `src/components/Indicators/calculations/envelope.ts`
+- **Components:**
+  - Upper: SMA * (1 + percentage)
+  - Lower: SMA * (1 - percentage)
+- **Parameters:** Period (20), Percentage (2.5%)
+- **Acceptance Criteria:**
+  - [ ] Upper and lower bands calculated
+  - [ ] Percentage applied correctly
+- **Status:** [ ]
+
+---
+
+#### TASK-039: Parabolic SAR Calculation
+- **Description:** Parabolic Stop and Reverse
+- **Files to Create:**
+  - `src/components/Indicators/calculations/parabolicSar.ts`
+- **Parameters:** Step (0.02), Max (0.2)
+- **Acceptance Criteria:**
+  - [ ] Correct SAR calculation
+  - [ ] Acceleration factor applied
+  - [ ] Direction reversals handled
+- **Status:** [ ]
+
+---
+
+#### TASK-040: Ichimoku Cloud Calculation
+- **Description:** Ichimoku Kinko Hyo indicator
+- **Files to Create:**
+  - `src/components/Indicators/calculations/ichimoku.ts`
+- **Components:**
+  - Tenkan-sen (Conversion Line): (9-period high + 9-period low) / 2
+  - Kijun-sen (Base Line): (26-period high + 26-period low) / 2
+  - Senkou Span A: (Tenkan-sen + Kijun-sen) / 2, plotted 26 periods ahead
+  - Senkou Span B: (52-period high + 52-period low) / 2, plotted 26 periods ahead
+  - Chikou Span: Close plotted 26 periods behind
+- **Parameters:** Tenkan (9), Kijun (26), Senkou (52)
+- **Acceptance Criteria:**
+  - [ ] All five components calculated
+  - [ ] Future projection for cloud
+  - [ ] Cloud shading between Senkou A and B
+- **Status:** [ ]
+
+---
+
+#### TASK-041: RSI Indicator Calculation
+- **Description:** Relative Strength Index
+- **Files to Create:**
+  - `src/components/Indicators/calculations/rsi.ts`
+- **Formula:**
+  - RS = Average Gain / Average Loss
+  - RSI = 100 - (100 / (1 + RS))
+- **Parameters:** Period (default: 14)
+- **Range:** 0-100
+- **Acceptance Criteria:**
+  - [ ] Correct RSI calculation
+  - [ ] Smoothed averages after initial period
+  - [ ] Overbought (70) / Oversold (30) reference lines
+- **Status:** [ ]
+
+---
+
+#### TASK-042: MACD Indicator Calculation
+- **Description:** Moving Average Convergence Divergence
+- **Files to Create:**
+  - `src/components/Indicators/calculations/macd.ts`
+- **Components:**
+  - MACD Line: EMA(12) - EMA(26)
+  - Signal Line: EMA(9) of MACD Line
+  - Histogram: MACD Line - Signal Line
+- **Parameters:** Fast (12), Slow (26), Signal (9)
+- **Acceptance Criteria:**
+  - [ ] MACD line calculated correctly
+  - [ ] Signal line is EMA of MACD
+  - [ ] Histogram shows difference
+- **Status:** [ ]
+
+---
+
+#### TASK-043: Stochastic Oscillator Calculation
+- **Description:** Stochastic %K and %D
+- **Files to Create:**
+  - `src/components/Indicators/calculations/stochastic.ts`
+- **Formula:**
+  - %K = (Close - Low(n)) / (High(n) - Low(n)) * 100
+  - %D = SMA(%K, smoothPeriod)
+- **Parameters:** %K Period (14), %D Period (3), Smooth (3)
+- **Range:** 0-100
+- **Acceptance Criteria:**
+  - [ ] %K and %D calculated correctly
+  - [ ] Smoothing applied
+- **Status:** [ ]
+
+---
+
+#### TASK-044: Stochastic RSI Calculation
+- **Description:** Stochastic RSI indicator
+- **Files to Create:**
+  - `src/components/Indicators/calculations/stochasticRsi.ts`
+- **Formula:** StochRSI on RSI values
+- **Parameters:** RSI Period (14), Stoch Period (14)
+- **Range:** 0-100
+- **Acceptance Criteria:**
+  - [ ] RSI calculated first
+  - [ ] Stochastic applied to RSI values
+- **Status:** [ ]
+
+---
+
+#### TASK-045: Williams %R Calculation
+- **Description:** Williams Percent Range
+- **Files to Create:**
+  - `src/components/Indicators/calculations/williamsR.ts`
+- **Formula:** %R = (Highest High - Close) / (Highest High - Lowest Low) * -100
+- **Parameters:** Period (default: 14)
+- **Range:** -100 to 0
+- **Acceptance Criteria:**
+  - [ ] Correct Williams %R calculation
+  - [ ] Negative values
+- **Status:** [ ]
+
+---
+
+#### TASK-046: CCI Indicator Calculation
+- **Description:** Commodity Channel Index
+- **Files to Create:**
+  - `src/components/Indicators/calculations/cci.ts`
+- **Formula:** CCI = (Typical Price - SMA) / (0.015 * Mean Deviation)
+- **Parameters:** Period (default: 20)
+- **Acceptance Criteria:**
+  - [ ] Correct CCI calculation
+  - [ ] Mean deviation calculated properly
+- **Status:** [ ]
+
+---
+
+#### TASK-047: ATR Indicator Calculation
+- **Description:** Average True Range
+- **Files to Create:**
+  - `src/components/Indicators/calculations/atr.ts`
+- **Formula:**
+  - True Range = max(H-L, |H-prevC|, |L-prevC|)
+  - ATR = EMA(True Range, period)
+- **Parameters:** Period (default: 14)
+- **Acceptance Criteria:**
+  - [ ] True Range calculated correctly
+  - [ ] ATR is smoothed average
+- **Status:** [ ]
+
+---
+
+#### TASK-048: ADX Indicator Calculation
+- **Description:** Average Directional Index
+- **Files to Create:**
+  - `src/components/Indicators/calculations/adx.ts`
+- **Components:**
+  - +DI (Positive Directional Indicator)
+  - -DI (Negative Directional Indicator)
+  - ADX (Average of DX)
+- **Parameters:** Period (default: 14)
+- **Range:** 0-100
+- **Acceptance Criteria:**
+  - [ ] +DI, -DI, and ADX calculated
+  - [ ] DX smoothing applied
+- **Status:** [ ]
+
+---
+
+#### TASK-049: ROC Indicator Calculation
+- **Description:** Rate of Change
+- **Files to Create:**
+  - `src/components/Indicators/calculations/roc.ts`
+- **Formula:** ROC = ((Close - Close[n]) / Close[n]) * 100
+- **Parameters:** Period (default: 12)
+- **Acceptance Criteria:**
+  - [ ] Correct ROC calculation
+  - [ ] Percentage values
+- **Status:** [ ]
+
+---
+
+#### TASK-050: Momentum Indicator Calculation
+- **Description:** Momentum oscillator
+- **Files to Create:**
+  - `src/components/Indicators/calculations/momentum.ts`
+- **Formula:** Momentum = Close - Close[n]
+- **Parameters:** Period (default: 10)
+- **Acceptance Criteria:**
+  - [ ] Correct momentum calculation
+  - [ ] Zero line reference
+- **Status:** [ ]
+
+---
+
+#### TASK-051: OBV Indicator Calculation
+- **Description:** On-Balance Volume
+- **Files to Create:**
+  - `src/components/Indicators/calculations/obv.ts`
+- **Formula:**
+  - If close > prev close: OBV = prevOBV + volume
+  - If close < prev close: OBV = prevOBV - volume
+  - If close = prev close: OBV = prevOBV
+- **Acceptance Criteria:**
+  - [ ] Correct OBV calculation
+  - [ ] Cumulative volume
+- **Status:** [ ]
+
+---
+
+#### TASK-052: CMF Indicator Calculation
+- **Description:** Chaikin Money Flow
+- **Files to Create:**
+  - `src/components/Indicators/calculations/cmf.ts`
+- **Formula:**
+  - Money Flow Multiplier = ((C-L) - (H-C)) / (H-L)
+  - Money Flow Volume = MFM * Volume
+  - CMF = sum(MFV, period) / sum(Volume, period)
+- **Parameters:** Period (default: 20)
+- **Range:** -1 to 1
+- **Acceptance Criteria:**
+  - [ ] Correct CMF calculation
+  - [ ] Range bounded correctly
+- **Status:** [ ]
+
+---
+
+#### TASK-053: MFI Indicator Calculation
+- **Description:** Money Flow Index
+- **Files to Create:**
+  - `src/components/Indicators/calculations/mfi.ts`
+- **Formula:**
+  - Raw Money Flow = Typical Price * Volume
+  - Money Ratio = Positive MF / Negative MF
+  - MFI = 100 - (100 / (1 + Money Ratio))
+- **Parameters:** Period (default: 14)
+- **Range:** 0-100
+- **Acceptance Criteria:**
+  - [ ] Correct MFI calculation
+  - [ ] Similar to RSI but volume-weighted
+- **Status:** [ ]
+
+---
+
+#### TASK-054: Aroon Indicator Calculation
+- **Description:** Aroon Up and Down
+- **Files to Create:**
+  - `src/components/Indicators/calculations/aroon.ts`
+- **Formula:**
+  - Aroon Up = ((period - periods since highest high) / period) * 100
+  - Aroon Down = ((period - periods since lowest low) / period) * 100
+- **Parameters:** Period (default: 25)
+- **Range:** 0-100
+- **Acceptance Criteria:**
+  - [ ] Aroon Up and Down calculated
+  - [ ] Tracks days since high/low
+- **Status:** [ ]
+
+---
+
+#### TASK-055: Awesome Oscillator Calculation
+- **Description:** Awesome Oscillator (AO)
+- **Files to Create:**
+  - `src/components/Indicators/calculations/awesomeOscillator.ts`
+- **Formula:** AO = SMA(Median Price, 5) - SMA(Median Price, 34)
+- **Median Price:** (H + L) / 2
+- **Parameters:** Fast (5), Slow (34)
+- **Acceptance Criteria:**
+  - [ ] Correct AO calculation
+  - [ ] Histogram display (green/red bars)
+- **Status:** [ ]
+
+---
+
+#### TASK-056: Indicator Calculation Index
+- **Description:** Export all indicator calculations
+- **Files to Create:**
+  - `src/components/Indicators/calculations/index.ts`
+- **Acceptance Criteria:**
+  - [ ] All calculations exported
+  - [ ] Factory function to get calculation by type
+- **Status:** [ ]
+
+---
+
+#### TASK-057: Indicators Panel UI
+- **Description:** Searchable panel for adding indicators
+- **Files to Create:**
+  - `src/components/Indicators/IndicatorsPanel.tsx`
+  - `src/components/Indicators/index.ts`
+- **Layout:**
+  ```
+  [🔍 Search Indicators...]
+  ▶ Trend (Overlay)
+    ├ SMA
+    ├ EMA
+    └ ...
+  ▶ Momentum (Oscillator)
+    ├ RSI
+    └ ...
+  ▶ Volume
+    ├ OBV
+    └ ...
+  ```
+- **Acceptance Criteria:**
+  - [ ] Searchable input filters indicators
+  - [ ] Collapsible categories
+  - [ ] Click adds indicator
+  - [ ] Modal/panel display
+- **Playwright Validation:**
+  - [ ] Panel opens from toolbar button
+  - [ ] Search filters list
+  - [ ] Categories expand/collapse
+  - [ ] Indicator can be added
+- **Status:** [ ]
+
+---
+
+#### TASK-058: Indicators Button
+- **Description:** Toolbar button to open indicators panel
+- **Files to Create:**
+  - `src/components/Toolbar/IndicatorsButton.tsx`
+- **Acceptance Criteria:**
+  - [ ] Button with chart icon
+  - [ ] Opens indicator panel modal
+  - [ ] Badge shows count of active indicators
+- **Playwright Validation:**
+  - [ ] Button visible in toolbar
+  - [ ] Click opens indicator panel
+- **Status:** [ ]
+
+---
+
+#### TASK-059: Active Indicators List
+- **Description:** Display list of active indicators
+- **Files to Create:**
+  - `src/components/Indicators/ActiveIndicatorsList.tsx`
+- **Features:**
+  - Show each active indicator
+  - Settings gear icon to edit parameters
+  - X button to remove
+  - Eye icon to toggle visibility
+- **Acceptance Criteria:**
+  - [ ] Lists all active indicators
+  - [ ] Remove button works
+  - [ ] Settings opens config modal
+  - [ ] Visibility toggle works
+- **Playwright Validation:**
+  - [ ] Active indicators displayed
+  - [ ] Remove removes indicator
+  - [ ] Toggle hides/shows on chart
+- **Status:** [ ]
+
+---
+
+#### TASK-060: Indicator Configuration Modal
+- **Description:** Modal to edit indicator parameters
+- **Files to Create:**
+  - `src/components/Indicators/IndicatorConfig.tsx`
+- **Features:**
   - Input fields for each parameter
-  - Color picker for indicator line
-  - Save/Cancel buttons
-  - Acceptance: Parameters editable and saved
-
-- [x] **TASK-082**: Create ActiveIndicatorsList component
-  - File: `components/Indicators/ActiveIndicatorsList.tsx`
-  - List of currently active indicators
-  - Settings icon to edit params
-  - Toggle visibility
-  - Remove button
-  - Acceptance: Active indicators manageable
-
-- [x] **TASK-083**: Implement resizable indicator panes
-  - Drag handle between panes
-  - Min/max height constraints
-  - Cursor changes on hover
-  - Acceptance: Panes resize by dragging
+  - Color picker for line colors
+  - Apply and Cancel buttons
+  - Validation for numeric inputs
+- **Acceptance Criteria:**
+  - [ ] Shows parameters for selected indicator
+  - [ ] Validates numeric input
+  - [ ] Apply updates indicator
+  - [ ] Cancel discards changes
+- **Playwright Validation:**
+  - [ ] Modal opens from gear icon
+  - [ ] Parameters editable
+  - [ ] Changes apply to chart
+- **Status:** [ ]
 
 ---
 
-## 8. Responsive Design
-
-### 8.1 Layout Adaptations
-- [x] **TASK-084**: Implement desktop layout (≥1024px)
-  - Full toolbar visible
-  - Side panel for indicators (optional)
-  - Acceptance: Desktop layout renders correctly
-
-- [x] **TASK-085**: Implement tablet layout (768-1023px)
-  - Collapsible toolbar sections
-  - Modal for indicator panel
-  - Acceptance: Tablet layout adapts
-
-- [x] **TASK-086**: Implement mobile layout (<768px)
-  - Hamburger menu for controls
-  - Bottom sheet for time ranges
-  - Full-width chart
-  - Acceptance: Mobile layout functional
-
-- [x] **TASK-087**: Implement responsive chart sizing
-  - Chart fills available container width
-  - Proper margins on all breakpoints
-  - Acceptance: Chart responsive to viewport
+#### TASK-061: Overlay Indicator Rendering
+- **Description:** Render overlay indicators on price chart
+- **Files to Modify:**
+  - `src/components/Chart/ChartCanvas.tsx`
+- **Acceptance Criteria:**
+  - [ ] SMA/EMA/WMA render as lines
+  - [ ] Bollinger Bands render as 3 lines
+  - [ ] Ichimoku renders with cloud
+  - [ ] Colors configurable
+  - [ ] Multiple overlays supported
+- **Playwright Validation:**
+  - [ ] Overlay appears after adding indicator
+  - [ ] Line colors match config
+- **Status:** [ ]
 
 ---
 
-## 9. Error Handling & Loading States
-
-### 9.1 User Feedback
-- [x] **TASK-088**: Create error boundary component
-  - File: `components/common/ErrorBoundary.tsx`
-  - Catch React errors
-  - Display friendly error message
-  - Retry button
-  - Acceptance: Errors caught and displayed
-
-- [x] **TASK-089**: Implement API error handling
-  - Handle network errors
-  - Handle rate limit errors (429)
-  - Handle invalid symbol errors
-  - Display user-friendly messages
-  - Acceptance: All error types handled
-
-- [x] **TASK-090**: Create loading skeleton for chart
-  - File: `components/Chart/ChartSkeleton.tsx`
-  - Animated placeholder while loading
-  - Acceptance: Skeleton displays during load
-
-- [x] **TASK-091**: Create empty state component
-  - Display when no symbol selected
-  - Prompt user to search for symbol
-  - Acceptance: Empty state guides user
+#### TASK-062: Oscillator Indicator Pane
+- **Description:** Render oscillator indicators in separate panes
+- **Files to Create:**
+  - `src/components/Chart/IndicatorPane.tsx`
+- **Features:**
+  - Separate panel below main chart
+  - Own price scale (0-100 for RSI, etc.)
+  - Reference lines (overbought/oversold)
+  - Synchronized time scale
+- **Acceptance Criteria:**
+  - [ ] Panel renders below main chart
+  - [ ] Correct scale for indicator type
+  - [ ] Reference lines visible
+  - [ ] Crosshair syncs with main chart
+- **Playwright Validation:**
+  - [ ] Oscillator panel appears when added
+  - [ ] Values update with crosshair
+- **Status:** [ ]
 
 ---
 
-## 10. App Assembly
-
-### 10.1 Main Application
-- [x] **TASK-092**: Create App component layout
-  - File: `App.tsx`
-  - Layout: QuoteHeader → Toolbar → Chart
-  - Wrap with all context providers
-  - Acceptance: Full app renders
-
-- [x] **TASK-093**: Set default symbol on load
-  - Default to "AAPL" or last viewed symbol
-  - Store last symbol in localStorage
-  - Acceptance: App loads with default symbol
-
-- [x] **TASK-094**: Implement keyboard shortcuts
-  - `+/-` for zoom
-  - Arrow keys for pan
-  - `R` for reset
-  - `F` for fullscreen
-  - Acceptance: Shortcuts work
+#### TASK-063: Indicator Legend Values
+- **Description:** Show indicator values in legend on hover
+- **Files to Modify:**
+  - `src/components/Chart/Legend.tsx`
+- **Acceptance Criteria:**
+  - [ ] Legend shows indicator names and values
+  - [ ] Values update on crosshair move
+  - [ ] Multiple indicator values displayed
+- **Playwright Validation:**
+  - [ ] Indicator values appear in legend
+  - [ ] Values update on hover
+- **Status:** [ ]
 
 ---
 
-# P1 - Should Have (Complete Experience)
-
-## 11. Comparison Features
-
-### 11.1 Multi-Symbol Comparison
-- [ ] **TASK-095**: Create CompareButton component
-  - File: `components/Toolbar/CompareButton.tsx`
-  - Opens comparison symbol search
-  - Shows count of active comparisons
-  - Acceptance: Button opens comparison UI
-
-- [ ] **TASK-096**: Create ComparisonSearch component
-  - File: `components/Comparison/ComparisonSearch.tsx`
-  - Search and select additional symbols
-  - Maximum 5 comparisons
-  - Auto-assign colors from palette
-  - Acceptance: Symbols searchable and addable
-
-- [ ] **TASK-097**: Implement comparison data fetching
-  - Fetch data for all comparison symbols
-  - Align time series to primary symbol
-  - Acceptance: Comparison data loads
-
-- [ ] **TASK-098**: Implement percentage mode
-  - Normalize all series to percentage change from start
-  - All series start at 0%
-  - Y-axis shows percentage
-  - Acceptance: Percentage normalization works
-
-- [ ] **TASK-099**: Create ComparisonLegend component
-  - File: `components/Comparison/ComparisonLegend.tsx`
-  - Show all symbols with colors and current values
-  - Toggle visibility per symbol
-  - Remove symbol button
-  - Acceptance: Legend controls comparisons
-
-- [ ] **TASK-100**: Add quick-compare index options
-  - Quick buttons: S&P 500, NASDAQ, DOW
-  - Uses index symbols (^GSPC, ^IXIC, ^DJI)
-  - Acceptance: Index comparisons work
+#### TASK-064: useIndicator Hook
+- **Description:** Hook to calculate and manage indicator data
+- **Files to Create:**
+  - `src/hooks/useIndicator.ts`
+- **Features:**
+  - Takes OHLCV data and indicator config
+  - Returns calculated indicator data
+  - Memoized calculation
+  - Recalculates when data or params change
+- **Acceptance Criteria:**
+  - [ ] Hook returns indicator data
+  - [ ] Memoization prevents unnecessary recalculation
+  - [ ] Supports all indicator types
+- **Status:** [ ]
 
 ---
 
-## 12. Custom Date Range
+### Phase 5: Responsive Design
 
-### 12.1 Date Picker
-- [ ] **TASK-101**: Create DatePicker component
-  - File: `components/common/DatePicker.tsx`
-  - Calendar UI for date selection
-  - Accepts min/max date constraints
-  - Acceptance: Date selectable via calendar
-
-- [ ] **TASK-102**: Create DateRangePicker component
-  - File: `components/Toolbar/DateRangePicker.tsx`
-  - Start date and end date inputs
-  - Validation: end > start, max 20 years
-  - Apply button to fetch custom range
-  - Acceptance: Custom date range fetches data
-
----
-
-## 13. Quote Details Panel
-
-### 13.1 Expanded Market Data
-- [ ] **TASK-103**: Create QuoteDetails component
-  - File: `components/QuoteHeader/QuoteDetails.tsx`
-  - Collapsible panel with additional stats
-  - Display: Previous Close, Day Range, 52-Week Range
-  - Display: Volume, Avg Volume, Market Cap
-  - Display: P/E, EPS, Dividend Yield, Beta
-  - Acceptance: All data points display
-
-- [ ] **TASK-104**: Fetch additional quote data
-  - Add company metrics to API client
-  - Merge with quote data
-  - Acceptance: Additional metrics available
+#### TASK-065: Desktop Layout (≥1024px)
+- **Description:** Implement full desktop layout
+- **Files to Modify:**
+  - `src/App.tsx`
+  - `src/components/Toolbar/Toolbar.tsx`
+- **Acceptance Criteria:**
+  - [ ] Full toolbar visible
+  - [ ] Side panel for indicators
+  - [ ] Optimal chart dimensions
+- **Playwright Validation:**
+  - [ ] Desktop layout renders at 1024px+
+  - [ ] All controls accessible
+- **Status:** [ ]
 
 ---
 
-## 14. Events Overlay
-
-### 14.1 Chart Events
-- [ ] **TASK-105**: Implement earnings markers
-  - Fetch earnings dates from API
-  - Display "E" marker on chart at earnings dates
-  - Tooltip shows earnings details on hover
-  - Acceptance: Earnings markers visible
-
-- [ ] **TASK-106**: Implement dividend markers
-  - Fetch dividend dates from API
-  - Display "D" marker on chart
-  - Tooltip shows dividend amount
-  - Acceptance: Dividend markers visible
-
-- [ ] **TASK-107**: Implement split markers
-  - Fetch split dates from API
-  - Display "S" marker on chart
-  - Tooltip shows split ratio
-  - Acceptance: Split markers visible
-
-- [ ] **TASK-108**: Create events toggle in settings
-  - Toggle to show/hide event markers
-  - Individual toggles per event type
-  - Acceptance: Events toggleable
+#### TASK-066: Tablet Layout (768-1023px)
+- **Description:** Implement tablet responsive layout
+- **Files to Modify:**
+  - `src/components/Toolbar/Toolbar.tsx`
+- **Acceptance Criteria:**
+  - [ ] Collapsible toolbar sections
+  - [ ] Modal for indicators
+  - [ ] Adjusted chart dimensions
+- **Playwright Validation:**
+  - [ ] Layout adapts at tablet breakpoint
+  - [ ] Modals work correctly
+- **Status:** [ ]
 
 ---
 
-## 15. Settings Panel
-
-### 15.1 Chart Settings
-- [ ] **TASK-109**: Create SettingsPanel component
-  - File: `components/Settings/SettingsPanel.tsx`
-  - Accessible via gear icon in toolbar
-  - Sections: Display, Colors, Data
-  - Acceptance: Settings panel opens
-
-- [ ] **TASK-110**: Implement scale type setting
-  - Toggle: Linear / Logarithmic
-  - Affects Y-axis scale
-  - Acceptance: Scale type changes
-
-- [ ] **TASK-111**: Implement extended hours setting
-  - Toggle: Show pre-market / after-hours data
-  - Fetch extended hours data when enabled
-  - Acceptance: Extended hours toggleable
-
-- [ ] **TASK-112**: Implement display toggles
-  - Show/Hide Volume
-  - Show/Hide Grid
-  - Acceptance: Toggles work
-
-- [ ] **TASK-113**: Implement color customization
-  - Bullish color picker
-  - Bearish color picker
-  - Background color (chart area)
-  - Acceptance: Colors customizable
-
-- [ ] **TASK-114**: Implement theme toggle
-  - Light / Dark mode switch
-  - Updates all component colors
-  - Persists to localStorage
-  - Acceptance: Theme switches correctly
-
-- [ ] **TASK-115**: Implement auto-refresh setting
-  - Toggle: Enable/Disable auto-refresh
-  - Interval selector: 5s, 15s, 30s, 60s
-  - Acceptance: Auto-refresh configurable
+#### TASK-067: Mobile Layout (<768px)
+- **Description:** Implement mobile responsive layout
+- **Files to Modify:**
+  - `src/components/Toolbar/Toolbar.tsx`
+  - `src/App.tsx`
+- **Acceptance Criteria:**
+  - [ ] Hamburger menu for toolbar
+  - [ ] Bottom sheet for controls
+  - [ ] Full-width chart
+  - [ ] Touch-friendly button sizes
+- **Playwright Validation:**
+  - [ ] Layout adapts at mobile breakpoint
+  - [ ] Hamburger menu opens/closes
+  - [ ] Bottom sheet slides up
+- **Status:** [ ]
 
 ---
 
-## 16. Navigator
+### Phase 6: Error Handling & Polish
 
-### 16.1 Mini Chart
-- [ ] **TASK-116**: Create Navigator component
-  - File: `components/Chart/Navigator.tsx`
-  - Mini area chart showing full data range
-  - Draggable viewport selector
-  - Positioned below main chart
-  - Acceptance: Navigator displays and controls zoom
-
----
-
-# P2 - Nice to Have (Enhanced Features)
-
-## 17. Export & Share
-
-### 17.1 Export Features
-- [ ] **TASK-117**: Implement PNG export
-  - Capture chart as PNG image
-  - Download with symbol and date in filename
-  - Acceptance: PNG downloads correctly
-
-- [ ] **TASK-118**: Implement CSV export
-  - Export visible OHLCV data as CSV
-  - Include header row
-  - Acceptance: CSV downloads correctly
-
-- [ ] **TASK-119**: Implement print functionality
-  - Print-optimized styles
-  - Browser print dialog
-  - Acceptance: Chart prints correctly
-
-- [ ] **TASK-120**: Implement share link
-  - Generate URL with chart state (symbol, range, indicators)
-  - Parse URL params on load
-  - Acceptance: Shared link restores chart state
+#### TASK-068: Error Boundary Implementation
+- **Description:** Implement error boundaries for graceful error handling
+- **Files to Modify:**
+  - `src/components/common/ErrorBoundary.tsx`
+  - `src/App.tsx`
+- **Acceptance Criteria:**
+  - [ ] Catches JavaScript errors
+  - [ ] Shows user-friendly error message
+  - [ ] Retry button resets state
+  - [ ] Errors logged to console
+- **Playwright Validation:**
+  - [ ] Error boundary catches errors
+  - [ ] Error UI displays
+  - [ ] Retry reloads component
+- **Status:** [ ]
 
 ---
 
-## 18. Additional Enhancements
-
-### 18.1 Performance
-- [ ] **TASK-121**: Implement data virtualization
-  - Only render visible data points
-  - Efficient handling of MAX range with 20+ years
-  - Acceptance: Performance smooth with large datasets
-
-- [ ] **TASK-122**: Implement request caching
-  - Cache API responses in memory
-  - Invalidate on symbol change
-  - Acceptance: Repeat requests use cache
-
-### 18.2 Accessibility
-- [ ] **TASK-123**: Add ARIA labels
-  - Label all interactive elements
-  - Screen reader compatible
-  - Acceptance: Screen reader can navigate
-
-- [ ] **TASK-124**: Implement focus management
-  - Visible focus indicators
-  - Logical tab order
-  - Acceptance: Keyboard navigation works
+#### TASK-069: Loading States
+- **Description:** Implement loading skeletons and spinners
+- **Files to Modify:**
+  - `src/components/Chart/ChartSkeleton.tsx`
+  - `src/components/QuoteHeader/QuoteHeader.tsx`
+- **Acceptance Criteria:**
+  - [ ] Chart skeleton during data load
+  - [ ] Quote header skeleton
+  - [ ] Smooth transition to loaded state
+- **Playwright Validation:**
+  - [ ] Loading states appear
+  - [ ] Transitions are smooth
+- **Status:** [ ]
 
 ---
 
-*Last Updated: January 12, 2026*
+---
+
+## Priority P1 - Should Have
+
+### Phase 7: Advanced Features
+
+#### TASK-070: Symbol Comparison Feature
+- **Description:** Add multiple symbols for comparison
+- **Files to Create:**
+  - `src/components/Toolbar/CompareButton.tsx`
+  - `src/components/Comparison/ComparisonSearch.tsx`
+  - `src/components/Comparison/ComparisonLegend.tsx`
+- **Acceptance Criteria:**
+  - [ ] Search and add comparison symbols
+  - [ ] Maximum 5 comparison symbols
+  - [ ] Distinct colors auto-assigned
+  - [ ] Remove symbol via X button
+- **Playwright Validation:**
+  - [ ] Compare button opens search
+  - [ ] Symbols can be added
+  - [ ] Legend shows all symbols
+- **Status:** [ ]
+
+---
+
+#### TASK-071: Percentage Mode for Comparison
+- **Description:** Normalize comparison to percentage change
+- **Files to Modify:**
+  - `src/components/Chart/ChartCanvas.tsx`
+  - `src/context/ChartContext.tsx`
+- **Acceptance Criteria:**
+  - [ ] Auto-switches to percentage when comparing
+  - [ ] All series start at 0% at left edge
+  - [ ] Y-axis shows percentage
+- **Playwright Validation:**
+  - [ ] Percentage mode activates on comparison
+  - [ ] Values normalized correctly
+- **Status:** [ ]
+
+---
+
+#### TASK-072: Quick Compare to Index
+- **Description:** Quick buttons to compare to major indices
+- **Files to Modify:**
+  - `src/components/Toolbar/CompareButton.tsx`
+- **Indices:**
+  - S&P 500 (^GSPC)
+  - NASDAQ (^IXIC)
+  - DOW (^DJI)
+- **Acceptance Criteria:**
+  - [ ] Quick buttons for indices
+  - [ ] One-click add to comparison
+- **Playwright Validation:**
+  - [ ] Index buttons visible
+  - [ ] Click adds index to comparison
+- **Status:** [ ]
+
+---
+
+#### TASK-073: Custom Date Range Picker
+- **Description:** Calendar component for date range selection
+- **Files to Create:**
+  - `src/components/common/DatePicker.tsx`
+  - `src/components/Toolbar/DateRangePicker.tsx`
+- **Acceptance Criteria:**
+  - [ ] Calendar UI for start/end dates
+  - [ ] Validation (end > start, max 20 years)
+  - [ ] Apply button fetches data
+  - [ ] Clear button resets
+- **Playwright Validation:**
+  - [ ] Date picker opens
+  - [ ] Dates can be selected
+  - [ ] Apply updates chart
+- **Status:** [ ]
+
+---
+
+#### TASK-074: Quote Details Panel
+- **Description:** Expanded market data panel
+- **Files to Create:**
+  - `src/components/QuoteHeader/QuoteDetails.tsx`
+- **Data Points:**
+  - Previous Close
+  - Day Range
+  - 52-Week Range
+  - Volume
+  - Avg Volume
+  - Market Cap
+  - P/E Ratio
+  - EPS
+  - Dividend Yield
+  - Beta
+- **Acceptance Criteria:**
+  - [ ] Expandable panel
+  - [ ] All data points displayed
+  - [ ] Formatted values (currency, %)
+- **Playwright Validation:**
+  - [ ] Panel expands/collapses
+  - [ ] All data visible
+- **Status:** [ ]
+
+---
+
+#### TASK-075: Events Overlay
+- **Description:** Display earnings, dividends, splits on chart
+- **Files to Create:**
+  - `src/components/Chart/EventMarkers.tsx`
+  - `src/api/mockEvents.ts`
+- **Markers:**
+  - "E" for Earnings
+  - "D" for Dividends
+  - "S" for Stock Splits
+- **Acceptance Criteria:**
+  - [ ] Markers display on chart
+  - [ ] Hover shows event details
+  - [ ] Click shows popup
+  - [ ] Toggleable via settings
+- **Playwright Validation:**
+  - [ ] Markers visible on chart
+  - [ ] Hover tooltip works
+  - [ ] Toggle hides/shows
+- **Status:** [ ]
+
+---
+
+#### TASK-076: Settings Panel
+- **Description:** User preferences panel
+- **Files to Create:**
+  - `src/components/Settings/SettingsPanel.tsx`
+  - `src/components/Settings/ThemeToggle.tsx`
+  - `src/components/Toolbar/SettingsButton.tsx`
+- **Settings:**
+  - Scale Type (Linear/Logarithmic)
+  - Show Extended Hours
+  - Show Volume
+  - Show Grid
+  - Theme (Light/Dark)
+  - Bullish/Bearish Colors
+  - Auto-refresh (On/Off)
+  - Refresh Interval
+- **Acceptance Criteria:**
+  - [ ] Settings panel accessible from toolbar
+  - [ ] Settings persist in localStorage
+  - [ ] Changes apply immediately
+- **Playwright Validation:**
+  - [ ] Settings panel opens
+  - [ ] Toggle changes take effect
+  - [ ] Settings persist on reload
+- **Status:** [ ]
+
+---
+
+#### TASK-077: Logarithmic Scale Option
+- **Description:** Toggle between linear and log scale
+- **Files to Modify:**
+  - `src/components/Chart/ChartCanvas.tsx`
+  - `src/components/Settings/SettingsPanel.tsx`
+- **Acceptance Criteria:**
+  - [ ] Scale type togglable
+  - [ ] Chart re-renders with log scale
+  - [ ] Y-axis labels adjusted
+- **Playwright Validation:**
+  - [ ] Scale changes on toggle
+  - [ ] Price spacing changes
+- **Status:** [ ]
+
+---
+
+#### TASK-078: Grid Toggle
+- **Description:** Show/hide chart grid lines
+- **Files to Modify:**
+  - `src/components/Chart/ChartCanvas.tsx`
+- **Acceptance Criteria:**
+  - [ ] Grid visibility toggleable
+  - [ ] Applies to both axes
+- **Playwright Validation:**
+  - [ ] Grid shows/hides on toggle
+- **Status:** [ ]
+
+---
+
+#### TASK-079: Volume Toggle
+- **Description:** Show/hide volume pane
+- **Files to Modify:**
+  - `src/components/Chart/Chart.tsx`
+- **Acceptance Criteria:**
+  - [ ] Volume pane visibility toggleable
+  - [ ] Main chart resizes to fill space
+- **Playwright Validation:**
+  - [ ] Volume pane shows/hides
+  - [ ] Chart adjusts height
+- **Status:** [ ]
+
+---
+
+#### TASK-080: Color Customization
+- **Description:** Customize bullish/bearish colors
+- **Files to Modify:**
+  - `src/components/Settings/SettingsPanel.tsx`
+  - `src/context/ThemeContext.tsx`
+- **Acceptance Criteria:**
+  - [ ] Color pickers for bullish/bearish
+  - [ ] Colors apply to chart
+  - [ ] Colors persist in localStorage
+- **Playwright Validation:**
+  - [ ] Color pickers work
+  - [ ] Chart colors update
+- **Status:** [ ]
+
+---
+
+#### TASK-081: Keyboard Shortcuts
+- **Description:** Implement keyboard navigation
+- **Shortcuts:**
+  - `+` / `-` : Zoom in/out
+  - `←` / `→` : Pan left/right
+  - `Home` : Go to oldest data
+  - `End` : Go to newest data
+  - `Esc` : Close modal/panel
+  - `F` : Toggle fullscreen
+  - `R` : Reset zoom
+- **Acceptance Criteria:**
+  - [ ] All shortcuts work
+  - [ ] No conflict with browser shortcuts
+  - [ ] Shortcuts work when chart focused
+- **Playwright Validation:**
+  - [ ] Keyboard shortcuts trigger actions
+- **Status:** [ ]
+
+---
+
+#### TASK-082: Performance Optimization
+- **Description:** Optimize chart rendering for large datasets
+- **Tasks:**
+  - Data windowing/virtualization
+  - Lazy loading for indicators
+  - Memoization of expensive calculations
+  - Debounced resize handlers
+- **Acceptance Criteria:**
+  - [ ] < 500ms render for 10,000 data points
+  - [ ] Smooth pan/zoom at 60fps
+  - [ ] Memory usage < 150MB
+- **Playwright Validation:**
+  - [ ] Large dataset renders smoothly
+- **Status:** [ ]
+
+---
+
+#### TASK-083: Accessibility Improvements
+- **Description:** Ensure WCAG 2.1 AA compliance
+- **Tasks:**
+  - ARIA labels for all controls
+  - Keyboard navigation
+  - Screen reader compatible legends
+  - Color contrast ≥ 4.5:1
+  - Focus indicators
+- **Acceptance Criteria:**
+  - [ ] All interactive elements keyboard accessible
+  - [ ] ARIA labels present
+  - [ ] Color contrast passes
+- **Playwright Validation:**
+  - [ ] Tab navigation works
+  - [ ] Focus indicators visible
+- **Status:** [ ]
+
+---
+
+---
+
+## Priority P2 - Nice to Have
+
+### Phase 8: Export & Sharing
+
+#### TASK-084: Export Chart as PNG
+- **Description:** Download chart as PNG image
+- **Files to Create:**
+  - `src/components/Export/ExportButton.tsx`
+  - `src/utils/exportChart.ts`
+- **Acceptance Criteria:**
+  - [ ] Export button in toolbar
+  - [ ] Chart exported with current state
+  - [ ] Includes header and legend
+  - [ ] Filename includes symbol and date
+- **Playwright Validation:**
+  - [ ] Export button works
+  - [ ] File downloads
+- **Status:** [ ]
+
+---
+
+#### TASK-085: Export Data as CSV
+- **Description:** Download visible data as CSV file
+- **Files to Create:**
+  - `src/utils/exportCsv.ts`
+- **Acceptance Criteria:**
+  - [ ] Exports OHLCV data
+  - [ ] Includes indicator values
+  - [ ] Proper date formatting
+  - [ ] Filename includes symbol
+- **Playwright Validation:**
+  - [ ] CSV downloads
+  - [ ] Data is correct
+- **Status:** [ ]
+
+---
+
+#### TASK-086: Copy Shareable Link
+- **Description:** Generate URL with chart state
+- **Files to Create:**
+  - `src/utils/shareUrl.ts`
+- **URL Parameters:**
+  - symbol
+  - timeRange
+  - interval
+  - chartType
+  - indicators
+- **Acceptance Criteria:**
+  - [ ] URL encodes chart state
+  - [ ] Loading URL restores state
+  - [ ] Copy to clipboard button
+- **Playwright Validation:**
+  - [ ] Link copies to clipboard
+  - [ ] Opening link restores state
+- **Status:** [ ]
+
+---
+
+#### TASK-087: Print Support
+- **Description:** Print chart via browser dialog
+- **Acceptance Criteria:**
+  - [ ] Print button opens browser dialog
+  - [ ] Chart renders properly for print
+  - [ ] Optimized for paper format
+- **Playwright Validation:**
+  - [ ] Print dialog opens
+- **Status:** [ ]
+
+---
+
+---
+
+## API Integration Phase
+
+### TASK-088: Alpha Vantage API Client Setup
+- **Description:** Create API client for Alpha Vantage
+- **Files to Create:**
+  - `src/api/alphavantage.ts`
+  - `src/api/types.ts`
+- **Endpoints:**
+  - TIME_SERIES_INTRADAY (1min, 5min, 15min, 30min, 60min)
+  - TIME_SERIES_DAILY
+  - TIME_SERIES_WEEKLY
+  - TIME_SERIES_MONTHLY
+  - SYMBOL_SEARCH
+  - GLOBAL_QUOTE
+- **Acceptance Criteria:**
+  - [ ] API key configuration via .env
+  - [ ] Rate limiting handled (5 calls/min free tier)
+  - [ ] Error handling for API failures
+  - [ ] Response type definitions
+- **Status:** [ ]
+
+---
+
+#### TASK-089: Data Transformation Layer
+- **Description:** Transform Alpha Vantage responses to chart format
+- **Files to Create:**
+  - `src/api/transforms.ts`
+- **Acceptance Criteria:**
+  - [ ] Converts AV response to OHLCV[]
+  - [ ] Handles all time series formats
+  - [ ] Sorts data chronologically
+  - [ ] Validates data integrity
+- **Status:** [ ]
+
+---
+
+#### TASK-090: API/Mock Data Switcher Logic
+- **Description:** Implement data source switching logic
+- **Files to Modify:**
+  - `src/hooks/useStockData.ts`
+  - `src/hooks/useQuote.ts`
+- **Acceptance Criteria:**
+  - [ ] DataSourceContext determines data source
+  - [ ] Seamless switching without page reload
+  - [ ] Loading states for API calls
+  - [ ] Error handling for API failures
+- **Status:** [ ]
+
+---
+
+#### TASK-091: Symbol Search API Integration
+- **Description:** Connect symbol search to Alpha Vantage
+- **Files to Modify:**
+  - `src/components/Toolbar/SymbolSearch.tsx`
+- **Acceptance Criteria:**
+  - [ ] Uses SYMBOL_SEARCH endpoint when API selected
+  - [ ] Falls back to mock data if API fails
+  - [ ] Caches search results
+- **Playwright Validation:**
+  - [ ] Search returns API results
+  - [ ] Fallback works on API failure
+- **Status:** [ ]
+
+---
+
+#### TASK-092: Real-time Quote Integration
+- **Description:** Fetch real-time quotes from API
+- **Files to Modify:**
+  - `src/hooks/useQuote.ts`
+- **Acceptance Criteria:**
+  - [ ] Uses GLOBAL_QUOTE endpoint
+  - [ ] Updates quote header
+  - [ ] Optional auto-refresh
+- **Playwright Validation:**
+  - [ ] Quote updates from API
+  - [ ] Auto-refresh works if enabled
+- **Status:** [ ]
+
+---
+
+#### TASK-093: Historical Data Integration
+- **Description:** Fetch historical OHLCV data from API
+- **Files to Modify:**
+  - `src/hooks/useStockData.ts`
+- **Acceptance Criteria:**
+  - [ ] Fetches appropriate time series based on range
+  - [ ] Handles API rate limiting
+  - [ ] Caches responses
+  - [ ] Shows loading/error states
+- **Playwright Validation:**
+  - [ ] Chart displays API data
+  - [ ] Different ranges fetch correctly
+- **Status:** [ ]
+
+---
+
+#### TASK-094: API Error Handling & Caching
+- **Description:** Implement robust error handling and caching
+- **Files to Create:**
+  - `src/api/cache.ts`
+- **Features:**
+  - In-memory cache with TTL
+  - Retry logic for failed requests
+  - User-friendly error messages
+  - Offline detection
+- **Acceptance Criteria:**
+  - [ ] Cached data returned when available
+  - [ ] Errors show user-friendly messages
+  - [ ] Retry button on errors
+  - [ ] Rate limit messages displayed
+- **Playwright Validation:**
+  - [ ] Cached data loads immediately
+  - [ ] Error states display correctly
+- **Status:** [ ]
+
+---
+
+---
+
+## Final Validation
+
+#### TASK-095: Full Application E2E Validation
+- **Description:** Complete end-to-end Playwright validation
+- **Test Scenarios:**
+  - [ ] Load application
+  - [ ] Search and select symbol
+  - [ ] Change chart type
+  - [ ] Change time range
+  - [ ] Change interval
+  - [ ] Add overlay indicator
+  - [ ] Add oscillator indicator
+  - [ ] Configure indicator parameters
+  - [ ] Remove indicator
+  - [ ] Zoom and pan chart
+  - [ ] Toggle theme
+  - [ ] Switch data source
+  - [ ] Responsive layouts
+- **Status:** [ ]
