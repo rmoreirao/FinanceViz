@@ -3,12 +3,20 @@
  * Autocomplete search for stock symbols
  * 
  * TASK-009: Symbol Search Component
+ * TASK-091: Symbol Search API Integration
  */
 
-import { useState, useRef, useEffect } from 'react';
-import { useChart } from '../../context';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { useChart, useDataSource } from '../../context';
 import { useDebounce } from '../../hooks';
-import { searchSymbols } from '../../api';
+import {
+  searchSymbols,
+  searchSymbolsAPI,
+  transformSymbolSearchResponse,
+  apiCache,
+  CACHE_TTL,
+  isOnline,
+} from '../../api';
 import type { SymbolSearchResult } from '../../types';
 
 /**
@@ -16,6 +24,7 @@ import type { SymbolSearchResult } from '../../types';
  */
 export function SymbolSearch() {
   const { state, setSymbol } = useChart();
+  const { dataSource } = useDataSource();
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [results, setResults] = useState<SymbolSearchResult[]>([]);
@@ -27,6 +36,36 @@ export function SymbolSearch() {
   
   const debouncedQuery = useDebounce(query, 300);
 
+  /**
+   * Search for symbols using API with fallback to mock data
+   */
+  const searchWithAPI = useCallback(async (searchQuery: string): Promise<SymbolSearchResult[]> => {
+    // Check cache first
+    const cacheKey = apiCache.generateKey('symbolSearch', searchQuery.toLowerCase());
+    const cachedResults = apiCache.get<SymbolSearchResult[]>(cacheKey);
+    if (cachedResults) {
+      return cachedResults;
+    }
+
+    // If offline, fall back to mock data
+    if (!isOnline()) {
+      return searchSymbols(searchQuery);
+    }
+
+    try {
+      const response = await searchSymbolsAPI(searchQuery);
+      const results = transformSymbolSearchResponse(response);
+      
+      // Cache the results
+      apiCache.set(cacheKey, results, CACHE_TTL.SYMBOL_SEARCH);
+      
+      return results;
+    } catch {
+      // On API failure, fall back to mock data
+      return searchSymbols(searchQuery);
+    }
+  }, []);
+
   // Search for symbols when debounced query changes
   useEffect(() => {
     if (debouncedQuery.length < 1) {
@@ -34,12 +73,32 @@ export function SymbolSearch() {
       return;
     }
 
-    setIsLoading(true);
-    const searchResults = searchSymbols(debouncedQuery);
-    setResults(searchResults);
-    setIsLoading(false);
-    setHighlightedIndex(0);
-  }, [debouncedQuery]);
+    const performSearch = async () => {
+      setIsLoading(true);
+      
+      try {
+        let searchResults: SymbolSearchResult[];
+        
+        if (dataSource === 'alphavantage') {
+          // Use API search
+          searchResults = await searchWithAPI(debouncedQuery);
+        } else {
+          // Use mock data search
+          searchResults = searchSymbols(debouncedQuery);
+        }
+        
+        setResults(searchResults);
+      } catch {
+        // Fall back to mock data on any error
+        setResults(searchSymbols(debouncedQuery));
+      } finally {
+        setIsLoading(false);
+        setHighlightedIndex(0);
+      }
+    };
+
+    performSearch();
+  }, [debouncedQuery, dataSource, searchWithAPI]);
 
   // Close dropdown on outside click
   useEffect(() => {

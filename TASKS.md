@@ -1585,11 +1585,11 @@ This document contains the implementation task list for FinanceViz, organized by
   - SYMBOL_SEARCH
   - GLOBAL_QUOTE
 - **Acceptance Criteria:**
-  - [ ] API key configuration via .env
-  - [ ] Rate limiting handled (5 calls/min free tier)
-  - [ ] Error handling for API failures
-  - [ ] Response type definitions
-- **Status:** [ ]
+  - [x] API key configuration via .env
+  - [x] Rate limiting handled (5 calls/min free tier)
+  - [x] Error handling for API failures
+  - [x] Response type definitions
+- **Status:** [x] Completed
 
 ---
 
@@ -1598,11 +1598,11 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Create:**
   - `src/api/transforms.ts`
 - **Acceptance Criteria:**
-  - [ ] Converts AV response to OHLCV[]
-  - [ ] Handles all time series formats
-  - [ ] Sorts data chronologically
-  - [ ] Validates data integrity
-- **Status:** [ ]
+  - [x] Converts AV response to OHLCV[]
+  - [x] Handles all time series formats
+  - [x] Sorts data chronologically
+  - [x] Validates data integrity
+- **Status:** [x] Completed
 
 ---
 
@@ -1612,11 +1612,11 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/hooks/useStockData.ts`
   - `src/hooks/useQuote.ts`
 - **Acceptance Criteria:**
-  - [ ] DataSourceContext determines data source
-  - [ ] Seamless switching without page reload
-  - [ ] Loading states for API calls
-  - [ ] Error handling for API failures
-- **Status:** [ ]
+  - [x] DataSourceContext determines data source
+  - [x] Seamless switching without page reload
+  - [x] Loading states for API calls
+  - [x] Error handling for API failures
+- **Status:** [x] Completed
 
 ---
 
@@ -1625,13 +1625,13 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Modify:**
   - `src/components/Toolbar/SymbolSearch.tsx`
 - **Acceptance Criteria:**
-  - [ ] Uses SYMBOL_SEARCH endpoint when API selected
-  - [ ] Falls back to mock data if API fails
-  - [ ] Caches search results
+  - [x] Uses SYMBOL_SEARCH endpoint when API selected
+  - [x] Falls back to mock data if API fails
+  - [x] Caches search results
 - **Playwright Validation:**
-  - [ ] Search returns API results
-  - [ ] Fallback works on API failure
-- **Status:** [ ]
+  - [x] Search returns API results
+  - [x] Fallback works on API failure
+- **Status:** [x] Completed
 
 ---
 
@@ -1640,13 +1640,13 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Modify:**
   - `src/hooks/useQuote.ts`
 - **Acceptance Criteria:**
-  - [ ] Uses GLOBAL_QUOTE endpoint
-  - [ ] Updates quote header
-  - [ ] Optional auto-refresh
+  - [x] Uses GLOBAL_QUOTE endpoint
+  - [x] Updates quote header
+  - [x] Optional auto-refresh
 - **Playwright Validation:**
-  - [ ] Quote updates from API
-  - [ ] Auto-refresh works if enabled
-- **Status:** [ ]
+  - [x] Quote updates from API
+  - [x] Auto-refresh works if enabled
+- **Status:** [x] Completed
 
 ---
 
@@ -1655,14 +1655,14 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Modify:**
   - `src/hooks/useStockData.ts`
 - **Acceptance Criteria:**
-  - [ ] Fetches appropriate time series based on range
-  - [ ] Handles API rate limiting
-  - [ ] Caches responses
-  - [ ] Shows loading/error states
+  - [x] Fetches appropriate time series based on range
+  - [x] Handles API rate limiting
+  - [x] Caches responses
+  - [x] Shows loading/error states
 - **Playwright Validation:**
-  - [ ] Chart displays API data
-  - [ ] Different ranges fetch correctly
-- **Status:** [ ]
+  - [x] Chart displays API data
+  - [x] Different ranges fetch correctly
+- **Status:** [x] Completed
 
 ---
 
@@ -1676,14 +1676,14 @@ This document contains the implementation task list for FinanceViz, organized by
   - User-friendly error messages
   - Offline detection
 - **Acceptance Criteria:**
-  - [ ] Cached data returned when available
-  - [ ] Errors show user-friendly messages
-  - [ ] Retry button on errors
-  - [ ] Rate limit messages displayed
+  - [x] Cached data returned when available
+  - [x] Errors show user-friendly messages
+  - [x] Retry button on errors
+  - [x] Rate limit messages displayed
 - **Playwright Validation:**
-  - [ ] Cached data loads immediately
-  - [ ] Error states display correctly
-- **Status:** [ ]
+  - [x] Cached data loads immediately
+  - [x] Error states display correctly
+- **Status:** [x] Completed
 
 ---
 
