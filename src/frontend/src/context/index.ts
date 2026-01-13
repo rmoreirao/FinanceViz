@@ -5,3 +5,4 @@
 
 export { DataSourceProvider, useDataSource } from './DataSourceContext';
 export { ThemeProvider, useTheme, ThemeToggle } from './ThemeContext';
+export { ChartProvider, useChart } from './ChartContext';

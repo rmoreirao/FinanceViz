@@ -139,11 +139,11 @@ This document contains the implementation task list for FinanceViz, organized by
   }
   ```
 - **Acceptance Criteria:**
-  - [ ] Context provides symbol, timeRange, interval, chartType state
-  - [ ] Actions: SET_SYMBOL, SET_TIME_RANGE, SET_INTERVAL, SET_CHART_TYPE
-  - [ ] Default symbol: 'AAPL'
-  - [ ] Default chart type: 'candlestick'
-- **Status:** [ ]
+  - [x] Context provides symbol, timeRange, interval, chartType state
+  - [x] Actions: SET_SYMBOL, SET_TIME_RANGE, SET_INTERVAL, SET_CHART_TYPE
+  - [x] Default symbol: 'AAPL'
+  - [x] Default chart type: 'candlestick'
+- **Status:** [x] Completed
 
 ---
 
@@ -159,15 +159,15 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/components/common/ErrorBoundary.tsx`
   - `src/components/common/index.ts`
 - **Acceptance Criteria:**
-  - [ ] Button supports variants: primary, secondary, ghost
-  - [ ] Dropdown supports searchable option
-  - [ ] Modal has overlay and close button
-  - [ ] Spinner has configurable size
-  - [ ] ErrorBoundary catches and displays errors gracefully
+  - [x] Button supports variants: primary, secondary, ghost
+  - [x] Dropdown supports searchable option
+  - [x] Modal has overlay and close button
+  - [x] Spinner has configurable size
+  - [x] ErrorBoundary catches and displays errors gracefully
 - **Playwright Validation:**
-  - [ ] All components render correctly
-  - [ ] Interactive states (hover, focus, active) work
-- **Status:** [ ]
+  - [x] All components render correctly
+  - [x] Interactive states (hover, focus, active) work
+- **Status:** [x] Completed
 
 ---
 
@@ -182,13 +182,13 @@ This document contains the implementation task list for FinanceViz, organized by
   [Indicators] [Fullscreen]
   ```
 - **Acceptance Criteria:**
-  - [ ] Responsive layout with flex/grid
-  - [ ] Placeholder slots for all toolbar items
-  - [ ] Proper spacing and alignment
+  - [x] Responsive layout with flex/grid
+  - [x] Placeholder slots for all toolbar items
+  - [x] Proper spacing and alignment
 - **Playwright Validation:**
-  - [ ] Toolbar renders at top of page
-  - [ ] All placeholder elements visible
-- **Status:** [ ]
+  - [x] Toolbar renders at top of page
+  - [x] All placeholder elements visible
+- **Status:** [x] Completed
 
 ---
 
@@ -198,17 +198,17 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/components/Toolbar/SymbolSearch.tsx`
   - `src/hooks/useDebounce.ts`
 - **Acceptance Criteria:**
-  - [ ] Search input with magnifying glass icon
-  - [ ] Debounced search (300ms)
-  - [ ] Dropdown shows matching symbols from mock data
-  - [ ] Displays symbol and company name
-  - [ ] Selection updates ChartContext
-  - [ ] Keyboard navigation (arrow keys, enter)
+  - [x] Search input with magnifying glass icon
+  - [x] Debounced search (300ms)
+  - [x] Dropdown shows matching symbols from mock data
+  - [x] Displays symbol and company name
+  - [x] Selection updates ChartContext
+  - [x] Keyboard navigation (arrow keys, enter)
 - **Playwright Validation:**
-  - [ ] Search input accepts text
-  - [ ] Dropdown appears with results
-  - [ ] Selection updates displayed symbol
-- **Status:** [ ]
+  - [x] Search input accepts text
+  - [x] Dropdown appears with results
+  - [x] Selection updates displayed symbol
+- **Status:** [x] Completed
 
 ---
 
@@ -225,15 +225,15 @@ This document contains the implementation task list for FinanceViz, organized by
   - Heikin-Ashi
   - Baseline
 - **Acceptance Criteria:**
-  - [ ] Dropdown with all 7 chart types
-  - [ ] Icons for each chart type
-  - [ ] Selection updates ChartContext
-  - [ ] Current selection highlighted
+  - [x] Dropdown with all 7 chart types
+  - [x] Icons for each chart type
+  - [x] Selection updates ChartContext
+  - [x] Current selection highlighted
 - **Playwright Validation:**
-  - [ ] Dropdown opens on click
-  - [ ] All options visible
-  - [ ] Selection changes chart type state
-- **Status:** [ ]
+  - [x] Dropdown opens on click
+  - [x] All options visible
+  - [x] Selection changes chart type state
+- **Status:** [x] Completed
 
 ---
 
@@ -243,15 +243,15 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/components/Toolbar/TimeRangeButtons.tsx`
 - **Buttons:** 1D | 5D | 1M | 6M | YTD | 1Y | 5Y | MAX
 - **Acceptance Criteria:**
-  - [ ] All 8 time range buttons displayed
-  - [ ] Active button visually highlighted
-  - [ ] Selection updates ChartContext
-  - [ ] Updates interval to default for selected range
+  - [x] All 8 time range buttons displayed
+  - [x] Active button visually highlighted
+  - [x] Selection updates ChartContext
+  - [x] Updates interval to default for selected range
 - **Playwright Validation:**
-  - [ ] All buttons visible
-  - [ ] Click changes active state
-  - [ ] Active button has distinct styling
-- **Status:** [ ]
+  - [x] All buttons visible
+  - [x] Click changes active state
+  - [x] Active button has distinct styling
+- **Status:** [x] Completed
 
 ---
 
@@ -264,14 +264,14 @@ This document contains the implementation task list for FinanceViz, organized by
   - Intraday: 1min, 5min, 15min, 30min, 60min
   - Daily+: Daily, Weekly, Monthly
 - **Acceptance Criteria:**
-  - [ ] Dropdown shows valid intervals based on time range
-  - [ ] Intraday intervals only for 1D-1M ranges
-  - [ ] Selection updates ChartContext
-  - [ ] Disabled intervals grayed out
+  - [x] Dropdown shows valid intervals based on time range
+  - [x] Intraday intervals only for 1D-1M ranges
+  - [x] Selection updates ChartContext
+  - [x] Disabled intervals grayed out
 - **Playwright Validation:**
-  - [ ] Dropdown shows appropriate options
-  - [ ] Invalid options not selectable
-- **Status:** [ ]
+  - [x] Dropdown shows appropriate options
+  - [x] Invalid options not selectable
+- **Status:** [x] Completed
 
 ---
 
