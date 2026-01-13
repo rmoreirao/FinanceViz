@@ -1,6 +1,6 @@
 # FinanceViz
 
-Interactive stock charting application inspired by Yahoo Finance: https://rmoreirao.github.io/FinanceViz/
+Interactive stock charting application: https://rmoreirao.github.io/FinanceViz/
 
 ## Tech Stack
 
