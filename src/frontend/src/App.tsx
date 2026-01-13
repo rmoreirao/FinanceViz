@@ -3,19 +3,30 @@
  * Main application entry point for FinanceViz
  * 
  * TASK-001: Project Initialization
+ * TASK-003: Data Source Toggle Component
+ * TASK-005: Theme Context & Provider
  */
 
-function App() {
+import { ThemeProvider, ThemeToggle, DataSourceProvider } from './context';
+import { DataSourceToggle } from './components/common';
+
+function AppContent() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <div className="px-4 py-3">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            FinanceViz
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Stock Chart Visualization
-          </p>
+        <div className="px-4 py-3 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+              FinanceViz
+            </h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Stock Chart Visualization
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <DataSourceToggle />
+            <ThemeToggle />
+          </div>
         </div>
       </header>
       
@@ -44,7 +55,17 @@ function App() {
         </div>
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+function App() {
+  return (
+    <ThemeProvider>
+      <DataSourceProvider>
+        <AppContent />
+      </DataSourceProvider>
+    </ThemeProvider>
+  );
+}
+
+export default App;

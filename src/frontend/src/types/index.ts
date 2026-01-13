@@ -5,3 +5,4 @@
 
 export * from './stock';
 export * from './chart';
+export * from './indicators';

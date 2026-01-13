@@ -76,14 +76,14 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/components/common/DataSourceToggle.tsx`
   - `src/context/DataSourceContext.tsx`
 - **Acceptance Criteria:**
-  - [ ] Dropdown displays "Mock Data" and "Alpha Vantage API" options
-  - [ ] Selection persists across page refreshes (localStorage)
-  - [ ] Context provides data source state to all components
+  - [x] Dropdown displays "Mock Data" and "Alpha Vantage API" options
+  - [x] Selection persists across page refreshes (localStorage)
+  - [x] Context provides data source state to all components
 - **Playwright Validation:**
-  - [ ] Dropdown renders in toolbar
-  - [ ] Selection changes are reflected in UI
-  - [ ] Default is "Mock Data"
-- **Status:** [ ]
+  - [x] Dropdown renders in toolbar
+  - [x] Selection changes are reflected in UI
+  - [x] Default is "Mock Data"
+- **Status:** [x] Completed
 
 ---
 
@@ -95,11 +95,11 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/types/indicators.ts` - Indicator types and configurations
   - `src/types/index.ts` - Re-exports
 - **Acceptance Criteria:**
-  - [ ] All chart types defined: candlestick, line, bar, area, hollowCandle, heikinAshi, baseline
-  - [ ] Time ranges defined: 1D, 5D, 1M, 6M, YTD, 1Y, 5Y, MAX
-  - [ ] Intervals defined: 1min, 5min, 15min, 30min, 60min, Daily, Weekly, Monthly
-  - [ ] OHLCV interface with time, open, high, low, close, volume
-- **Status:** [ ]
+  - [x] All chart types defined: candlestick, line, bar, area, hollowCandle, heikinAshi, baseline
+  - [x] Time ranges defined: 1D, 5D, 1M, 6M, YTD, 1Y, 5Y, MAX
+  - [x] Intervals defined: 1min, 5min, 15min, 30min, 60min, Daily, Weekly, Monthly
+  - [x] OHLCV interface with time, open, high, low, close, volume
+- **Status:** [x] Completed
 
 ---
 
@@ -111,13 +111,13 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/App.tsx` - Wrap with ThemeProvider
   - `tailwind.config.js` - Add dark mode configuration
 - **Acceptance Criteria:**
-  - [ ] Theme toggles between light and dark mode
-  - [ ] Theme persists in localStorage
-  - [ ] CSS variables for bullish (#22c55e) and bearish (#ef4444) colors
+  - [x] Theme toggles between light and dark mode
+  - [x] Theme persists in localStorage
+  - [x] CSS variables for bullish (#22c55e) and bearish (#ef4444) colors
 - **Playwright Validation:**
-  - [ ] Theme toggle button works
-  - [ ] Background colors change appropriately
-- **Status:** [ ]
+  - [x] Theme toggle button works
+  - [x] Background colors change appropriately
+- **Status:** [x] Completed
 
 ---
 
