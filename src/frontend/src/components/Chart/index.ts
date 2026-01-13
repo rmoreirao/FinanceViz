@@ -8,3 +8,4 @@ export { ChartCanvas } from './ChartCanvas';
 export { Legend } from './Legend';
 export { ChartSkeleton } from './ChartSkeleton';
 export { EmptyState } from './EmptyState';
+export { IndicatorPane } from './IndicatorPane';

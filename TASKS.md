@@ -1038,15 +1038,15 @@ This document contains the implementation task list for FinanceViz, organized by
   - X button to remove
   - Eye icon to toggle visibility
 - **Acceptance Criteria:**
-  - [ ] Lists all active indicators
-  - [ ] Remove button works
-  - [ ] Settings opens config modal
-  - [ ] Visibility toggle works
+  - [x] Lists all active indicators
+  - [x] Remove button works
+  - [x] Settings opens config modal
+  - [x] Visibility toggle works
 - **Playwright Validation:**
-  - [ ] Active indicators displayed
-  - [ ] Remove removes indicator
-  - [ ] Toggle hides/shows on chart
-- **Status:** [ ]
+  - [x] Active indicators displayed
+  - [x] Remove removes indicator
+  - [x] Toggle hides/shows on chart
+- **Status:** [x] Completed
 
 ---
 
@@ -1060,15 +1060,15 @@ This document contains the implementation task list for FinanceViz, organized by
   - Apply and Cancel buttons
   - Validation for numeric inputs
 - **Acceptance Criteria:**
-  - [ ] Shows parameters for selected indicator
-  - [ ] Validates numeric input
-  - [ ] Apply updates indicator
-  - [ ] Cancel discards changes
+  - [x] Shows parameters for selected indicator
+  - [x] Validates numeric input
+  - [x] Apply updates indicator
+  - [x] Cancel discards changes
 - **Playwright Validation:**
-  - [ ] Modal opens from gear icon
-  - [ ] Parameters editable
-  - [ ] Changes apply to chart
-- **Status:** [ ]
+  - [x] Modal opens from gear icon
+  - [x] Parameters editable
+  - [x] Changes apply to chart
+- **Status:** [x] Completed
 
 ---
 
@@ -1077,15 +1077,15 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Modify:**
   - `src/components/Chart/ChartCanvas.tsx`
 - **Acceptance Criteria:**
-  - [ ] SMA/EMA/WMA render as lines
-  - [ ] Bollinger Bands render as 3 lines
-  - [ ] Ichimoku renders with cloud
-  - [ ] Colors configurable
-  - [ ] Multiple overlays supported
+  - [x] SMA/EMA/WMA render as lines
+  - [x] Bollinger Bands render as 3 lines
+  - [x] Ichimoku renders with cloud
+  - [x] Colors configurable
+  - [x] Multiple overlays supported
 - **Playwright Validation:**
-  - [ ] Overlay appears after adding indicator
-  - [ ] Line colors match config
-- **Status:** [ ]
+  - [x] Overlay appears after adding indicator
+  - [x] Line colors match config
+- **Status:** [x] Completed
 
 ---
 
@@ -1099,14 +1099,14 @@ This document contains the implementation task list for FinanceViz, organized by
   - Reference lines (overbought/oversold)
   - Synchronized time scale
 - **Acceptance Criteria:**
-  - [ ] Panel renders below main chart
-  - [ ] Correct scale for indicator type
-  - [ ] Reference lines visible
-  - [ ] Crosshair syncs with main chart
+  - [x] Panel renders below main chart
+  - [x] Correct scale for indicator type
+  - [x] Reference lines visible
+  - [x] Crosshair syncs with main chart
 - **Playwright Validation:**
-  - [ ] Oscillator panel appears when added
-  - [ ] Values update with crosshair
-- **Status:** [ ]
+  - [x] Oscillator panel appears when added
+  - [x] Values update with crosshair
+- **Status:** [x] Completed
 
 ---
 
@@ -1115,13 +1115,13 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Modify:**
   - `src/components/Chart/Legend.tsx`
 - **Acceptance Criteria:**
-  - [ ] Legend shows indicator names and values
-  - [ ] Values update on crosshair move
-  - [ ] Multiple indicator values displayed
+  - [x] Legend shows indicator names and values
+  - [x] Values update on crosshair move
+  - [x] Multiple indicator values displayed
 - **Playwright Validation:**
-  - [ ] Indicator values appear in legend
-  - [ ] Values update on hover
-- **Status:** [ ]
+  - [x] Indicator values appear in legend
+  - [x] Values update on hover
+- **Status:** [x] Completed
 
 ---
 
@@ -1135,10 +1135,10 @@ This document contains the implementation task list for FinanceViz, organized by
   - Memoized calculation
   - Recalculates when data or params change
 - **Acceptance Criteria:**
-  - [ ] Hook returns indicator data
-  - [ ] Memoization prevents unnecessary recalculation
-  - [ ] Supports all indicator types
-- **Status:** [ ]
+  - [x] Hook returns indicator data
+  - [x] Memoization prevents unnecessary recalculation
+  - [x] Supports all indicator types
+- **Status:** [x] Completed
 
 ---
 

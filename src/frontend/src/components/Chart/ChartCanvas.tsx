@@ -9,6 +9,7 @@
  * TASK-021: Hollow Candlestick Chart
  * TASK-022: Heikin-Ashi Chart
  * TASK-023: Baseline Chart
+ * TASK-061: Overlay Indicator Rendering
  */
 
 import { useEffect, useRef, useMemo, useState, useCallback } from 'react';
@@ -36,9 +37,16 @@ import {
 } from 'lightweight-charts';
 import type { OHLCV } from '../../types';
 import type { ChartType } from '../../types';
-import { useTheme } from '../../context';
+import { useTheme, useIndicators } from '../../context';
 import { toHeikinAshi } from '../../utils/heikinAshi';
 import { Legend } from './Legend';
+import {
+  getIndicatorCalculation,
+  type IndicatorOutput,
+  type BollingerBandsOutput,
+  type IchimokuOutput,
+} from '../Indicators/calculations';
+import type { OverlayIndicator } from '../../context/IndicatorContext';
 
 interface ChartCanvasProps {
   data: OHLCV[];
@@ -169,6 +177,20 @@ function toVolumeData(data: OHLCV[]): HistogramData[] {
 const BULLISH_COLOR_ALPHA = 'rgba(34, 197, 94, 0.5)';
 const BEARISH_COLOR_ALPHA = 'rgba(239, 68, 68, 0.5)';
 
+// Ichimoku cloud colors
+const ICHIMOKU_CLOUD_BULLISH = 'rgba(76, 175, 80, 0.2)';
+const ICHIMOKU_CLOUD_BEARISH = 'rgba(244, 67, 54, 0.2)';
+
+/**
+ * Convert indicator output to line data format
+ */
+function toIndicatorLineData(indicatorData: IndicatorOutput): LineData[] {
+  return indicatorData.map((point) => ({
+    time: toChartTime(point.time),
+    value: point.value,
+  }));
+}
+
 /**
  * ChartCanvas component renders the actual chart
  */
@@ -177,7 +199,9 @@ export function ChartCanvas({ data, chartType, width, height, symbol = '' }: Cha
   const chartRef = useRef<IChartApi | null>(null);
   const seriesRef = useRef<ISeriesApi<SeriesType> | null>(null);
   const volumeSeriesRef = useRef<ISeriesApi<'Histogram'> | null>(null);
+  const overlaySeriesRef = useRef<Map<string, ISeriesApi<SeriesType>[]>>(new Map());
   const { theme } = useTheme();
+  const { state: indicatorState } = useIndicators();
   
   // State for legend data (OHLCV values on crosshair hover)
   const [legendData, setLegendData] = useState<OHLCV | null>(null);
@@ -460,6 +484,46 @@ export function ChartCanvas({ data, chartType, width, height, symbol = '' }: Cha
     chart.timeScale().fitContent();
   }, [chartType, data]);
 
+  // Render overlay indicators (TASK-061)
+  useEffect(() => {
+    if (!chartRef.current || data.length === 0) return;
+
+    const chart = chartRef.current;
+    const visibleOverlays = indicatorState.overlays.filter((o) => o.visible);
+
+    // Remove old overlay series that are no longer needed
+    const currentIds = new Set(visibleOverlays.map((o) => o.id));
+    overlaySeriesRef.current.forEach((seriesList, id) => {
+      if (!currentIds.has(id)) {
+        seriesList.forEach((s) => {
+          try {
+            chart.removeSeries(s);
+          } catch {
+            // Series already removed
+          }
+        });
+        overlaySeriesRef.current.delete(id);
+      }
+    });
+
+    // Add or update overlay series
+    visibleOverlays.forEach((indicator) => {
+      const existingSeries = overlaySeriesRef.current.get(indicator.id);
+      
+      // If series already exists, update it
+      if (existingSeries && existingSeries.length > 0) {
+        // Just update the data, don't recreate the series
+        updateOverlaySeries(chart, indicator, data, existingSeries);
+      } else {
+        // Create new series for this indicator
+        const newSeries = createOverlaySeries(chart, indicator, data);
+        if (newSeries.length > 0) {
+          overlaySeriesRef.current.set(indicator.id, newSeries);
+        }
+      }
+    });
+  }, [indicatorState.overlays, data]);
+
   // Resize chart when dimensions change
   useEffect(() => {
     if (!chartRef.current || width === 0 || height === 0) return;
@@ -470,7 +534,7 @@ export function ChartCanvas({ data, chartType, width, height, symbol = '' }: Cha
     <div className="relative w-full h-full">
       {/* Legend overlay at top-left */}
       <div className="absolute top-2 left-2 z-20 bg-white/90 dark:bg-gray-800/90 px-2 py-1 rounded shadow-sm">
-        <Legend data={legendData} symbol={symbol} />
+        <Legend data={legendData} symbol={symbol} overlays={indicatorState.overlays} />
       </div>
       
       {/* Chart container */}
@@ -481,6 +545,303 @@ export function ChartCanvas({ data, chartType, width, height, symbol = '' }: Cha
       />
     </div>
   );
+}
+
+// LineWidth type from lightweight-charts expects 1, 2, 3, or 4
+type ValidLineWidth = 1 | 2 | 3 | 4;
+const toValidLineWidth = (width: number): ValidLineWidth => {
+  if (width <= 1) return 1;
+  if (width === 2) return 2;
+  if (width === 3) return 3;
+  return 4;
+};
+
+/**
+ * Create overlay indicator series
+ */
+function createOverlaySeries(
+  chart: IChartApi,
+  indicator: OverlayIndicator,
+  data: OHLCV[]
+): ISeriesApi<SeriesType>[] {
+  const seriesList: ISeriesApi<SeriesType>[] = [];
+  const calculate = getIndicatorCalculation(indicator.type);
+  const lineWidth = toValidLineWidth(indicator.lineWidth);
+
+  try {
+    switch (indicator.type) {
+      case 'sma':
+      case 'ema':
+      case 'wma':
+      case 'dema':
+      case 'tema':
+      case 'vwap': {
+        const indicatorData = calculate(data, indicator.params) as IndicatorOutput;
+        if (indicatorData.length > 0) {
+          const lineSeries = chart.addSeries(LineSeries, {
+            color: indicator.color,
+            lineWidth,
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+          });
+          lineSeries.setData(toIndicatorLineData(indicatorData));
+          seriesList.push(lineSeries);
+        }
+        break;
+      }
+
+      case 'bollingerBands': {
+        const bands = calculate(data, indicator.params) as BollingerBandsOutput;
+        if (bands.upper.length > 0) {
+          // Upper band
+          const upperSeries = chart.addSeries(LineSeries, {
+            color: indicator.color,
+            lineWidth,
+            lineStyle: 2, // Dashed
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+          });
+          upperSeries.setData(toIndicatorLineData(bands.upper));
+          seriesList.push(upperSeries);
+
+          // Middle band (SMA)
+          const middleSeries = chart.addSeries(LineSeries, {
+            color: indicator.color,
+            lineWidth,
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+          });
+          middleSeries.setData(toIndicatorLineData(bands.middle));
+          seriesList.push(middleSeries);
+
+          // Lower band
+          const lowerSeries = chart.addSeries(LineSeries, {
+            color: indicator.color,
+            lineWidth,
+            lineStyle: 2, // Dashed
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+          });
+          lowerSeries.setData(toIndicatorLineData(bands.lower));
+          seriesList.push(lowerSeries);
+        }
+        break;
+      }
+
+      case 'envelope': {
+        const envelope = calculate(data, indicator.params) as { upper: IndicatorOutput; middle: IndicatorOutput; lower: IndicatorOutput };
+        if (envelope.upper.length > 0) {
+          // Upper envelope
+          const upperSeries = chart.addSeries(LineSeries, {
+            color: indicator.color,
+            lineWidth,
+            lineStyle: 2,
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+          });
+          upperSeries.setData(toIndicatorLineData(envelope.upper));
+          seriesList.push(upperSeries);
+
+          // Middle (SMA)
+          const middleSeries = chart.addSeries(LineSeries, {
+            color: indicator.color,
+            lineWidth,
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+          });
+          middleSeries.setData(toIndicatorLineData(envelope.middle));
+          seriesList.push(middleSeries);
+
+          // Lower envelope
+          const lowerSeries = chart.addSeries(LineSeries, {
+            color: indicator.color,
+            lineWidth,
+            lineStyle: 2,
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+          });
+          lowerSeries.setData(toIndicatorLineData(envelope.lower));
+          seriesList.push(lowerSeries);
+        }
+        break;
+      }
+
+      case 'parabolicSar': {
+        const sarData = calculate(data, indicator.params) as IndicatorOutput;
+        if (sarData.length > 0) {
+          // Render SAR as dots using a line series with specific styling
+          const sarSeries = chart.addSeries(LineSeries, {
+            color: indicator.color,
+            lineWidth: 1,
+            pointMarkersVisible: true,
+            pointMarkersRadius: 2,
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+          });
+          sarSeries.setData(toIndicatorLineData(sarData));
+          seriesList.push(sarSeries);
+        }
+        break;
+      }
+
+      case 'ichimoku': {
+        const ichimoku = calculate(data, indicator.params) as IchimokuOutput;
+        
+        // Tenkan-sen (Conversion Line) - typically blue
+        if (ichimoku.tenkanSen.length > 0) {
+          const tenkanSeries = chart.addSeries(LineSeries, {
+            color: '#2196F3', // Blue
+            lineWidth: 1,
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+          });
+          tenkanSeries.setData(toIndicatorLineData(ichimoku.tenkanSen));
+          seriesList.push(tenkanSeries);
+        }
+
+        // Kijun-sen (Base Line) - typically red
+        if (ichimoku.kijunSen.length > 0) {
+          const kijunSeries = chart.addSeries(LineSeries, {
+            color: '#F44336', // Red
+            lineWidth: 1,
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+          });
+          kijunSeries.setData(toIndicatorLineData(ichimoku.kijunSen));
+          seriesList.push(kijunSeries);
+        }
+
+        // Senkou Span A - part of cloud, typically green
+        if (ichimoku.senkouSpanA.length > 0) {
+          const spanASeries = chart.addSeries(LineSeries, {
+            color: ICHIMOKU_CLOUD_BULLISH,
+            lineWidth: 1,
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+          });
+          spanASeries.setData(toIndicatorLineData(ichimoku.senkouSpanA));
+          seriesList.push(spanASeries);
+        }
+
+        // Senkou Span B - part of cloud, typically red
+        if (ichimoku.senkouSpanB.length > 0) {
+          const spanBSeries = chart.addSeries(LineSeries, {
+            color: ICHIMOKU_CLOUD_BEARISH,
+            lineWidth: 1,
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+          });
+          spanBSeries.setData(toIndicatorLineData(ichimoku.senkouSpanB));
+          seriesList.push(spanBSeries);
+        }
+
+        // Chikou Span (Lagging Span) - typically green
+        if (ichimoku.chikouSpan.length > 0) {
+          const chikouSeries = chart.addSeries(LineSeries, {
+            color: '#4CAF50', // Green
+            lineWidth: 1,
+            lineStyle: 2, // Dashed
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+          });
+          chikouSeries.setData(toIndicatorLineData(ichimoku.chikouSpan));
+          seriesList.push(chikouSeries);
+        }
+        break;
+      }
+
+      default:
+        console.warn(`Unknown overlay indicator type: ${indicator.type}`);
+    }
+  } catch (error) {
+    console.error(`Error calculating indicator ${indicator.type}:`, error);
+  }
+
+  return seriesList;
+}
+
+/**
+ * Update existing overlay indicator series with new data
+ */
+function updateOverlaySeries(
+  _chart: IChartApi,
+  indicator: OverlayIndicator,
+  data: OHLCV[],
+  existingSeries: ISeriesApi<SeriesType>[]
+): void {
+  const calculate = getIndicatorCalculation(indicator.type);
+
+  try {
+    switch (indicator.type) {
+      case 'sma':
+      case 'ema':
+      case 'wma':
+      case 'dema':
+      case 'tema':
+      case 'vwap': {
+        const indicatorData = calculate(data, indicator.params) as IndicatorOutput;
+        if (existingSeries[0] && indicatorData.length > 0) {
+          existingSeries[0].setData(toIndicatorLineData(indicatorData));
+        }
+        break;
+      }
+
+      case 'bollingerBands': {
+        const bands = calculate(data, indicator.params) as BollingerBandsOutput;
+        if (bands.upper.length > 0 && existingSeries.length >= 3) {
+          existingSeries[0].setData(toIndicatorLineData(bands.upper));
+          existingSeries[1].setData(toIndicatorLineData(bands.middle));
+          existingSeries[2].setData(toIndicatorLineData(bands.lower));
+        }
+        break;
+      }
+
+      case 'envelope': {
+        const envelope = calculate(data, indicator.params) as { upper: IndicatorOutput; middle: IndicatorOutput; lower: IndicatorOutput };
+        if (envelope.upper.length > 0 && existingSeries.length >= 3) {
+          existingSeries[0].setData(toIndicatorLineData(envelope.upper));
+          existingSeries[1].setData(toIndicatorLineData(envelope.middle));
+          existingSeries[2].setData(toIndicatorLineData(envelope.lower));
+        }
+        break;
+      }
+
+      case 'parabolicSar': {
+        const sarData = calculate(data, indicator.params) as IndicatorOutput;
+        if (existingSeries[0] && sarData.length > 0) {
+          existingSeries[0].setData(toIndicatorLineData(sarData));
+        }
+        break;
+      }
+
+      case 'ichimoku': {
+        const ichimoku = calculate(data, indicator.params) as IchimokuOutput;
+        if (existingSeries.length >= 5) {
+          if (ichimoku.tenkanSen.length > 0) existingSeries[0].setData(toIndicatorLineData(ichimoku.tenkanSen));
+          if (ichimoku.kijunSen.length > 0) existingSeries[1].setData(toIndicatorLineData(ichimoku.kijunSen));
+          if (ichimoku.senkouSpanA.length > 0) existingSeries[2].setData(toIndicatorLineData(ichimoku.senkouSpanA));
+          if (ichimoku.senkouSpanB.length > 0) existingSeries[3].setData(toIndicatorLineData(ichimoku.senkouSpanB));
+          if (ichimoku.chikouSpan.length > 0) existingSeries[4].setData(toIndicatorLineData(ichimoku.chikouSpan));
+        }
+        break;
+      }
+    }
+  } catch (error) {
+    console.error(`Error updating indicator ${indicator.type}:`, error);
+  }
 }
 
 export default ChartCanvas;
