@@ -327,9 +327,9 @@ This document contains the implementation task list for FinanceViz, organized by
   npm install lightweight-charts
   ```
 - **Acceptance Criteria:**
-  - [ ] Package installed and in package.json
-  - [ ] No version conflicts
-- **Status:** [ ]
+  - [x] Package installed and in package.json
+  - [x] No version conflicts
+- **Status:** [x] Completed
 
 ---
 
@@ -341,14 +341,14 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/hooks/useStockData.ts`
   - `src/hooks/useChartResize.ts`
 - **Acceptance Criteria:**
-  - [ ] Container fills available space
-  - [ ] Responsive to window resize
-  - [ ] Shows loading spinner while data loads
-  - [ ] Shows error state on failure
+  - [x] Container fills available space
+  - [x] Responsive to window resize
+  - [x] Shows loading spinner while data loads
+  - [x] Shows error state on failure
 - **Playwright Validation:**
-  - [ ] Chart container visible
-  - [ ] Resizes with window
-- **Status:** [ ]
+  - [x] Chart container visible
+  - [x] Resizes with window
+- **Status:** [x] Completed
 
 ---
 

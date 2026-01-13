@@ -5,3 +5,5 @@
 
 export { useDebounce } from './useDebounce';
 export { useQuote } from './useQuote';
+export { useStockData } from './useStockData';
+export { useChartResize } from './useChartResize';
