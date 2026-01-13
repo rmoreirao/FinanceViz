@@ -11,6 +11,7 @@ import { SymbolSearch } from './SymbolSearch';
 import { ChartTypeSelect } from './ChartTypeSelect';
 import { TimeRangeButtons } from './TimeRangeButtons';
 import { IntervalSelect } from './IntervalSelect';
+import { FullscreenButton } from './FullscreenButton';
 
 /**
  * Main toolbar containing all chart controls
@@ -57,6 +58,12 @@ export function Toolbar() {
         <div className="flex items-center gap-2">
           {/* Data Source Toggle */}
           <DataSourceToggle />
+
+          {/* Divider */}
+          <div className="h-6 w-px bg-gray-300 dark:bg-gray-600" />
+
+          {/* Fullscreen Button */}
+          <FullscreenButton />
 
           {/* Divider */}
           <div className="h-6 w-px bg-gray-300 dark:bg-gray-600" />

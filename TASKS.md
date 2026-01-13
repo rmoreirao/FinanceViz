@@ -280,14 +280,14 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Create:**
   - `src/components/Toolbar/FullscreenButton.tsx`
 - **Acceptance Criteria:**
-  - [ ] Button with fullscreen icon
-  - [ ] Toggles browser fullscreen API
-  - [ ] Icon changes based on fullscreen state
-  - [ ] Keyboard shortcut: F
+  - [x] Button with fullscreen icon
+  - [x] Toggles browser fullscreen API
+  - [x] Icon changes based on fullscreen state
+  - [x] Keyboard shortcut: F
 - **Playwright Validation:**
-  - [ ] Button renders
-  - [ ] Fullscreen toggles on click
-- **Status:** [ ]
+  - [x] Button renders
+  - [x] Fullscreen toggles on click
+- **Status:** [x] Completed
 
 ---
 
@@ -305,16 +305,16 @@ This document contains the implementation task list for FinanceViz, organized by
   - Change % (percentage)
   - Color coding (green/red)
 - **Acceptance Criteria:**
-  - [ ] Displays symbol and company name
-  - [ ] Price formatted with 2 decimals
-  - [ ] Change shows + or - prefix
-  - [ ] Green for positive, red for negative
-  - [ ] Updates when symbol changes
+  - [x] Displays symbol and company name
+  - [x] Price formatted with 2 decimals
+  - [x] Change shows + or - prefix
+  - [x] Green for positive, red for negative
+  - [x] Updates when symbol changes
 - **Playwright Validation:**
-  - [ ] Header displays at top
-  - [ ] Price and change visible
-  - [ ] Colors reflect positive/negative
-- **Status:** [ ]
+  - [x] Header displays at top
+  - [x] Price and change visible
+  - [x] Colors reflect positive/negative
+- **Status:** [x] Completed
 
 ---
 

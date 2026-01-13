@@ -11,6 +11,7 @@
 
 import { ThemeProvider, DataSourceProvider, ChartProvider, useChart } from './context';
 import { Toolbar } from './components/Toolbar';
+import { QuoteHeader } from './components/QuoteHeader';
 
 function AppContent() {
   const { state } = useChart();
@@ -19,6 +20,9 @@ function AppContent() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
       {/* Toolbar */}
       <Toolbar />
+      
+      {/* Quote Header */}
+      <QuoteHeader />
       
       {/* Main Content Area */}
       <main className="flex-1 p-4">

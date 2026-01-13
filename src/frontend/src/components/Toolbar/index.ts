@@ -8,3 +8,4 @@ export { SymbolSearch } from './SymbolSearch';
 export { ChartTypeSelect } from './ChartTypeSelect';
 export { TimeRangeButtons } from './TimeRangeButtons';
 export { IntervalSelect } from './IntervalSelect';
+export { FullscreenButton } from './FullscreenButton';
