@@ -420,12 +420,12 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Modify:**
   - `src/components/Chart/ChartCanvas.tsx`
 - **Acceptance Criteria:**
-  - [ ] Hollow body when close > open
-  - [ ] Filled body when close < open
-  - [ ] Border color indicates direction
+  - [x] Hollow body when close > open
+  - [x] Filled body when close < open
+  - [x] Border color indicates direction
 - **Playwright Validation:**
-  - [ ] Hollow candlesticks render when selected
-- **Status:** [ ]
+  - [x] Hollow candlesticks render when selected
+- **Status:** [x] Completed
 
 ---
 
@@ -443,12 +443,12 @@ This document contains the implementation task list for FinanceViz, organized by
   HA Low = min(L, HA Open, HA Close)
   ```
 - **Acceptance Criteria:**
-  - [ ] Heikin-Ashi values calculated correctly
-  - [ ] Smoother appearance than regular candlesticks
-  - [ ] Trend more visible
+  - [x] Heikin-Ashi values calculated correctly
+  - [x] Smoother appearance than regular candlesticks
+  - [x] Trend more visible
 - **Playwright Validation:**
-  - [ ] Heikin-Ashi chart renders when selected
-- **Status:** [ ]
+  - [x] Heikin-Ashi chart renders when selected
+- **Status:** [x] Completed
 
 ---
 
@@ -457,31 +457,31 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Modify:**
   - `src/components/Chart/ChartCanvas.tsx`
 - **Acceptance Criteria:**
-  - [ ] Price relative to configurable baseline
-  - [ ] Area above baseline in green
-  - [ ] Area below baseline in red
-  - [ ] Baseline defaults to first visible price
+  - [x] Price relative to configurable baseline
+  - [x] Area above baseline in green
+  - [x] Area below baseline in red
+  - [x] Baseline defaults to first visible price
 - **Playwright Validation:**
-  - [ ] Baseline chart renders when selected
-  - [ ] Two-tone coloring visible
-- **Status:** [ ]
+  - [x] Baseline chart renders when selected
+  - [x] Two-tone coloring visible
+- **Status:** [x] Completed
 
 ---
 
 #### TASK-024: Volume Pane
 - **Description:** Create synchronized volume bar chart
-- **Files to Create:**
-  - `src/components/Chart/VolumePane.tsx`
+- **Files to Modify:**
+  - `src/components/Chart/ChartCanvas.tsx` (integrated volume histogram)
 - **Acceptance Criteria:**
-  - [ ] Volume bars below main chart
-  - [ ] Synchronized with price chart time axis
-  - [ ] Color matches price direction (green/red)
-  - [ ] Proper height ratio (20% of chart area)
+  - [x] Volume bars below main chart
+  - [x] Synchronized with price chart time axis
+  - [x] Color matches price direction (green/red)
+  - [x] Proper height ratio (20% of chart area)
 - **Playwright Validation:**
-  - [ ] Volume bars visible below chart
-  - [ ] Colors sync with price direction
-  - [ ] Scrolling syncs with main chart
-- **Status:** [ ]
+  - [x] Volume bars visible below chart
+  - [x] Colors sync with price direction
+  - [x] Scrolling syncs with main chart
+- **Status:** [x] Completed
 
 ---
 
@@ -493,14 +493,14 @@ This document contains the implementation task list for FinanceViz, organized by
   - O: [open] H: [high] L: [low] C: [close]
   - Volume: [formatted volume]
 - **Acceptance Criteria:**
-  - [ ] Legend updates on crosshair move
-  - [ ] Values formatted appropriately (2 decimals for price)
-  - [ ] Volume formatted with K/M/B suffixes
-  - [ ] Positioned at top-left of chart
+  - [x] Legend updates on crosshair move
+  - [x] Values formatted appropriately (2 decimals for price)
+  - [x] Volume formatted with K/M/B suffixes
+  - [x] Positioned at top-left of chart
 - **Playwright Validation:**
-  - [ ] Legend visible on chart
-  - [ ] Values update on hover
-- **Status:** [ ]
+  - [x] Legend visible on chart
+  - [x] Values update on hover
+- **Status:** [x] Completed
 
 ---
 
@@ -509,15 +509,15 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Modify:**
   - `src/components/Chart/ChartCanvas.tsx`
 - **Acceptance Criteria:**
-  - [ ] Vertical line follows cursor
-  - [ ] Horizontal line follows cursor
-  - [ ] Time label on bottom axis
-  - [ ] Price label on right axis
-  - [ ] Crosshair visible on hover
+  - [x] Vertical line follows cursor
+  - [x] Horizontal line follows cursor
+  - [x] Time label on bottom axis
+  - [x] Price label on right axis
+  - [x] Crosshair visible on hover
 - **Playwright Validation:**
-  - [ ] Crosshair appears on chart hover
-  - [ ] Labels show correct values
-- **Status:** [ ]
+  - [x] Crosshair appears on chart hover
+  - [x] Labels show correct values
+- **Status:** [x] Completed
 
 ---
 
@@ -531,16 +531,16 @@ This document contains the implementation task list for FinanceViz, organized by
   - Double-click to reset
   - Touch: pinch-to-zoom, swipe-to-pan
 - **Acceptance Criteria:**
-  - [ ] Mouse wheel zooms in/out
-  - [ ] Drag pans chart horizontally
-  - [ ] Double-click resets view
-  - [ ] Pan respects data boundaries
-  - [ ] Touch gestures work on mobile
+  - [x] Mouse wheel zooms in/out
+  - [x] Drag pans chart horizontally
+  - [x] Double-click resets view
+  - [x] Pan respects data boundaries
+  - [x] Touch gestures work on mobile
 - **Playwright Validation:**
-  - [ ] Zoom changes visible data range
-  - [ ] Pan moves visible window
-  - [ ] Reset restores default view
-- **Status:** [ ]
+  - [x] Zoom changes visible data range
+  - [x] Pan moves visible window
+  - [x] Reset restores default view
+- **Status:** [x] Completed
 
 ---
 
@@ -550,13 +550,13 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/components/Chart/ChartSkeleton.tsx`
   - `src/components/Chart/EmptyState.tsx`
 - **Acceptance Criteria:**
-  - [ ] Skeleton loader while data loading
-  - [ ] Error message with retry button
-  - [ ] "No data available" empty state
+  - [x] Skeleton loader while data loading
+  - [x] Error message with retry button
+  - [x] "No data available" empty state
 - **Playwright Validation:**
-  - [ ] Loading state shows spinner/skeleton
-  - [ ] Error state shows message
-- **Status:** [ ]
+  - [x] Loading state shows spinner/skeleton
+  - [x] Error state shows message
+- **Status:** [x] Completed
 
 ---
 
