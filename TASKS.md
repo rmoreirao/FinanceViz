@@ -574,11 +574,11 @@ This document contains the implementation task list for FinanceViz, organized by
   }
   ```
 - **Acceptance Criteria:**
-  - [ ] Add/remove overlay indicators
-  - [ ] Add/remove oscillator indicators
-  - [ ] Update indicator parameters
-  - [ ] Toggle indicator visibility
-- **Status:** [ ]
+  - [x] Add/remove overlay indicators
+  - [x] Add/remove oscillator indicators
+  - [x] Update indicator parameters
+  - [x] Toggle indicator visibility
+- **Status:** [x] Completed
 
 ---
 
@@ -591,9 +591,9 @@ This document contains the implementation task list for FinanceViz, organized by
   - IndicatorOutput (time, value pairs)
   - IndicatorParams (period, etc.)
 - **Acceptance Criteria:**
-  - [ ] All indicator types defined
-  - [ ] Parameter interfaces for each indicator
-- **Status:** [ ]
+  - [x] All indicator types defined
+  - [x] Parameter interfaces for each indicator
+- **Status:** [x] Completed
 
 ---
 
@@ -604,10 +604,10 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Formula:** SMA = sum(close, period) / period
 - **Parameters:** Period (default: 20)
 - **Acceptance Criteria:**
-  - [ ] Correct SMA calculation
-  - [ ] Returns array of {time, value}
-  - [ ] Handles edge cases (insufficient data)
-- **Status:** [ ]
+  - [x] Correct SMA calculation
+  - [x] Returns array of {time, value}
+  - [x] Handles edge cases (insufficient data)
+- **Status:** [x] Completed
 
 ---
 
@@ -619,10 +619,10 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Multiplier:** 2 / (period + 1)
 - **Parameters:** Period (default: 20)
 - **Acceptance Criteria:**
-  - [ ] Correct EMA calculation
-  - [ ] Initial EMA uses SMA
-  - [ ] Handles edge cases
-- **Status:** [ ]
+  - [x] Correct EMA calculation
+  - [x] Initial EMA uses SMA
+  - [x] Handles edge cases
+- **Status:** [x] Completed
 
 ---
 
@@ -633,9 +633,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Formula:** WMA = sum(close * weight) / sum(weights)
 - **Parameters:** Period (default: 20)
 - **Acceptance Criteria:**
-  - [ ] Correct WMA calculation
-  - [ ] Weights increase linearly
-- **Status:** [ ]
+  - [x] Correct WMA calculation
+  - [x] Weights increase linearly
+- **Status:** [x] Completed
 
 ---
 
@@ -649,10 +649,10 @@ This document contains the implementation task list for FinanceViz, organized by
   - Lower Band: SMA - (stdDev * multiplier)
 - **Parameters:** Period (20), StdDev Multiplier (2)
 - **Acceptance Criteria:**
-  - [ ] Three lines calculated correctly
-  - [ ] Standard deviation calculated properly
-  - [ ] Returns upper, middle, lower arrays
-- **Status:** [ ]
+  - [x] Three lines calculated correctly
+  - [x] Standard deviation calculated properly
+  - [x] Returns upper, middle, lower arrays
+- **Status:** [x] Completed
 
 ---
 
@@ -663,9 +663,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Formula:** DEMA = 2 * EMA - EMA(EMA)
 - **Parameters:** Period (default: 20)
 - **Acceptance Criteria:**
-  - [ ] Correct DEMA calculation
-  - [ ] Uses EMA calculation internally
-- **Status:** [ ]
+  - [x] Correct DEMA calculation
+  - [x] Uses EMA calculation internally
+- **Status:** [x] Completed
 
 ---
 

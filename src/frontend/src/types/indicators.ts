@@ -201,6 +201,13 @@ export interface AroonParams {
 }
 
 /**
+ * OBV parameters (On Balance Volume has no parameters, but we define an empty interface for consistency)
+ */
+export interface ObvParams {
+  // OBV has no parameters
+}
+
+/**
  * Awesome Oscillator parameters
  */
 export interface AwesomeOscillatorParams {
@@ -229,6 +236,7 @@ export type IndicatorParams =
   | CmfParams
   | MfiParams
   | AroonParams
+  | ObvParams
   | AwesomeOscillatorParams;
 
 /**
