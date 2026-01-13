@@ -8,6 +8,8 @@
  * TASK-006: Chart Context & State Management
  * TASK-008: Main Toolbar Container
  * TASK-016: Chart Container Component
+ * TASK-065: Desktop Layout (≥1024px)
+ * TASK-067: Mobile Layout (<768px)
  */
 
 import { ThemeProvider, DataSourceProvider, ChartProvider, IndicatorProvider } from './context';
@@ -25,8 +27,14 @@ function AppContent() {
       <QuoteHeader />
       
       {/* Main Content Area - Chart */}
-      <main className="flex-1 p-4">
-        <div className="h-[calc(100vh-180px)] min-h-[500px]">
+      {/* Desktop: ≥1024px - optimal padding and chart dimensions */}
+      {/* Tablet: 768-1023px - adjusted padding */}
+      {/* Mobile: <768px - full width, minimal padding */}
+      <main className="flex-1 p-2 sm:p-3 lg:p-4">
+        {/* Chart container with responsive height calculations */}
+        {/* Mobile: account for taller toolbar due to hamburger menu */}
+        {/* Tablet/Desktop: standard height calculation */}
+        <div className="h-[calc(100vh-200px)] sm:h-[calc(100vh-180px)] lg:h-[calc(100vh-160px)] min-h-[400px] sm:min-h-[500px]">
           <Chart />
         </div>
       </main>

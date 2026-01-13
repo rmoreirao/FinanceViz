@@ -1150,13 +1150,13 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/App.tsx`
   - `src/components/Toolbar/Toolbar.tsx`
 - **Acceptance Criteria:**
-  - [ ] Full toolbar visible
-  - [ ] Side panel for indicators
-  - [ ] Optimal chart dimensions
+  - [x] Full toolbar visible
+  - [x] Side panel for indicators
+  - [x] Optimal chart dimensions
 - **Playwright Validation:**
-  - [ ] Desktop layout renders at 1024px+
-  - [ ] All controls accessible
-- **Status:** [ ]
+  - [x] Desktop layout renders at 1024px+
+  - [x] All controls accessible
+- **Status:** [x] Completed
 
 ---
 
@@ -1165,13 +1165,13 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Modify:**
   - `src/components/Toolbar/Toolbar.tsx`
 - **Acceptance Criteria:**
-  - [ ] Collapsible toolbar sections
-  - [ ] Modal for indicators
-  - [ ] Adjusted chart dimensions
+  - [x] Collapsible toolbar sections
+  - [x] Modal for indicators
+  - [x] Adjusted chart dimensions
 - **Playwright Validation:**
-  - [ ] Layout adapts at tablet breakpoint
-  - [ ] Modals work correctly
-- **Status:** [ ]
+  - [x] Layout adapts at tablet breakpoint
+  - [x] Modals work correctly
+- **Status:** [x] Completed
 
 ---
 
@@ -1181,15 +1181,15 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/components/Toolbar/Toolbar.tsx`
   - `src/App.tsx`
 - **Acceptance Criteria:**
-  - [ ] Hamburger menu for toolbar
-  - [ ] Bottom sheet for controls
-  - [ ] Full-width chart
-  - [ ] Touch-friendly button sizes
+  - [x] Hamburger menu for toolbar
+  - [x] Bottom sheet for controls
+  - [x] Full-width chart
+  - [x] Touch-friendly button sizes
 - **Playwright Validation:**
-  - [ ] Layout adapts at mobile breakpoint
-  - [ ] Hamburger menu opens/closes
-  - [ ] Bottom sheet slides up
-- **Status:** [ ]
+  - [x] Layout adapts at mobile breakpoint
+  - [x] Hamburger menu opens/closes
+  - [x] Bottom sheet slides up
+- **Status:** [x] Completed
 
 ---
 
