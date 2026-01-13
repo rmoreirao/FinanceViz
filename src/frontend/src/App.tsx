@@ -10,12 +10,14 @@
  * TASK-016: Chart Container Component
  * TASK-065: Desktop Layout (≥1024px)
  * TASK-067: Mobile Layout (<768px)
+ * TASK-068: Error Boundary Implementation
  */
 
 import { ThemeProvider, DataSourceProvider, ChartProvider, IndicatorProvider } from './context';
 import { Toolbar } from './components/Toolbar';
 import { QuoteHeader } from './components/QuoteHeader';
 import { Chart } from './components/Chart';
+import { ErrorBoundary } from './components/common';
 
 function AppContent() {
   return (
@@ -48,7 +50,15 @@ function App() {
       <DataSourceProvider>
         <ChartProvider>
           <IndicatorProvider>
-            <AppContent />
+            <ErrorBoundary
+              onError={(error, errorInfo) => {
+                // Log errors to console for debugging
+                console.error('Application Error:', error);
+                console.error('Component Stack:', errorInfo.componentStack);
+              }}
+            >
+              <AppContent />
+            </ErrorBoundary>
           </IndicatorProvider>
         </ChartProvider>
       </DataSourceProvider>

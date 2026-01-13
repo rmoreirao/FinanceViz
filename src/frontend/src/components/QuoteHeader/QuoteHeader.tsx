@@ -3,11 +3,47 @@
  * Displays current stock quote information
  * 
  * TASK-014: Quote Header Component
+ * TASK-069: Loading States - Skeleton loading and smooth transitions
  */
 
 import { useChart } from '../../context';
 import { useQuote } from '../../hooks';
-import { Spinner } from '../common';
+
+/**
+ * Skeleton loader for quote header
+ */
+function QuoteHeaderSkeleton() {
+  return (
+    <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 transition-colors duration-200">
+      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 animate-pulse">
+        {/* Symbol skeleton */}
+        <div className="h-6 w-16 bg-gray-200 dark:bg-gray-700 rounded transition-colors duration-200" />
+        
+        {/* Company name skeleton */}
+        <div className="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded transition-colors duration-200" />
+        
+        {/* Spacer */}
+        <div className="hidden sm:block flex-grow" />
+        
+        {/* Price section skeleton */}
+        <div className="flex items-baseline gap-3">
+          <div className="h-7 w-24 bg-gray-200 dark:bg-gray-700 rounded transition-colors duration-200" />
+          <div className="h-5 w-14 bg-gray-200 dark:bg-gray-700 rounded transition-colors duration-200" />
+          <div className="h-5 w-16 bg-gray-200 dark:bg-gray-700 rounded transition-colors duration-200" />
+        </div>
+      </div>
+      
+      {/* Additional details skeleton */}
+      <div className="hidden md:flex mt-2 gap-4 animate-pulse">
+        <div className="h-3 w-20 bg-gray-200 dark:bg-gray-700 rounded transition-colors duration-200" />
+        <div className="h-3 w-20 bg-gray-200 dark:bg-gray-700 rounded transition-colors duration-200" />
+        <div className="h-3 w-20 bg-gray-200 dark:bg-gray-700 rounded transition-colors duration-200" />
+        <div className="h-3 w-24 bg-gray-200 dark:bg-gray-700 rounded transition-colors duration-200" />
+        <div className="h-3 w-28 bg-gray-200 dark:bg-gray-700 rounded transition-colors duration-200" />
+      </div>
+    </div>
+  );
+}
 
 /**
  * Format price with 2 decimal places
@@ -41,22 +77,15 @@ export function QuoteHeader() {
   const { state } = useChart();
   const { quote, isLoading, error } = useQuote(state.symbol);
 
-  // Loading state
+  // Loading state - show skeleton
   if (isLoading && !quote) {
-    return (
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
-        <div className="flex items-center gap-4">
-          <Spinner size="sm" />
-          <span className="text-gray-500 dark:text-gray-400">Loading quote...</span>
-        </div>
-      </div>
-    );
+    return <QuoteHeaderSkeleton />;
   }
 
   // Error state
   if (error && !quote) {
     return (
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 transition-colors duration-200">
         <div className="text-red-500 dark:text-red-400 text-sm">
           {error}
         </div>
@@ -75,15 +104,15 @@ export function QuoteHeader() {
     : 'text-red-600 dark:text-red-400';
 
   return (
-    <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
+    <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 transition-all duration-300 ease-in-out">
       <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
         {/* Symbol */}
-        <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+        <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 transition-colors duration-200">
           {quote.symbol}
         </h1>
 
         {/* Company Name */}
-        <span className="text-sm text-gray-500 dark:text-gray-400">
+        <span className="text-sm text-gray-500 dark:text-gray-400 transition-colors duration-200">
           {quote.companyName}
         </span>
 
@@ -93,24 +122,24 @@ export function QuoteHeader() {
         {/* Price Section */}
         <div className="flex items-baseline gap-3">
           {/* Current Price */}
-          <span className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          <span className="text-2xl font-semibold text-gray-900 dark:text-gray-100 transition-colors duration-200">
             ${formatPrice(quote.price)}
           </span>
 
           {/* Change (absolute) */}
-          <span className={`text-base font-medium ${changeColorClass}`}>
+          <span className={`text-base font-medium transition-colors duration-200 ${changeColorClass}`}>
             {formatChange(quote.change)}
           </span>
 
           {/* Change (percentage) */}
-          <span className={`text-base font-medium ${changeColorClass}`}>
+          <span className={`text-base font-medium transition-colors duration-200 ${changeColorClass}`}>
             ({formatPercent(quote.changePercent)})
           </span>
         </div>
       </div>
 
       {/* Additional Quote Details (optional, shown on larger screens) */}
-      <div className="hidden md:flex mt-2 text-xs text-gray-500 dark:text-gray-400 gap-4">
+      <div className="hidden md:flex mt-2 text-xs text-gray-500 dark:text-gray-400 gap-4 transition-colors duration-200">
         <span>
           <span className="font-medium">Open:</span> ${formatPrice(quote.open)}
         </span>

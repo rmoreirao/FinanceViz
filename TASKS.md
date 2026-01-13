@@ -1201,15 +1201,15 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/components/common/ErrorBoundary.tsx`
   - `src/App.tsx`
 - **Acceptance Criteria:**
-  - [ ] Catches JavaScript errors
-  - [ ] Shows user-friendly error message
-  - [ ] Retry button resets state
-  - [ ] Errors logged to console
+  - [x] Catches JavaScript errors
+  - [x] Shows user-friendly error message
+  - [x] Retry button resets state
+  - [x] Errors logged to console
 - **Playwright Validation:**
-  - [ ] Error boundary catches errors
-  - [ ] Error UI displays
-  - [ ] Retry reloads component
-- **Status:** [ ]
+  - [x] Error boundary catches errors
+  - [x] Error UI displays
+  - [x] Retry reloads component
+- **Status:** [x] Completed
 
 ---
 
@@ -1219,13 +1219,13 @@ This document contains the implementation task list for FinanceViz, organized by
   - `src/components/Chart/ChartSkeleton.tsx`
   - `src/components/QuoteHeader/QuoteHeader.tsx`
 - **Acceptance Criteria:**
-  - [ ] Chart skeleton during data load
-  - [ ] Quote header skeleton
-  - [ ] Smooth transition to loaded state
+  - [x] Chart skeleton during data load
+  - [x] Quote header skeleton
+  - [x] Smooth transition to loaded state
 - **Playwright Validation:**
-  - [ ] Loading states appear
-  - [ ] Transitions are smooth
-- **Status:** [ ]
+  - [x] Loading states appear
+  - [x] Transitions are smooth
+- **Status:** [x] Completed
 
 ---
 
