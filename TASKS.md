@@ -799,9 +799,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Parameters:** RSI Period (14), Stoch Period (14)
 - **Range:** 0-100
 - **Acceptance Criteria:**
-  - [ ] RSI calculated first
-  - [ ] Stochastic applied to RSI values
-- **Status:** [ ]
+  - [x] RSI calculated first
+  - [x] Stochastic applied to RSI values
+- **Status:** [x]
 
 ---
 
@@ -813,9 +813,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Parameters:** Period (default: 14)
 - **Range:** -100 to 0
 - **Acceptance Criteria:**
-  - [ ] Correct Williams %R calculation
-  - [ ] Negative values
-- **Status:** [ ]
+  - [x] Correct Williams %R calculation
+  - [x] Negative values
+- **Status:** [x]
 
 ---
 
@@ -826,9 +826,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Formula:** CCI = (Typical Price - SMA) / (0.015 * Mean Deviation)
 - **Parameters:** Period (default: 20)
 - **Acceptance Criteria:**
-  - [ ] Correct CCI calculation
-  - [ ] Mean deviation calculated properly
-- **Status:** [ ]
+  - [x] Correct CCI calculation
+  - [x] Mean deviation calculated properly
+- **Status:** [x]
 
 ---
 
@@ -841,9 +841,9 @@ This document contains the implementation task list for FinanceViz, organized by
   - ATR = EMA(True Range, period)
 - **Parameters:** Period (default: 14)
 - **Acceptance Criteria:**
-  - [ ] True Range calculated correctly
-  - [ ] ATR is smoothed average
-- **Status:** [ ]
+  - [x] True Range calculated correctly
+  - [x] ATR is smoothed average
+- **Status:** [x]
 
 ---
 
@@ -858,9 +858,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Parameters:** Period (default: 14)
 - **Range:** 0-100
 - **Acceptance Criteria:**
-  - [ ] +DI, -DI, and ADX calculated
-  - [ ] DX smoothing applied
-- **Status:** [ ]
+  - [x] +DI, -DI, and ADX calculated
+  - [x] DX smoothing applied
+- **Status:** [x]
 
 ---
 
@@ -871,9 +871,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Formula:** ROC = ((Close - Close[n]) / Close[n]) * 100
 - **Parameters:** Period (default: 12)
 - **Acceptance Criteria:**
-  - [ ] Correct ROC calculation
-  - [ ] Percentage values
-- **Status:** [ ]
+  - [x] Correct ROC calculation
+  - [x] Percentage values
+- **Status:** [x]
 
 ---
 
@@ -884,9 +884,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Formula:** Momentum = Close - Close[n]
 - **Parameters:** Period (default: 10)
 - **Acceptance Criteria:**
-  - [ ] Correct momentum calculation
-  - [ ] Zero line reference
-- **Status:** [ ]
+  - [x] Correct momentum calculation
+  - [x] Zero line reference
+- **Status:** [x]
 
 ---
 
@@ -899,9 +899,9 @@ This document contains the implementation task list for FinanceViz, organized by
   - If close < prev close: OBV = prevOBV - volume
   - If close = prev close: OBV = prevOBV
 - **Acceptance Criteria:**
-  - [ ] Correct OBV calculation
-  - [ ] Cumulative volume
-- **Status:** [ ]
+  - [x] Correct OBV calculation
+  - [x] Cumulative volume
+- **Status:** [x]
 
 ---
 
@@ -916,9 +916,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Parameters:** Period (default: 20)
 - **Range:** -1 to 1
 - **Acceptance Criteria:**
-  - [ ] Correct CMF calculation
-  - [ ] Range bounded correctly
-- **Status:** [ ]
+  - [x] Correct CMF calculation
+  - [x] Range bounded correctly
+- **Status:** [x]
 
 ---
 
@@ -933,9 +933,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Parameters:** Period (default: 14)
 - **Range:** 0-100
 - **Acceptance Criteria:**
-  - [ ] Correct MFI calculation
-  - [ ] Similar to RSI but volume-weighted
-- **Status:** [ ]
+  - [x] Correct MFI calculation
+  - [x] Similar to RSI but volume-weighted
+- **Status:** [x]
 
 ---
 
@@ -949,9 +949,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Parameters:** Period (default: 25)
 - **Range:** 0-100
 - **Acceptance Criteria:**
-  - [ ] Aroon Up and Down calculated
-  - [ ] Tracks days since high/low
-- **Status:** [ ]
+  - [x] Aroon Up and Down calculated
+  - [x] Tracks days since high/low
+- **Status:** [x]
 
 ---
 
@@ -963,9 +963,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Median Price:** (H + L) / 2
 - **Parameters:** Fast (5), Slow (34)
 - **Acceptance Criteria:**
-  - [ ] Correct AO calculation
-  - [ ] Histogram display (green/red bars)
-- **Status:** [ ]
+  - [x] Correct AO calculation
+  - [x] Histogram display (green/red bars)
+- **Status:** [x]
 
 ---
 
@@ -974,9 +974,9 @@ This document contains the implementation task list for FinanceViz, organized by
 - **Files to Create:**
   - `src/components/Indicators/calculations/index.ts`
 - **Acceptance Criteria:**
-  - [ ] All calculations exported
-  - [ ] Factory function to get calculation by type
-- **Status:** [ ]
+  - [x] All calculations exported
+  - [x] Factory function to get calculation by type
+- **Status:** [x]
 
 ---
 
