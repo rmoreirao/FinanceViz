@@ -39,11 +39,12 @@ FinanceViz is a React-based financial charting application simulating Yahoo Fina
 4. **Components** consume hooks and render UI
 
 ### File Organization
-- Components: `src/components/{Feature}/{Component}.tsx`
-- Hooks: `src/hooks/use{Name}.ts`
-- Context: `src/context/{Name}Context.tsx`
-- Types: `src/types/{domain}.ts`
-- Utils: `src/utils/{name}.ts`
+- Components: `src/frontend/src/components/{Feature}/{Component}.tsx`
+- Hooks: `src/frontend/src/hooks/use{Name}.ts`
+- Context: `src/frontend/src/context/{Name}Context.tsx`
+- Types: `src/frontend/src/types/{domain}.ts`
+- Utils: `src/frontend/src/utils/{name}.ts`
+- E2E Tests: `src/frontend/e2e/*.spec.ts` (config: `src/frontend/e2e/playwright.config.ts`)
 
 ### Styling
 - Use TailwindCSS for all styling
@@ -57,7 +58,12 @@ FinanceViz is a React-based financial charting application simulating Yahoo Fina
 cd src/frontend && npm run build
 ```
 
-### Step 4: UI Verification (if applicable)
+### UI Verification (if applicable)
 ```bash
 cd src/frontend && npm run dev
+```
+
+### Run E2E Tests
+```bash
+cd src/frontend && npm run test:e2e
 ```
