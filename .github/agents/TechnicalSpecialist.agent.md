@@ -24,6 +24,7 @@ You are a Technical Specialist responsible for breaking down feature requirement
 - Tasks should have clear boundaries
 - A Task must be specific and actionable to a feature on the frontend - so it can also ve easily tested.
 - Don't create tasks for Testing or QA; these must be included as Acceptance Criteria within each task.
+6. **Define Documentation to be Updated**: Define any documentation updates needed as part of the tasks.
 
 
 ## Your Restrictions
@@ -57,18 +58,13 @@ Use this structure for all feature TASKS.md files:
 
 ---
 
-## Task Status Legend
-
-- [ ] Not Started
-- [x] Completed
-
----
-
 ## Tasks
 
 ### TASK-{FEAT_ID}-001: {Task Title}
 
 **Description:** {Detailed description of what needs to be done}
+**Status:** Not Started | Implemented | Tested | Completed
+
 
 **Implementation Steps:**
 1. {Step 1}
@@ -84,11 +80,12 @@ Use this structure for all feature TASKS.md files:
 - [ ] {UI Criterion 2}
 
 **Playwright E2E Test:**
-| Test Name | Description | Steps | Expected Result |
-|-----------|-------------|-------|-----------------|
-| E2E-001 | {E2E test description} | 1. {Step 1} 2. {Step 2} | {Expected outcome} |
+| Status | Test Name | Description | Steps | Expected Result |
+|--------|-----------|-------------|-------|-----------------|
+|  [ ]   | E2E-001 | {E2E test description} | 1. {Step 1} 2. {Step 2} | {Expected outcome} |
 
-**Status:** [ ] Not Started
+**Documentation to be Updated:**
+- [ ] {List any documentation files that need updates as part of this task}
 
 ---
 
