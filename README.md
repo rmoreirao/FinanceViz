@@ -36,18 +36,22 @@ This project uses **Custom VS Code Agents** to orchestrate the development lifec
 
     ┌──────────────┐         ┌───────────────────┐         ┌──────────────────┐
     │              │         │                   │         │                  │
-    │   Product    │────────▶│    Technical      │────────▶│    Frontend      │
+    │   Product    │────────▶│    Technical      │───────▶│    Frontend      │
     │    Owner     │         │    Specialist     │         │    Developer     │
     │              │         │                   │         │                  │
-    └──────────────┘         └───────────────────┘         └──────────────────┘
-           │                                                        │
-           │                                                        ▼
-           │                 ┌───────────────────┐         ┌──────────────────┐
-           │                 │                   │         │                  │
-           └◀────────────────│    Technical      │◀────────│    Frontend      │
+    └──────────────┘         └───────────────────┘         └──────┬───────────┘
+                                                                  │    ▲
+                                                                  │    │(Fix)
+                                                                  ▼    │
+                             ┌───────────────────┐         ┌───────────┴──────┐
+                             │                   │         │                  │
+                             │    Technical      │◀────────│    Frontend      │
                              │     Writer        │         │     Tester       │
                              │                   │         │                  │
                              └───────────────────┘         └──────────────────┘
+                                      │
+                                      ▼
+                                    [END]
 ```
 
 ### Agent Responsibilities

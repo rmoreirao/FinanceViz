@@ -1,12 +1,7 @@
 ---
 description: 'Update project documentation to reflect feature changes and implementations.'
 name: TechnicalWriter
-tools: ['read', 'edit', 'search', 'todo']
-handoffs:
-  - label: Create New Feature
-    agent: ProductOwner
-    prompt: Create a new feature specification for the next feature request.
-    send: false
+tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'playwright-mcp/*', 'agent', 'todo']
 ---
 
 # Technical Writer Agent

@@ -1,7 +1,7 @@
 ---
 description: 'Break down feature requirements into detailed implementation tasks with testing criteria.'
 name: TechnicalSpecialist
-tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'agent', 'todo']
+tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'playwright-mcp/*', 'agent', 'todo']
 handoffs:
   - label: Start Development
     agent: FrontendDeveloper

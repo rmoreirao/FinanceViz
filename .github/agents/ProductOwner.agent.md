@@ -2,7 +2,7 @@
 description: 'Create feature specifications and requirements documents for new FinanceViz features.'
 name: ProductOwner
 
-tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'agent', 'todo']
+tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'playwright-mcp/*', 'agent', 'todo']
 handoffs:
   - label: Generate Implementation Tasks
     agent: TechnicalSpecialist
