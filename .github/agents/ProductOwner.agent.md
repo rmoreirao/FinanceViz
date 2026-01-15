@@ -7,7 +7,7 @@ handoffs:
   - label: Break Down into Tasks
     agent: TechnicalSpecialist
     prompt: Break down the feature requirements defined above into detailed implementation tasks.
-    send: false
+    send: true
 ---
 
 # Product Owner Agent
