@@ -4,7 +4,7 @@ name: ProductOwner
 
 tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'agent', 'todo']
 handoffs:
-  - label: Break Down into Tasks
+  - label: Generate Implementation Tasks
     agent: TechnicalSpecialist
     prompt: Break down the feature requirements defined above into detailed implementation tasks.
     send: true
