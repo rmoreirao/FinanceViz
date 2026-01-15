@@ -44,9 +44,7 @@ Use this structure for all REQUIREMENTS.md files:
 
 **Spec ID:** FEAT-{SEQ_NUMBER}  
 **Created:** {Date}  
-**Author:** Product Owner Agent  
-**Status:** Draft | In Review | Approved  
-**Priority:** P0 | P1 | P2  
+**Status:** Draft | Approved
 
 ---
 
@@ -91,36 +89,12 @@ As a {user type}, I want to {action} so that {benefit}.
 
 ### 4.1 Functional Acceptance
 
-- [ ] AC-001: {Criterion description}
-- [ ] AC-002: {Criterion description}
+- AC-001: {Criterion description}
+- AC-002: {Criterion description}
 
 ### 4.2 UI/UX Acceptance
 
-- [ ] AC-UI-001: {UI criterion}
-
-### 4.3 Edge Cases
-
-| ID | Scenario | Expected Behavior |
-|----|----------|-------------------|
-| EC-001 | {Edge case} | {Expected result} |
-
----
-
-## 5. Out of Scope
-
-- {Item not included in this feature}
-
----
-
-## 6. Dependencies
-
-- {Any dependencies on other features or external systems}
-
----
-
-## 7. Open Questions
-
-- [ ] {Any unresolved questions}
+- AC-UI-001: {UI criterion}
 ```
 
 ## Workflow
