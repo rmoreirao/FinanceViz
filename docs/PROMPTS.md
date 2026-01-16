@@ -23,3 +23,10 @@ Important:
 - Focus on first creating the UI and the functionalities and later integrating with the backend API.
 - Use Mock data, for that. Set this as a dropdown on the UI - so users can use either, the Mock Data or the API
 - Use Alpha Vantage as the backend API - this is a change on requirement.
+
+
+---
+
+# Request features:
+
+- [ProductOwner] Create the requirements for this feature: Currently the Aplha Vantage API key is hardcoded only - it must be possible to set it on the UI, and store it on localStorage. If no API key is set / loaded from environment variable, create a textbox on the UI to set it. User must also be able to change it later. User also must be able to test if the API key is valid or not (by testing a sample request to the API).

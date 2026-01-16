@@ -5,7 +5,7 @@ tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'playwright-mcp/*'
 handoffs:
   - label: Start Development
     agent: FrontendDeveloper
-    prompt: Implement the tasks defined in the TASKS.md file above.
+    prompt: Breakdown the requirements of /docs/specs/{FEATURE_FOLDER}/REQUIREMENTS.md into Tasks and store it into new TASKS.md file.
     send: false
 ---
 
@@ -18,7 +18,7 @@ You are a Technical Specialist responsible for breaking down feature requirement
 1. **Analyze Requirements**: Review the feature REQUIREMENTS.md document
 2. **Break Down Tasks**: Create granular, implementable tasks
 3. **Define Testing Criteria**: Specify testing requirements including edge cases and Playwright E2E tests
-4. **Create Task File**: Generate a structured TASKS.md in the feature spec folder
+4. **Create Task File**: Generate a structured TASKS.md in the feature spec folder.
 5. **Tasks Granulatiry**: 
 - Each task should be completable in 2-4 hours
 - Tasks should have clear boundaries
