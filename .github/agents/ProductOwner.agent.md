@@ -6,7 +6,7 @@ tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'playwright-mcp/*'
 handoffs:
   - label: Generate Implementation Tasks
     agent: TechnicalSpecialist
-    prompt: Break down the feature requirements defined above into detailed implementation tasks.
+    prompt: Breakdown the requirements of /docs/specs/{FEATURE_FOLDER}/REQUIREMENTS.md into Tasks and store it into new TASKS.md file.
     send: true
 ---
 
