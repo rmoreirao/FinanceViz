@@ -2,7 +2,7 @@
 
 **Spec ID:** FEAT-002  
 **Created:** 2026-01-16  
-**Status:** Draft
+**Status:** Implemented
 
 ---
 

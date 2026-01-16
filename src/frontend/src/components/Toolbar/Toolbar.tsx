@@ -17,6 +17,7 @@ import { TimeRangeButtons } from './TimeRangeButtons';
 import { IntervalSelect } from './IntervalSelect';
 import { FullscreenButton } from './FullscreenButton';
 import { IndicatorsButton } from './IndicatorsButton';
+import { ApiKeyButton } from './ApiKeyButton';
 
 /**
  * Hamburger menu icon for mobile
@@ -117,6 +118,8 @@ export function Toolbar() {
           <div className="hidden sm:flex items-center gap-2">
             <DataSourceToggle />
             <ToolbarDivider />
+            <ApiKeyButton />
+            <ToolbarDivider />
             <FullscreenButton />
             <ToolbarDivider />
             <ThemeToggle />
@@ -181,7 +184,10 @@ export function Toolbar() {
           {/* Bottom controls row */}
           <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-700">
             <DataSourceToggle />
-            <FullscreenButton />
+            <div className="flex items-center gap-2">
+              <ApiKeyButton />
+              <FullscreenButton />
+            </div>
           </div>
         </div>
       </div>

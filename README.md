@@ -22,6 +22,7 @@ npm run dev
 - Symbol search with autocomplete
 - Responsive design (desktop, tablet, mobile)
 - Dark/light theme support
+- API Key Management (configure, validate, and persist Alpha Vantage API keys)
 
 # VS Code GitHub Copilot
 
