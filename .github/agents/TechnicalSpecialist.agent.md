@@ -5,7 +5,7 @@ tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'playwright-mcp/*'
 handoffs:
   - label: Start Development
     agent: FrontendDeveloper
-    prompt: Breakdown the requirements of /docs/specs/{FEATURE_FOLDER}/REQUIREMENTS.md into Tasks and store it into new TASKS.md file.
+    prompt: Implement the tasks defined in the /docs/specs/{FEATURE_FOLDER}/TASKS.md file created above.
     send: false
 ---
 
