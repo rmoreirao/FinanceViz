@@ -31,24 +31,27 @@ This project uses **Custom VS Code Agents** to orchestrate the development lifec
 
 ### Custom Agents Flow Diagram
 
-```mermaid
-flowchart LR
-    PO[Product Owner] --> TS[Technical Specialist]
-    TS --> FD[Frontend Developer]
-    FD --> FT[Frontend Tester]
-    FT -->|Fix| FD
-    FT --> TW[Technical Writer]
-    TW --> E([END])
-    
-    E2E[(E2E Testing SKILL)]
-    FT -.->|uses| E2E
-```
+```text
+                                                                           
+                                                                 .----------------.
+                                                                 | Playwright MCP |
+                                                                 '----------------'                                                                 
+                                                                    ^           ^
+                                                                    :    Uses   :
++---------------+     +----------------------+     +--------------------+     +-----------------+     +------------------+     /-----\
+| Product Owner | --> | Technical Specialist | --> | Frontend Developer | --> | Frontend Tester | --> | Technical Writer | --> | END |
++---------------+     +----------------------+     +--------------------+     +-----------------+     +------------------+     \-----/
+                                                                      ^   Fix   |     :
+                                                                      |_________|     :
+                                                                                      : uses
+                                                                                      v
+                                                                             .-------------------.
+                                                                             | E2E Testing SKILL |
+                                                                             '-------------------'
 
-```mermaid
-block-beta
-    columns 1
-    CI["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Custom Instructions &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
-    style CI stroke-dasharray: 5 5
++--------------------------------------------------------------------------------------------------------------------------+
+|                                                          Custom Instructions                                             |
++--------------------------------------------------------------------------------------------------------------------------+
 ```
 
 ### Agent Responsibilities
