@@ -32,29 +32,27 @@ This project uses **Custom VS Code Agents** to orchestrate the development lifec
 
 ### Custom Agents Flow Diagram
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                        FinanceViz Development Flow                          │
-└─────────────────────────────────────────────────────────────────────────────┘
+```text
+                                                                           
+                                                                 .----------------.
+                                                                 | Playwright MCP |
+                                                                 '----------------'                                                                 
+                                                                    ^           ^
+                                                                    :    Uses   :
++---------------+     +----------------------+     +--------------------+     +-----------------+     +------------------+     /-----\
+| Product Owner | --> | Technical Specialist | --> | Frontend Developer | --> | Frontend Tester | --> | Technical Writer | --> | END |
++---------------+     +----------------------+     +--------------------+     +-----------------+     +------------------+     \-----/
+                                                                      ^   Fix   |     :
+                                                                      |_________|     :
+                                                                                      : uses
+                                                                                      v
+                                                                             .-------------------.
+                                                                             | E2E Testing SKILL |
+                                                                             '-------------------'
 
-    ┌──────────────┐         ┌───────────────────┐         ┌──────────────────┐
-    │              │         │                   │         │                  │
-    │   Product    │────────▶│    Technical      │───────▶│    Frontend      │
-    │    Owner     │         │    Specialist     │         │    Developer     │
-    │              │         │                   │         │                  │
-    └──────────────┘         └───────────────────┘         └──────┬───────────┘
-                                                                  │    ▲
-                                                                  │    │(Fix)
-                                                                  ▼    │
-                             ┌───────────────────┐         ┌───────────┴──────┐
-                             │                   │         │                  │
-                             │    Technical      │◀────────│    Frontend      │
-                             │     Writer        │         │     Tester       │
-                             │                   │         │                  │
-                             └───────────────────┘         └──────────────────┘
-                                      │
-                                      ▼
-                                    [END]
++--------------------------------------------------------------------------------------------------------------------------+
+|                                                          Custom Instructions                                             |
++--------------------------------------------------------------------------------------------------------------------------+
 ```
 
 ### Agent Responsibilities
@@ -66,3 +64,9 @@ This project uses **Custom VS Code Agents** to orchestrate the development lifec
 | **FrontendDeveloper** | Implements tasks, validates builds, verifies UI with Playwright | Code changes + commits |
 | **FrontendTester** | Creates comprehensive Playwright E2E tests | `e2e/{feature}/*.spec.ts` |
 | **TechnicalWriter** | Updates project documentation to reflect changes | README.md, SPECIFICATIONS.md |
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+> **Disclaimer:** This application is used only for educational purposes. It is a simulation and should not be used for real financial trading or investment advice.
