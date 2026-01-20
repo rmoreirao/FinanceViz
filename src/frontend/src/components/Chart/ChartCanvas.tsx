@@ -241,7 +241,7 @@ export function ChartCanvas({ data, chartType, width, height, symbol = '' }: Cha
 
   // Initialize chart
   useEffect(() => {
-    if (!chartContainerRef.current || width === 0 || height === 0) return;
+    if (!chartContainerRef.current) return;
 
     // Create chart instance
     const chart = createChart(chartContainerRef.current, {
@@ -318,7 +318,7 @@ export function ChartCanvas({ data, chartType, width, height, symbol = '' }: Cha
       seriesRef.current = null;
       volumeSeriesRef.current = null;
     };
-  }, [width, height, chartColors, handleCrosshairMove]);
+  }, [chartColors, handleCrosshairMove]);
 
   // Update chart colors when theme changes
   useEffect(() => {

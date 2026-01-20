@@ -20,7 +20,7 @@ npm run dev
 - 15+ technical indicators (SMA, EMA, RSI, MACD, Bollinger Bands, etc.)
 - Multiple time ranges (1D to MAX)
 - Symbol search with autocomplete
-- Responsive design (desktop, tablet, mobile)
+- Fluid responsive design (desktop, tablet, mobile) with auto-resizing
 - Dark/light theme support
 
 # VS Code GitHub Copilot
