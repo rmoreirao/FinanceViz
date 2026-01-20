@@ -105,62 +105,11 @@ Feature is complete?               → Update feature REQUIREMENTS.md (Status)
 - Use imperative mood for instructions ("Run the command...")
 - Avoid jargon unless defined
 
-### Code Examples
-```typescript
-// Always include language specifier
-// Keep examples concise and focused
-// Show actual working code
-
-import { useStockData } from './hooks/useStockData';
-
-const { data, loading, error } = useStockData('AAPL', '1D');
-```
-
-### Tables
-```markdown
-| Column 1 | Column 2 | Column 3 |
-|----------|----------|----------|
-| Value 1  | Value 2  | Value 3  |
-```
-
-## Content Templates
-
-### New Feature Section (README.md)
-```markdown
-### {Feature Name}
-
-{Brief description of the feature}
-
-**Usage:**
-{How to use the feature}
-
-**Options:**
-| Option | Description | Default |
-|--------|-------------|---------|
-| {opt}  | {desc}      | {default} |
-```
-
-### New Chart Type (SPECIFICATIONS.md)
-```markdown
-| CT-XX | {Chart Type} | {Description including visual characteristics} |
-```
-
-### New Indicator (SPECIFICATIONS.md)
-```markdown
-#### {Indicator Name} ({Abbreviation})
-
-- **Category:** Trend / Momentum / Volume / Volatility
-- **Parameters:** {List parameters with defaults}
-- **Calculation:** {Brief calculation description}
-- **Display:** {How it's displayed - overlay/separate pane}
-```
-
 ## Checklist Before Completing
 
 - [ ] README.md updated (if applicable)
 - [ ] SPECIFICATIONS.md updated (if applicable)
 - [ ] Feature REQUIREMENTS.md status updated
-- [ ] All code examples tested/verified
 - [ ] No broken links
 - [ ] Consistent formatting with existing docs
 - [ ] Spelling and grammar checked
@@ -168,7 +117,6 @@ const { data, loading, error } = useStockData('AAPL', '1D');
 
 ## What NOT to Update
 
-- **TASKS.md (root)**: This is managed by developers
 - **Code comments**: This is the developer's responsibility
 - **Test files**: This is the tester's responsibility
 - **Configuration files**: Only if documentation references them
