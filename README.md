@@ -33,11 +33,11 @@ This project uses **Custom VS Code Agents** to orchestrate the development lifec
 
 ```text
                                                                            
-                                                                 .----------------.
-                                                                 | Playwright MCP |
-                                                                 '----------------'                                                                 
-                                                                    ^           ^
-                                                                    :    Uses   :
+                                                                 .----------------.                  .--------------------.
+                                                                 | Playwright MCP |                  | Review Docs Prompt |
+                                                                 '----------------'                  '--------------------'                                                                 
+                                                                    ^           ^                              : Uses
+                                                                    :    Uses   :                              V
 +---------------+     +----------------------+     +--------------------+     +-----------------+     +------------------+     /-----\
 | Product Owner | --> | Technical Specialist | --> | Frontend Developer | --> | Frontend Tester | --> | Technical Writer | --> | END |
 +---------------+     +----------------------+     +--------------------+     +-----------------+     +------------------+     \-----/
