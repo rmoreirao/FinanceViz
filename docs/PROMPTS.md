@@ -30,3 +30,9 @@ Important:
 # Request features:
 
 - [ProductOwner] Create the requirements for this feature: Currently the Aplha Vantage API key is hardcoded only - it must be possible to set it on the UI, and store it on localStorage. If no API key is set / loaded from environment variable, create a textbox on the UI to set it. User must also be able to change it later. User also must be able to test if the API key is valid or not (by testing a sample request to the API).
+
+---
+
+# Research New Feature Web Agent
+
+/research_new_feature_web Currently the technical indicators don't have any parameters as input - for ex.: the SMA has a fixed range - other tools provide a range in days that the indicator is calculated - ex.: 10, 50 or 200 days.
