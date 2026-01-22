@@ -72,8 +72,8 @@ export function useQuote(symbol: string, autoRefresh: boolean = true): UseQuoteR
           throw createOfflineError();
         }
 
-        // Generate cache key
-        const cacheKey = apiCache.generateKey('quote', symbol);
+        // Generate cache key (include dataSource to separate mock and API caches)
+        const cacheKey = apiCache.generateKey('quote', dataSource, symbol);
         
         // Check cache first
         const cachedQuote = apiCache.get<Quote>(cacheKey);

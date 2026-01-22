@@ -131,8 +131,8 @@ export function useStockData(
           throw createOfflineError();
         }
 
-        // Generate cache key
-        const cacheKey = apiCache.generateKey('stockData', symbol, interval, timeRange);
+        // Generate cache key (include dataSource to separate mock and API caches)
+        const cacheKey = apiCache.generateKey('stockData', dataSource, symbol, interval, timeRange);
         
         // Check cache first
         const cachedData = apiCache.get<OHLCV[]>(cacheKey);
