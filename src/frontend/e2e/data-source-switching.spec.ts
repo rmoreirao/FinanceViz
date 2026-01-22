@@ -20,8 +20,8 @@ test.describe('Data Source Switching', () => {
     const initialValue = await dataSourceToggle.inputValue();
     expect(initialValue).toBe('mock');
 
-    // Wait for chart to load
-    await page.waitForTimeout(1000);
+    // Wait for chart to load by checking for chart canvas
+    await expect(page.locator('canvas').first()).toBeVisible({ timeout: 5000 });
 
     // Switch to Alpha Vantage API
     await dataSourceToggle.selectOption('alphavantage');
@@ -30,8 +30,10 @@ test.describe('Data Source Switching', () => {
     const apiValue = await dataSourceToggle.inputValue();
     expect(apiValue).toBe('alphavantage');
 
-    // Wait for the chart to attempt to load API data
-    await page.waitForTimeout(1000);
+    // Wait for the chart to update (wait for network to be idle)
+    await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {
+      // Network may not go idle if requests are blocked, which is OK for this test
+    });
 
     // Switch back to mock
     await dataSourceToggle.selectOption('mock');
@@ -40,8 +42,10 @@ test.describe('Data Source Switching', () => {
     const mockValue = await dataSourceToggle.inputValue();
     expect(mockValue).toBe('mock');
 
-    // Wait for the chart to load
-    await page.waitForTimeout(1000);
+    // Wait for the chart to update
+    await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {
+      // Ignore timeout - chart may load before network idle
+    });
 
     // The test passes if we can switch between data sources without errors
     // The key fix is that the cache keys now include dataSource,
