@@ -41,7 +41,7 @@ This project uses **Custom VS Code Agents** to orchestrate the development lifec
 +---------------+     +----------------------+     +--------------------+     +-----------------+     +------------------+     /-----\
 | Product Owner | --> | Technical Specialist | --> | Frontend Developer | --> | Frontend Tester | --> | Technical Writer | --> | END |
 +---------------+     +----------------------+     +--------------------+     +-----------------+     +------------------+     \-----/
-        |        Creates        |                                     ^   Fix   |     :
+        |      Creates Spec     |                                     ^   Fix   |     :
         v                       v                                     |_________|     :
 .----------------.         .----------.                                               : uses
 | REQUIREMENTS.md|         | TASKS.md |                                               v
