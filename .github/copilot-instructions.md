@@ -9,10 +9,12 @@ FinanceViz is a React-based financial charting application simulating Yahoo Fina
   - `ChartContext` manages symbol, time range, and chart type.
   - `DataSourceContext` toggles between Mock and API data.
   - `IndicatorContext` manages active technical indicators.
+  - `ApiKeyContext` manages Alpha Vantage API key (localStorage persistence, env fallback, validation).
 - **Data Layer:** 
   - Abstraction via `useStockData` hook (`src/frontend/src/hooks/useStockData.ts`).
   - API adapters in `src/frontend/src/api/`. `alphavantage.ts` handles the real API, `mockData.ts` handles simulation.
   - Data types defined in `src/frontend/src/types/stock.ts`.
+  - API key resolution: localStorage (`alphavantage_api_key`) → env (`VITE_ALPHA_VANTAGE_API_KEY`) → prompt user.
 - **Charting:** 
   - `Chart.tsx` wraps `lightweight-charts` instance.
   - `ChartCanvas.tsx` handles the imperative chart library logic (refs, updates).
@@ -40,6 +42,7 @@ FinanceViz is a React-based financial charting application simulating Yahoo Fina
 
 ### File Organization
 - Components: `src/frontend/src/components/{Feature}/{Component}.tsx`
+- Settings: `src/frontend/src/components/Settings/` (API key modal, configuration UI)
 - Hooks: `src/frontend/src/hooks/use{Name}.ts`
 - Context: `src/frontend/src/context/{Name}Context.tsx`
 - Types: `src/frontend/src/types/{domain}.ts`

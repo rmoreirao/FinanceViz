@@ -11,9 +11,10 @@
  * TASK-065: Desktop Layout (≥1024px)
  * TASK-067: Mobile Layout (<768px)
  * TASK-068: Error Boundary Implementation
+ * TASK-002-007: Add API Key Provider to App
  */
 
-import { ThemeProvider, DataSourceProvider, ChartProvider, IndicatorProvider } from './context';
+import { ThemeProvider, DataSourceProvider, ChartProvider, IndicatorProvider, ApiKeyProvider } from './context';
 import { Toolbar } from './components/Toolbar';
 import { QuoteHeader } from './components/QuoteHeader';
 import { Chart } from './components/Chart';
@@ -47,21 +48,23 @@ function AppContent() {
 function App() {
   return (
     <ThemeProvider>
-      <DataSourceProvider>
-        <ChartProvider>
-          <IndicatorProvider>
-            <ErrorBoundary
-              onError={(error, errorInfo) => {
-                // Log errors to console for debugging
-                console.error('Application Error:', error);
-                console.error('Component Stack:', errorInfo.componentStack);
-              }}
-            >
-              <AppContent />
-            </ErrorBoundary>
-          </IndicatorProvider>
-        </ChartProvider>
-      </DataSourceProvider>
+      <ApiKeyProvider>
+        <DataSourceProvider>
+          <ChartProvider>
+            <IndicatorProvider>
+              <ErrorBoundary
+                onError={(error, errorInfo) => {
+                  // Log errors to console for debugging
+                  console.error('Application Error:', error);
+                  console.error('Component Stack:', errorInfo.componentStack);
+                }}
+              >
+                <AppContent />
+              </ErrorBoundary>
+            </IndicatorProvider>
+          </ChartProvider>
+        </DataSourceProvider>
+      </ApiKeyProvider>
     </ThemeProvider>
   );
 }
