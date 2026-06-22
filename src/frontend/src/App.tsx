@@ -4,6 +4,7 @@
  * 
  * TASK-001: Project Initialization
  * TASK-003: Data Source Toggle Component
+ * TASK-004: API Key Management
  * TASK-005: Theme Context & Provider
  * TASK-006: Chart Context & State Management
  * TASK-008: Main Toolbar Container
@@ -13,17 +14,44 @@
  * TASK-068: Error Boundary Implementation
  */
 
-import { ThemeProvider, DataSourceProvider, ChartProvider, IndicatorProvider } from './context';
+import { useState, useEffect } from 'react';
+import { ThemeProvider, DataSourceProvider, ChartProvider, IndicatorProvider, ApiKeyProvider, useApiKey, useDataSource } from './context';
 import { Toolbar } from './components/Toolbar';
 import { QuoteHeader } from './components/QuoteHeader';
 import { Chart } from './components/Chart';
 import { ErrorBoundary } from './components/common';
+import { ApiKeyModal, ApiKeyBanner, ApiKeySettings } from './components/ApiKey';
 
 function AppContent() {
+  const { hasApiKey } = useApiKey();
+  const { dataSource } = useDataSource();
+  const [showApiKeyModal, setShowApiKeyModal] = useState(false);
+  const [showApiKeySettings, setShowApiKeySettings] = useState(false);
+
+  // Show API key modal on first load if no key and using Alpha Vantage
+  useEffect(() => {
+    if (!hasApiKey && dataSource === 'alphavantage') {
+      setShowApiKeyModal(true);
+    }
+  }, [hasApiKey, dataSource]);
+
+  const handleSettingsClick = () => {
+    setShowApiKeySettings(true);
+  };
+
+  const handleBannerConfigureClick = () => {
+    setShowApiKeyModal(true);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+      {/* API Key Banner - Show when no key configured and using Alpha Vantage */}
+      {!hasApiKey && dataSource === 'alphavantage' && (
+        <ApiKeyBanner onConfigureClick={handleBannerConfigureClick} />
+      )}
+
       {/* Toolbar */}
-      <Toolbar />
+      <Toolbar onSettingsClick={handleSettingsClick} />
       
       {/* Quote Header */}
       <QuoteHeader />
@@ -40,6 +68,17 @@ function AppContent() {
           <Chart />
         </div>
       </main>
+
+      {/* API Key Modals */}
+      <ApiKeyModal
+        isOpen={showApiKeyModal}
+        onClose={() => setShowApiKeyModal(false)}
+        allowSkip={true}
+      />
+      <ApiKeySettings
+        isOpen={showApiKeySettings}
+        onClose={() => setShowApiKeySettings(false)}
+      />
     </div>
   );
 }
@@ -47,21 +86,23 @@ function AppContent() {
 function App() {
   return (
     <ThemeProvider>
-      <DataSourceProvider>
-        <ChartProvider>
-          <IndicatorProvider>
-            <ErrorBoundary
-              onError={(error, errorInfo) => {
-                // Log errors to console for debugging
-                console.error('Application Error:', error);
-                console.error('Component Stack:', errorInfo.componentStack);
-              }}
-            >
-              <AppContent />
-            </ErrorBoundary>
-          </IndicatorProvider>
-        </ChartProvider>
-      </DataSourceProvider>
+      <ApiKeyProvider>
+        <DataSourceProvider>
+          <ChartProvider>
+            <IndicatorProvider>
+              <ErrorBoundary
+                onError={(error, errorInfo) => {
+                  // Log errors to console for debugging
+                  console.error('Application Error:', error);
+                  console.error('Component Stack:', errorInfo.componentStack);
+                }}
+              >
+                <AppContent />
+              </ErrorBoundary>
+            </IndicatorProvider>
+          </ChartProvider>
+        </DataSourceProvider>
+      </ApiKeyProvider>
     </ThemeProvider>
   );
 }

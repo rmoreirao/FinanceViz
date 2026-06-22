@@ -17,6 +17,7 @@ import { TimeRangeButtons } from './TimeRangeButtons';
 import { IntervalSelect } from './IntervalSelect';
 import { FullscreenButton } from './FullscreenButton';
 import { IndicatorsButton } from './IndicatorsButton';
+import { SettingsButton } from './SettingsButton';
 
 /**
  * Hamburger menu icon for mobile
@@ -59,7 +60,7 @@ function ToolbarDivider({ className = '' }: { className?: string }) {
  * Tablet (768-1023px): Collapsible sections, controls grouped
  * Mobile (<768px): Hamburger menu, bottom sheet for controls
  */
-export function Toolbar() {
+export function Toolbar({ onSettingsClick }: { onSettingsClick?: () => void }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -117,6 +118,12 @@ export function Toolbar() {
           <div className="hidden sm:flex items-center gap-2">
             <DataSourceToggle />
             <ToolbarDivider />
+            {onSettingsClick && (
+              <>
+                <SettingsButton onClick={onSettingsClick} />
+                <ToolbarDivider />
+              </>
+            )}
             <FullscreenButton />
             <ToolbarDivider />
             <ThemeToggle />
@@ -181,7 +188,10 @@ export function Toolbar() {
           {/* Bottom controls row */}
           <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-700">
             <DataSourceToggle />
-            <FullscreenButton />
+            <div className="flex items-center gap-2">
+              {onSettingsClick && <SettingsButton onClick={onSettingsClick} />}
+              <FullscreenButton />
+            </div>
           </div>
         </div>
       </div>

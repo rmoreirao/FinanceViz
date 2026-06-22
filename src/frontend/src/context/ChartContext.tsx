@@ -13,10 +13,10 @@ import { DEFAULT_INTERVALS } from '../types';
  * Initial chart state
  */
 const initialState: ChartState = {
-  symbol: 'AAPL',
-  companyName: 'Apple Inc.',
-  timeRange: '1D',
-  interval: '5min',
+  symbol: 'MSFT',
+  companyName: 'Microsoft Corporation',
+  timeRange: '5D',
+  interval: DEFAULT_INTERVALS['5D'],
   chartType: 'candlestick',
   isLoading: false,
   error: null,

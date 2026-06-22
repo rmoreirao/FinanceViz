@@ -20,7 +20,7 @@ import {
   isOnline,
   createOfflineError,
 } from '../api';
-import { useDataSource } from '../context';
+import { useDataSource, useApiKey } from '../context';
 
 interface UseQuoteResult {
   quote: Quote | null;
@@ -38,6 +38,7 @@ const AUTO_REFRESH_INTERVAL = 60000; // 1 minute
  */
 export function useQuote(symbol: string, autoRefresh: boolean = true): UseQuoteResult {
   const { dataSource } = useDataSource();
+  const { apiKey } = useApiKey();
   const [quote, setQuote] = useState<Quote | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -83,8 +84,8 @@ export function useQuote(symbol: string, autoRefresh: boolean = true): UseQuoteR
           return;
         }
 
-        // Fetch from API with retry logic
-        const response = await withRetry(() => fetchGlobalQuote(symbol), 2, 1000);
+        // Fetch from API with retry logic, passing the API key
+        const response = await withRetry(() => fetchGlobalQuote(symbol, apiKey || undefined), 2, 1000);
         
         // Get company name from mock data if available, or use stored name
         let companyName = companyNameRef.current;
@@ -123,7 +124,7 @@ export function useQuote(symbol: string, autoRefresh: boolean = true): UseQuoteR
     } finally {
       setIsLoading(false);
     }
-  }, [symbol, dataSource]);
+  }, [symbol, dataSource, apiKey]);
 
   // Fetch quote on symbol or data source change
   useEffect(() => {

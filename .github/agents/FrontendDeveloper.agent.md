@@ -36,7 +36,7 @@ For each task:
    ```bash
    cd src/frontend && npm run dev
    ```
-   - Use `playwright-mcp` tools to verify UI changes.
+   - Use `m   -mcp` tools to verify UI changes.
    - Use accessibility snapshots.
    - Take 1 or 2 screenshots to proof changes. Store screenshots in `/docs/specs/{feature}/playwright-screenshots/`.
 

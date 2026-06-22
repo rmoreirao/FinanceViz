@@ -57,8 +57,8 @@ interface ChartCanvasProps {
 }
 
 // Colors for bullish/bearish candles
-const BULLISH_COLOR = '#22c55e'; // Green
-const BEARISH_COLOR = '#ef4444'; // Red
+const BULLISH_COLOR = '#ec4899'; // Pink
+const BEARISH_COLOR = '#92400e'; // Brown
 const LINE_COLOR = '#3b82f6'; // Blue
 const AREA_TOP_COLOR = 'rgba(59, 130, 246, 0.4)';
 const AREA_BOTTOM_COLOR = 'rgba(59, 130, 246, 0.0)';
@@ -174,8 +174,8 @@ function toVolumeData(data: OHLCV[]): HistogramData[] {
 }
 
 // Alpha versions of colors for volume bars
-const BULLISH_COLOR_ALPHA = 'rgba(34, 197, 94, 0.5)';
-const BEARISH_COLOR_ALPHA = 'rgba(239, 68, 68, 0.5)';
+const BULLISH_COLOR_ALPHA = 'rgba(236, 72, 153, 0.5)';
+const BEARISH_COLOR_ALPHA = 'rgba(146, 64, 14, 0.5)';
 
 // Ichimoku cloud colors
 const ICHIMOKU_CLOUD_BULLISH = 'rgba(76, 175, 80, 0.2)';

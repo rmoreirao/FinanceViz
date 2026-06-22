@@ -28,14 +28,21 @@ const API_CONFIG = {
 };
 
 /**
- * Get API key from environment variable
+ * Get API key from environment variable or provided key
+ * @param providedKey - Optional API key to use instead of environment variable
  */
-function getApiKey(): string {
+function getApiKey(providedKey?: string): string {
+  // Use provided key if available
+  if (providedKey) {
+    return providedKey;
+  }
+
+  // Fallback to environment variable
   const apiKey = import.meta.env.VITE_ALPHA_VANTAGE_API_KEY;
   if (!apiKey) {
     throw createAPIError(
       'INVALID_API_KEY',
-      'Alpha Vantage API key not configured. Please set VITE_ALPHA_VANTAGE_API_KEY in your .env file.'
+      'Alpha Vantage API key not configured. Please set your API key in settings.'
     );
   }
   return apiKey;
@@ -87,12 +94,14 @@ function isErrorResponse(response: unknown): response is AVErrorResponse {
 
 /**
  * Build URL with query parameters
+ * @param options - Request options
+ * @param apiKey - Optional API key to use
  */
-function buildUrl(options: AlphaVantageRequestOptions): string {
-  const apiKey = getApiKey();
+function buildUrl(options: AlphaVantageRequestOptions, apiKey?: string): string {
+  const key = getApiKey(apiKey);
   const params = new URLSearchParams({
     function: options.function,
-    apikey: apiKey,
+    apikey: key,
   });
 
   if (options.symbol) {
@@ -113,9 +122,11 @@ function buildUrl(options: AlphaVantageRequestOptions): string {
 
 /**
  * Make API request to Alpha Vantage
+ * @param options - Request options
+ * @param apiKey - Optional API key to use
  */
-async function makeRequest<T>(options: AlphaVantageRequestOptions): Promise<T> {
-  const url = buildUrl(options);
+async function makeRequest<T>(options: AlphaVantageRequestOptions, apiKey?: string): Promise<T> {
+  const url = buildUrl(options, apiKey);
 
   try {
     const response = await fetch(url);
@@ -148,80 +159,92 @@ async function makeRequest<T>(options: AlphaVantageRequestOptions): Promise<T> {
 
 /**
  * Fetch intraday time series data
+ * @param apiKey - Optional API key to use instead of environment variable
  */
 export async function fetchIntradayTimeSeries(
   symbol: string,
   interval: IntradayInterval,
-  outputsize: 'compact' | 'full' = 'compact'
+  outputsize: 'compact' | 'full' = 'compact',
+  apiKey?: string
 ): Promise<AVIntradayResponse> {
   return makeRequest<AVIntradayResponse>({
     function: 'TIME_SERIES_INTRADAY',
     symbol,
     interval,
     outputsize,
-  });
+  }, apiKey);
 }
 
 /**
  * Fetch daily time series data
+ * @param apiKey - Optional API key to use instead of environment variable
  */
 export async function fetchDailyTimeSeries(
   symbol: string,
-  outputsize: 'compact' | 'full' = 'compact'
+  outputsize: 'compact' | 'full' = 'compact',
+  apiKey?: string
 ): Promise<AVDailyResponse> {
   return makeRequest<AVDailyResponse>({
     function: 'TIME_SERIES_DAILY',
     symbol,
     outputsize,
-  });
+  }, apiKey);
 }
 
 /**
  * Fetch weekly time series data
+ * @param apiKey - Optional API key to use instead of environment variable
  */
 export async function fetchWeeklyTimeSeries(
-  symbol: string
+  symbol: string,
+  apiKey?: string
 ): Promise<AVWeeklyResponse> {
   return makeRequest<AVWeeklyResponse>({
     function: 'TIME_SERIES_WEEKLY',
     symbol,
-  });
+  }, apiKey);
 }
 
 /**
  * Fetch monthly time series data
+ * @param apiKey - Optional API key to use instead of environment variable
  */
 export async function fetchMonthlyTimeSeries(
-  symbol: string
+  symbol: string,
+  apiKey?: string
 ): Promise<AVMonthlyResponse> {
   return makeRequest<AVMonthlyResponse>({
     function: 'TIME_SERIES_MONTHLY',
     symbol,
-  });
+  }, apiKey);
 }
 
 /**
  * Search for symbols
+ * @param apiKey - Optional API key to use instead of environment variable
  */
 export async function searchSymbolsAPI(
-  keywords: string
+  keywords: string,
+  apiKey?: string
 ): Promise<AVSymbolSearchResponse> {
   return makeRequest<AVSymbolSearchResponse>({
     function: 'SYMBOL_SEARCH',
     keywords,
-  });
+  }, apiKey);
 }
 
 /**
  * Fetch global quote (real-time price data)
+ * @param apiKey - Optional API key to use instead of environment variable
  */
 export async function fetchGlobalQuote(
-  symbol: string
+  symbol: string,
+  apiKey?: string
 ): Promise<AVGlobalQuoteResponse> {
   return makeRequest<AVGlobalQuoteResponse>({
     function: 'GLOBAL_QUOTE',
     symbol,
-  });
+  }, apiKey);
 }
 
 /**

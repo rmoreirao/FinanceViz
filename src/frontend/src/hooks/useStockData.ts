@@ -28,7 +28,7 @@ import {
   createOfflineError,
 } from '../api';
 import type { IntradayInterval } from '../api';
-import { useDataSource } from '../context';
+import { useDataSource, useApiKey } from '../context';
 
 interface UseStockDataResult {
   data: OHLCV[];
@@ -59,37 +59,39 @@ function getCacheTTL(interval: Interval): number {
 
 /**
  * Fetch stock data from Alpha Vantage API
+ * @param apiKey - Optional API key to use
  */
 async function fetchFromAPI(
   symbol: string,
   interval: Interval,
-  timeRange: TimeRange
+  timeRange: TimeRange,
+  apiKey?: string
 ): Promise<OHLCV[]> {
   // Determine output size based on time range
   const outputSize = ['5Y', 'MAX'].includes(timeRange) ? 'full' : 'compact';
 
   if (isIntradayInterval(interval)) {
-    const response = await fetchIntradayTimeSeries(symbol, interval, outputSize);
+    const response = await fetchIntradayTimeSeries(symbol, interval, outputSize, apiKey);
     return transformIntradayResponse(response, interval);
   }
 
   if (interval === 'daily') {
-    const response = await fetchDailyTimeSeries(symbol, outputSize);
+    const response = await fetchDailyTimeSeries(symbol, outputSize, apiKey);
     return transformDailyResponse(response);
   }
 
   if (interval === 'weekly') {
-    const response = await fetchWeeklyTimeSeries(symbol);
+    const response = await fetchWeeklyTimeSeries(symbol, apiKey);
     return transformWeeklyResponse(response);
   }
 
   if (interval === 'monthly') {
-    const response = await fetchMonthlyTimeSeries(symbol);
+    const response = await fetchMonthlyTimeSeries(symbol, apiKey);
     return transformMonthlyResponse(response);
   }
 
   // Fallback to daily
-  const response = await fetchDailyTimeSeries(symbol, outputSize);
+  const response = await fetchDailyTimeSeries(symbol, outputSize, apiKey);
   return transformDailyResponse(response);
 }
 
@@ -103,6 +105,7 @@ export function useStockData(
   interval: Interval
 ): UseStockDataResult {
   const { dataSource } = useDataSource();
+  const { apiKey } = useApiKey();
   const [data, setData] = useState<OHLCV[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -142,8 +145,8 @@ export function useStockData(
           return;
         }
 
-        // Fetch from API with retry logic
-        const apiData = await withRetry(() => fetchFromAPI(symbol, interval, timeRange), 2, 1000);
+        // Fetch from API with retry logic, passing the API key
+        const apiData = await withRetry(() => fetchFromAPI(symbol, interval, timeRange, apiKey || undefined), 2, 1000);
         
         // Cache the result
         const ttl = getCacheTTL(interval);
@@ -174,7 +177,7 @@ export function useStockData(
     } finally {
       setIsLoading(false);
     }
-  }, [symbol, timeRange, interval, dataSource]);
+  }, [symbol, timeRange, interval, dataSource, apiKey]);
 
   // Fetch data when parameters change
   useEffect(() => {
