@@ -1,6 +1,6 @@
 /**
  * API Key Context
- * Manages Alpha Vantage API key state with localStorage persistence
+ * Manages Alpha Vantage API key state in memory
  * 
  * TASK-004-001: Create ApiKeyContext and Storage Layer
  */
@@ -27,50 +27,21 @@ interface ApiKeyProviderProps {
 }
 
 /**
- * Get stored API key from localStorage
+ * Remove API keys persisted by earlier versions of the application
  */
-function getStoredApiKey(): string | null {
-  if (typeof window === 'undefined') return null;
-  try {
-    return localStorage.getItem(STORAGE_KEY);
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Store API key to localStorage
- */
-function setStoredApiKey(key: string): void {
-  if (typeof window === 'undefined') return;
-  try {
-    localStorage.setItem(STORAGE_KEY, key);
-  } catch (error) {
-    console.error('Failed to store API key:', error);
-  }
-}
-
-/**
- * Clear API key from localStorage
- */
-function clearStoredApiKey(): void {
+function clearLegacyStoredApiKey(): void {
   if (typeof window === 'undefined') return;
   try {
     localStorage.removeItem(STORAGE_KEY);
   } catch (error) {
-    console.error('Failed to clear API key:', error);
+    console.error('Failed to clear legacy API key:', error);
   }
 }
 
 /**
- * Get API key with fallback to environment variable
+ * Get API key from the environment
  */
-function getApiKeyWithFallback(): string | null {
-  // Check localStorage first
-  const storedKey = getStoredApiKey();
-  if (storedKey) return storedKey;
-
-  // Fallback to environment variable
+function getEnvironmentApiKey(): string | null {
   const envKey = import.meta.env.VITE_ALPHA_VANTAGE_API_KEY;
   return envKey || null;
 }
@@ -136,26 +107,27 @@ async function validateApiKey(key: string): Promise<{ valid: boolean; error?: st
 
 /**
  * API Key Provider Component
- * Manages API key state with localStorage persistence and validation
+ * Manages API key state in memory and validates it
  */
 export function ApiKeyProvider({ children }: ApiKeyProviderProps) {
-  const [apiKey, setApiKeyState] = useState<string | null>(() => getApiKeyWithFallback());
+  const [apiKey, setApiKeyState] = useState<string | null>(() => {
+    clearLegacyStoredApiKey();
+    return getEnvironmentApiKey();
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [validationStatus, setValidationStatus] = useState<'idle' | 'validating' | 'valid' | 'invalid'>('idle');
 
-  // Update API key and persist to localStorage
+  // Keep user-provided API keys in memory only
   const setApiKey = (key: string) => {
     setApiKeyState(key);
-    setStoredApiKey(key);
     setError(null);
     setValidationStatus('idle');
   };
 
-  // Clear API key from state and localStorage
+  // Clear API key from state
   const clearApiKey = () => {
     setApiKeyState(null);
-    clearStoredApiKey();
     setError(null);
     setValidationStatus('idle');
   };
